@@ -10,7 +10,7 @@ namespace Interactivity.Enemies
 
         private void Awake()
         {
-            originalColor = modelRenderer.sharedMaterial.color;
+            originalColor = modelRenderer.material.color;
         }
 
         public override void TakeDamage(float damage)
@@ -21,7 +21,7 @@ namespace Interactivity.Enemies
 
         private void Update()
         {
-            modelRenderer.sharedMaterial.color = Color.Lerp(modelRenderer.sharedMaterial.color, originalColor, 0.01f);
+            modelRenderer.material.color = Color.Lerp(modelRenderer.material.color, originalColor, 0.01f);
         }
     }
 }

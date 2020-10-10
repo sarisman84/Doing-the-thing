@@ -17,7 +17,7 @@ namespace Player.Weapons
 
         public WeaponVisualiser visualiser;
 
-        public static RaycastHit[] Hitscan(Vector3 firePosition, Vector3 fireDirection, int penetration = 3)
+        public static RaycastHit[] Hitscan(Vector3 firePosition, Vector3 fireDirection, int penetration = 1)
         {
             RaycastHit[] hits = new RaycastHit[penetration];
             Physics.RaycastNonAlloc(firePosition, fireDirection, hits);

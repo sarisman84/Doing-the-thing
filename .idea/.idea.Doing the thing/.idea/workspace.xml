@@ -20,30 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/InputExtension.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/InputExtension/InputReferenceExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/InputExtension/InputReferenceExtension.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Managers.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,9 +48,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Effects/VentorTitleRotator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
       </list>
     </option>
   </component>
@@ -101,10 +81,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="61968">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="61968" />
+      <option name="pid" />
       <option name="selectedOptions">
         <set />
       </option>
@@ -124,6 +104,7 @@
       <workItem from="1602173647580" duration="43000" />
       <workItem from="1602173997537" duration="2678000" />
       <workItem from="1602247068488" duration="8975000" />
+      <workItem from="1602332091349" duration="2464000" />
     </task>
     <servers />
   </component>
@@ -244,9 +225,9 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="92" y="92" width="2376" height="1256" key="VCS.FileHistoryDialog/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1601979292702" />
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1602279361288">
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1602332977400">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279361288" />
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602332977400" />
   </component>
 </project>
