@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Extensions;
+using Extensions.InputExtension;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour
+    public class FirstPersonController : MonoBehaviour
     {
-        public InputActionReference movementInput, jumpInput, lookInput, crouchInput, fireInput, sprintInput;
-
+        public InputActionReference movementInput, jumpInput, lookInput, crouchInput, sprintInput;
+        public InputActionReference aimSightsInput, primaryFireInput, secondaryFireInput;
 
         [Space] public float movementSpeed;
         public float sprintMultiplier;
         public float crouchMultiplier;
-        [Range(100f, 1000f)] public float sensitivity = 200f;
+        [Range(50, 300f)] public float sensitivity = 200f;
         public float jumpForce;
         public Vector3 groundCheckSize = Vector3.one;
         public Vector3 sealingCheckSize = Vector3.one;
@@ -30,6 +31,7 @@ namespace Player
         private Rigidbody _physics;
         private CapsuleCollider _collisionBody;
         private FPCameraHandler _fpcHandler;
+        private WeaponController _weaponController;
         private Vector2 _inputVector;
         private float _totalSpeed;
         private float _standingHeight;
@@ -41,6 +43,9 @@ namespace Player
         private bool _isSprinting;
         private bool _isJumping;
         private bool _isCrouching;
+
+
+        public event Action onUpdateCallback;
 
 
         private Vector3 BottonPositionOfCollider
@@ -71,29 +76,40 @@ namespace Player
             _sprintFOV = fieldOfViewWhileSprinting;
 
             playerCamera.m_Lens.FieldOfView = _originalFOV;
+            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
+            _weaponController = new WeaponController(aimSightsInput, primaryFireInput, secondaryFireInput, this);
         }
 
 
         private void Update()
         {
-            _inputVector = GetInputValue<Vector2>(movementInput);
-            _lookValue = GetInputValue<Vector2>(lookInput);
-            _isSprinting = GetInputValue<bool>(sprintInput);
-            _isJumping = GetInputValue<bool>(jumpInput);
-            _isCrouching = GetInputValue<bool>(crouchInput);
+            //Get values from Input References
+            _inputVector = movementInput.GetInputValue<Vector2>();
+            _lookValue = lookInput.GetInputValue<Vector2>();
+            _isSprinting = sprintInput.GetInputValue<bool>();
+            _isJumping = jumpInput.GetInputValue<bool>();
+            _isCrouching = crouchInput.GetInputValue<bool>();
 
+            //Calculate input values to reflect strafing in correlation to player direction.
+            //Calculate and alter final speed values depending on whenever or not the player is using x input.
             _trueInputVector = transform.right * _inputVector.x + transform.forward * _inputVector.y;
             _totalSpeed = _isSprinting && !_isCrouching && CanStand() ? movementSpeed * sprintMultiplier :
                 _isCrouching || !CanStand() ? movementSpeed * crouchMultiplier : movementSpeed;
 
+            //Calculate and alter cameraFOV depending on player's input.
             float currentFOV = playerCamera.m_Lens.FieldOfView;
             currentFOV = _isSprinting && !_isCrouching && CanStand()
                 ? Mathf.Lerp(currentFOV, _sprintFOV, 0.25f)
                 : Mathf.Lerp(currentFOV, _originalFOV, 0.25f);
             playerCamera.m_Lens.FieldOfView = currentFOV;
 
+            //Call method that handles player rotation on mouse input.
             _fpcHandler.RotatePlayerHorizontally(transform, _lookValue, sensitivity);
+            
+            //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
+
+            onUpdateCallback?.Invoke();
         }
 
         private void OnCrouchAlterPlayerHeight(bool isCrouching)
@@ -158,50 +174,22 @@ namespace Player
             _fpcHandler.RotateCameraVertically(playerCamera.transform, _lookValue, sensitivity);
         }
 
-        private void AlterPlayerInput(bool b)
-        {
-            AlterInputState(movementInput, b);
-            AlterInputState(jumpInput, b);
-            AlterInputState(lookInput, b);
-            AlterInputState(crouchInput, b);
-            AlterInputState(fireInput, b);
-            AlterInputState(sprintInput, b);
-        }
+     
+
+        
 
 
-        void AlterInputState(InputActionReference asset, bool value)
-        {
-            if (value)
-            {
-                asset.action.Enable();
-                return;
-            }
-
-            asset.action.Disable();
-        }
-
-
-        T GetInputValue<T>(InputActionReference input) where T : struct
-        {
-            T v = default(T);
-            bool x = false;
-            if (v.GetType().Equals(x.GetType()))
-            {
-                float a = input.action.ReadValue<float>();
-                return (T) Convert.ChangeType(a == 1, typeof(T));
-            }
-
-            return input.action.ReadValue<T>();
-        }
+        
 
         private void OnDisable()
         {
-            AlterPlayerInput(false);
+            
+            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
         }
 
         private void OnEnable()
         {
-            AlterPlayerInput(true);
+            InputExtension.SetActiveAll(true, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
         }
     }
 }
