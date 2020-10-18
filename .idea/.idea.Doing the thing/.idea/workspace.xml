@@ -20,10 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +39,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.spyro.utility.object_pooler@2401664d36/Runtime/PoolManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Effects/VentorTitleRotator.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -44,13 +50,14 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/InputExtension/InputReferenceExtension.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Effects/VentorTitleRotator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
       </list>
     </option>
   </component>
@@ -104,7 +111,9 @@
       <workItem from="1602173647580" duration="43000" />
       <workItem from="1602173997537" duration="2678000" />
       <workItem from="1602247068488" duration="8975000" />
-      <workItem from="1602332091349" duration="2464000" />
+      <workItem from="1602332091349" duration="6312000" />
+      <workItem from="1602846844004" duration="3533000" />
+      <workItem from="1603011720406" duration="1272000" />
     </task>
     <servers />
   </component>
@@ -225,9 +234,13 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="92" y="92" width="2376" height="1256" key="VCS.FileHistoryDialog/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1601979292702" />
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1602332977400">
+    <state x="767" y="332" key="run.anything.popup" timestamp="1602384911637">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602332977400" />
+    <state x="767" y="332" key="run.anything.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602384911637" />
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603011754581">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1603011754581" />
   </component>
 </project>

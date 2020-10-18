@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
 
 namespace Managers
@@ -34,23 +35,32 @@ namespace Managers
     public class ParticleEffect
     {
         public string particleEffectName;
-        public ParticleSystem particleEffect;
+        public GameObject particleEffect;
 
-        private ParticleSystem _particleObject;
+        private GameObject _particleObject;
 
 
-        public void Play(Vector3 position, Vector3 normal, int emitAmount = 1)
+        public T Play<T>(Vector3 position, Vector3 normal, int emitAmount = 1) where T : Component
         {
-            if (_particleObject.Equals(null))
-            {
-                _particleObject = Object.Instantiate(particleEffect);
-            }
+            _particleObject = ObjectManager.DynamicInstantiate(particleEffect);
 
             var transform = _particleObject.transform;
             transform.position = position;
             transform.forward = normal;
+            T element = _particleObject.GetComponent<T>();
 
-            _particleObject.Emit(emitAmount);
+            switch (element)
+            {
+                case ParticleSystem effect:
+                    effect.Emit(emitAmount);
+                    break;
+                
+                case TrailRenderer renderer:
+                    renderer.SetPosition(0,position);
+                    break;
+            }
+
+            return element;
         }
     }
 }

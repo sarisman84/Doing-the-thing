@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.spyro.utility.object_pooler": "https://github.com/sarisman84/Object-Management.git",
     "com.unity.cinemachine": "2.6.3",
     "com.unity.collab-proxy": "1.3.9",
     "com.unity.ide.rider": "1.2.1",

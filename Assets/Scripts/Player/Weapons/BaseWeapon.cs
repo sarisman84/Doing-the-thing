@@ -1,5 +1,8 @@
-﻿using Interactivity;
+﻿using Cinemachine;
+using Extensions;
+using Interactivity;
 using Managers;
+using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
 
 namespace Player.Weapons
@@ -10,16 +13,18 @@ namespace Player.Weapons
         public abstract void PrimaryFire();
         public abstract void SecondaryFire();
 
-        public BaseWeapon(WeaponVisualiser visualiser)
+        public BaseWeapon(WeaponVisualiser visualiser, CinemachineFreeLook playerCamera)
         {
             this.visualiser = visualiser;
+            this.playerCamera = playerCamera;
         }
 
         public WeaponVisualiser visualiser;
+        protected CinemachineFreeLook playerCamera;
 
-        public static RaycastHit[] Hitscan(Vector3 firePosition, Vector3 fireDirection, int penetration = 1)
+        public static RaycastHit[] Hitscan(Vector3 firePosition, Vector3 fireDirection)
         {
-            RaycastHit[] hits = new RaycastHit[penetration];
+            RaycastHit[] hits = new RaycastHit[10];
             Physics.RaycastNonAlloc(firePosition, fireDirection, hits);
 
             return hits;
@@ -29,32 +34,48 @@ namespace Player.Weapons
     public class TestingWeapon : BaseWeapon
     {
         private float _localFireRate;
-        private float fireRate = 0.15f;
+        private float fireRate = 0.1f;
+        private TrailRenderer bulletTrail;
 
         public override void PrimaryFire()
         {
             _localFireRate += Time.deltaTime;
             _localFireRate = Mathf.Clamp(_localFireRate, 0, fireRate);
 
-            //ParticleEffectsManager.PublicInstance.FindEffect("muzzleFlash") ?.Play(visualiser.WeaponBarrel.position, visualiser.WeaponBarrel.forward);
 
             if (_localFireRate.Equals(fireRate))
             {
-                var position = visualiser.WeaponBarrel.position;
-                var direction = visualiser.WeaponBarrel.forward;
-                RaycastHit[] result = Hitscan(position, direction);
-                float distance = result[0].distance <= 0 ? 1000f : result[0].distance;
-                Debug.DrawRay(position, direction * distance, Color.red, 0.5f);
-                if (!result.Equals(null))
+                var transform = playerCamera.transform;
+                var position = transform.position;
+                var forward = transform.forward;
+                if (bulletTrail)
                 {
-                    foreach (var t in result)
-                    {
-                        if (t.collider)
-                            t.collider.GetComponent<IDamageable>()?.TakeDamage(1);
-                    }
+                    bulletTrail.Clear();
+                    bulletTrail.transform.position = Vector3.zero;
+                    
                 }
 
+                bulletTrail = bulletTrail
+                    ? bulletTrail
+                    : Object.Instantiate(Resources.Load<TrailRenderer>("WeaponEffects/Bullet Trail"));
+                bulletTrail.transform.position = visualiser.WeaponBarrel.position;
 
+                RaycastHit hit = Hitscan(position, forward).GetClosestHit();
+                if (hit.collider)
+                {
+                    hit.collider.GetComponent<IDamageable>()?.TakeDamage(1);
+                    bulletTrail.AddPosition(hit.point);
+                }
+                else
+                {
+                    bulletTrail.AddPosition(forward * 100f);
+                }
+           
+
+                
+            
+
+                Debug.DrawRay(position, forward * hit.distance, Color.red);
                 _localFireRate = 0;
             }
         }
@@ -64,7 +85,7 @@ namespace Player.Weapons
             throw new System.NotImplementedException();
         }
 
-        public TestingWeapon(WeaponVisualiser visualiser) : base(visualiser)
+        public TestingWeapon(WeaponVisualiser visualiser, CinemachineFreeLook camera) : base(visualiser, camera)
         {
             visualiser.SetWeaponModel("testWeaponModel",
                 Object.Instantiate(Resources.Load<GameObject>("WeaponModels/Test_Pistol")));

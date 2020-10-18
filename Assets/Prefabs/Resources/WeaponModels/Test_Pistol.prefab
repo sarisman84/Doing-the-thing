@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4911599620895444262}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6070638544507608689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Test_Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,9 +113,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -317186512659587155, guid: fc1bb29ed657fcf4094f78bdbc332f90, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fc1bb29ed657fcf4094f78bdbc332f90, type: 3}
       propertyPath: m_Name
       value: PistolFluxLX
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fc1bb29ed657fcf4094f78bdbc332f90, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc1bb29ed657fcf4094f78bdbc332f90, type: 3}

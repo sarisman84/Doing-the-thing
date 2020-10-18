@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.spyro.utility.object_pooler": {
+      "version": "https://github.com/sarisman84/Object-Management.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2401664d36715f32b49b2948240353a43095c896"
+    },
     "com.unity.cinemachine": {
       "version": "2.6.3",
       "depth": 0,
