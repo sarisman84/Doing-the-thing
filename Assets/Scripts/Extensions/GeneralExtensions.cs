@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using Player;
 using UnityEngine;
+using static Extensions.GeneralExtensions.RadiusAxis;
+using Random = System.Random;
 
 namespace Extensions
 {
@@ -28,6 +31,53 @@ namespace Extensions
             }
         }
 
+        public enum RadiusAxis
+        {
+            XAxis,
+            YAxis,
+            ZAxis,
+            XYAxis,
+            XZAxis,
+            YZAxis,
+            XYZAxis
+        }
+
+        public static Vector3 GetRandomPositionInRange(this Vector3 vector3, int d,
+            RadiusAxis axis = XZAxis)
+        {
+            
+            Random rnd = new Random();
+            
+          
+
+            int newPos = rnd.Next(-d, d);
+            switch (axis)
+            {
+                case XAxis:
+                    return new Vector3(vector3.x + newPos, vector3.y, vector3.z);
+                
+                case YAxis:
+                    return new Vector3(vector3.x, vector3.y +  newPos, vector3.z);
+                case ZAxis:
+                    return new Vector3(vector3.x, vector3.y, vector3.z + newPos);
+                
+                case XYAxis:
+                    
+                   return new Vector3(vector3.x +  newPos, vector3.y +  newPos, vector3.z);
+                
+                case XZAxis:
+                    return new Vector3(vector3.x +  newPos, vector3.y, vector3.z +  newPos);
+                
+                case YZAxis:
+                    return new Vector3(vector3.x, vector3.y +  newPos, vector3.z +  newPos);
+                
+                case XYZAxis:
+                    return new Vector3(vector3.x +  newPos, vector3.y +  newPos, vector3.z +  newPos);
+            }
+
+            return vector3;
+        }
+
 
         public static RaycastHit GetClosestHit(this RaycastHit[] hits)
         {
@@ -44,8 +94,8 @@ namespace Extensions
                     minDistance = hits[i].distance;
                     closestHit = hits[i];
                 }
-
             }
+
             return closestHit;
         }
     }

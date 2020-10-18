@@ -5,6 +5,7 @@ using System.Linq;
 using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
+using Interactivity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,10 +28,14 @@ namespace Player
         [Range(10f, 100f)] public float fieldOfView = 60f;
         [Range(10f, 100f)] public float fieldOfViewWhileSprinting = 90f;
 
+        [Space] public LayerMask currencyMask;
+        public float currencyPickupRange = 20;
+        public int currentCurrency = 0;
 
         private Rigidbody _physics;
         private CapsuleCollider _collisionBody;
         private FPCameraHandler _fpcHandler;
+        private CurrencyHandler _currencyHandler;
         private WeaponController _weaponController;
         private Vector2 _inputVector;
         private float _totalSpeed;
@@ -68,6 +73,9 @@ namespace Player
 
         private void Awake()
         {
+            _currencyHandler = new CurrencyHandler();
+            EnemyBehaivourManager.Access.AssignTarget(transform);
+
             _collisionBody = GetComponent<CapsuleCollider>();
             _physics = GetComponent<Rigidbody>();
             _fpcHandler = new FPCameraHandler();
@@ -76,7 +84,8 @@ namespace Player
             _sprintFOV = fieldOfViewWhileSprinting;
 
             playerCamera.m_Lens.FieldOfView = _originalFOV;
-            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
+            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput,
+                aimSightsInput, primaryFireInput, secondaryFireInput);
             _weaponController = new WeaponController(aimSightsInput, primaryFireInput, secondaryFireInput, this);
         }
 
@@ -105,11 +114,15 @@ namespace Player
 
             //Call method that handles player rotation on mouse input.
             _fpcHandler.RotatePlayerHorizontally(transform, _lookValue, sensitivity);
-            
+
             //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
-
+            
+            
             onUpdateCallback?.Invoke();
+
+
+            currentCurrency = _currencyHandler.Currency;
         }
 
         private void OnCrouchAlterPlayerHeight(bool isCrouching)
@@ -145,8 +158,22 @@ namespace Player
             velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
             _physics.velocity = velocity;
 
+            PickupCurrency(currencyPickupRange, currencyMask);
+
             if (_isJumping && IsGrounded() && !_isCrouching)
                 _physics.AddForce(Vector3.up * (jumpForce * 10), ForceMode.VelocityChange);
+        }
+
+        private void PickupCurrency(float pickupRange, LayerMask currencyMask)
+        {
+            Collider[] foundObjs = Physics.OverlapSphere(transform.position, pickupRange, currencyMask);
+
+            if (foundObjs.Equals(null)) return;
+            foreach (var t in foundObjs)
+            {
+                _currencyHandler.Earn(1);
+                t.gameObject.SetActive(false);
+            }
         }
 
         private bool IsGrounded()
@@ -174,22 +201,17 @@ namespace Player
             _fpcHandler.RotateCameraVertically(playerCamera.transform, _lookValue, sensitivity);
         }
 
-     
-
-        
-
-
-        
 
         private void OnDisable()
         {
-            
-            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
+            InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput,
+                aimSightsInput, primaryFireInput, secondaryFireInput);
         }
 
         private void OnEnable()
         {
-            InputExtension.SetActiveAll(true, movementInput, sprintInput, jumpInput, crouchInput, lookInput, aimSightsInput, primaryFireInput, secondaryFireInput);
+            InputExtension.SetActiveAll(true, movementInput, sprintInput, jumpInput, crouchInput, lookInput,
+                aimSightsInput, primaryFireInput, secondaryFireInput);
         }
     }
 }

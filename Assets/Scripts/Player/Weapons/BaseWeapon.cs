@@ -1,7 +1,7 @@
 ﻿using Cinemachine;
 using Extensions;
 using Interactivity;
-using Managers;
+
 using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
 
@@ -63,7 +63,7 @@ namespace Player.Weapons
                 RaycastHit hit = Hitscan(position, forward).GetClosestHit();
                 if (hit.collider)
                 {
-                    hit.collider.GetComponent<IDamageable>()?.TakeDamage(1);
+                    hit.collider.GetComponent<IDamageable>()?.TakeDamage(10);
                     bulletTrail.AddPosition(hit.point);
                 }
                 else

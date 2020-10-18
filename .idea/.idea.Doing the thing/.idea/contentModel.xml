@@ -20,16 +20,17 @@
             </e>
           </e>
           <e p="Interactivity" t="Include">
-            <e p="BaseEnemies.cs" t="Include" />
+            <e p="BaseEnemy.cs" t="Include" />
             <e p="Enemies" t="Include">
               <e p="TargetDummy.cs" t="Include" />
+              <e p="Zombie.cs" t="Include" />
             </e>
-            <e p="IDamageable.cs" t="Include" />
-          </e>
-          <e p="Managers" t="Include">
-            <e p="ParticleEffectsManager.cs" t="Include" />
+            <e p="EnemyBehaivourManager.cs" t="Include" />
+            <e p="EnemySpawner.cs" t="Include" />
+            <e p="InterfaceLibrary.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
+            <e p="CurrencyHandler.cs" t="Include" />
             <e p="FirstPersonController.cs" t="Include" />
             <e p="FPCameraHandler.cs" t="Include" />
             <e p="WeaponController.cs" t="Include" />

@@ -2,15 +2,15 @@
 
 namespace Interactivity
 {
-    public class EnemyManager
+    public class EnemyBehaivourManager
     {
-        private static EnemyManager _ins;
+        private static EnemyBehaivourManager _ins;
         
-        public static EnemyManager Access
+        public static EnemyBehaivourManager Access
         {
             get
             {
-                _ins = _ins == null ? _ins : new EnemyManager();
+                _ins = _ins ?? new EnemyBehaivourManager();
                 return _ins;
             }
         }
@@ -19,12 +19,15 @@ namespace Interactivity
 
         public void AssignTarget(Transform target)
         {
-            _target = target != null ? target : _target;
+            if (target)
+            {
+                _target = target;
+            }
         }
 
         public Vector3 GetTargetPosition()
         {
-            return _target == null ? Vector3.zero : _target.position;
+            return _target.Equals(null) ? Vector3.zero : _target.position;
         }
 
 
