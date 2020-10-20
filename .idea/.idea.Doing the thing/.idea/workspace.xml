@@ -20,28 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemySpawner.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemySpawner.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HUDManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HudManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Currency.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Currency.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,22 +61,27 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Effects/VentorTitleRotator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/IDamageable.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Hostiles/BaseEnemy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" />
         <option value="$PROJECT_DIR$/Library/PackageCache/com.spyro.utility.object_pooler@2401664d36/Runtime/PoolManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemySpawner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponUIVisualiser.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HUDManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HudManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" />
       </list>
     </option>
   </component>
@@ -137,6 +138,8 @@
       <workItem from="1602332091349" duration="6312000" />
       <workItem from="1602846844004" duration="3533000" />
       <workItem from="1603011720406" duration="11132000" />
+      <workItem from="1603102938044" duration="3008000" />
+      <workItem from="1603205757244" duration="4050000" />
     </task>
     <servers />
   </component>
@@ -169,45 +172,45 @@
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
     <state width="483" height="950" key="DebuggerActiveHint/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602279022468" />
-    <state width="2489" height="502" key="GridCell.Tab.0.bottom" timestamp="1602291844355">
+    <state width="2489" height="502" key="GridCell.Tab.0.bottom" timestamp="1603104059529">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.0.bottom/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844354" />
+    <state width="2489" height="502" key="GridCell.Tab.0.bottom/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104059529" />
     <state width="2489" height="502" key="GridCell.Tab.0.bottom/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.0.center" timestamp="1602291844354">
+    <state width="2489" height="502" key="GridCell.Tab.0.center" timestamp="1603104059529">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.0.center/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844354" />
+    <state width="2489" height="502" key="GridCell.Tab.0.center/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104059529" />
     <state width="2489" height="502" key="GridCell.Tab.0.center/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.0.left" timestamp="1602291844354">
+    <state width="2489" height="502" key="GridCell.Tab.0.left" timestamp="1603104059529">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.0.left/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844354" />
+    <state width="2489" height="502" key="GridCell.Tab.0.left/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104059529" />
     <state width="2489" height="502" key="GridCell.Tab.0.left/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.0.right" timestamp="1602291844354">
+    <state width="2489" height="502" key="GridCell.Tab.0.right" timestamp="1603104059529">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.0.right/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844354" />
+    <state width="2489" height="502" key="GridCell.Tab.0.right/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104059529" />
     <state width="2489" height="502" key="GridCell.Tab.0.right/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.1.bottom" timestamp="1602291844355">
+    <state width="2489" height="502" key="GridCell.Tab.1.bottom" timestamp="1603104060666">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.1.bottom/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844355" />
+    <state width="2489" height="502" key="GridCell.Tab.1.bottom/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104060666" />
     <state width="2489" height="502" key="GridCell.Tab.1.bottom/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.1.center" timestamp="1602291844355">
+    <state width="2489" height="502" key="GridCell.Tab.1.center" timestamp="1603104060666">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.1.center/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844355" />
+    <state width="2489" height="502" key="GridCell.Tab.1.center/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104060666" />
     <state width="2489" height="502" key="GridCell.Tab.1.center/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.1.left" timestamp="1602291844355">
+    <state width="2489" height="502" key="GridCell.Tab.1.left" timestamp="1603104060666">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.1.left/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844355" />
+    <state width="2489" height="502" key="GridCell.Tab.1.left/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104060666" />
     <state width="2489" height="502" key="GridCell.Tab.1.left/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
-    <state width="2489" height="502" key="GridCell.Tab.1.right" timestamp="1602291844355">
+    <state width="2489" height="502" key="GridCell.Tab.1.right" timestamp="1603104060666">
       <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2489" height="502" key="GridCell.Tab.1.right/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1602291844355" />
+    <state width="2489" height="502" key="GridCell.Tab.1.right/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603104060666" />
     <state width="2489" height="502" key="GridCell.Tab.1.right/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602279609974" />
     <state width="2489" height="502" key="GridCell.Tab.2.bottom" timestamp="1602291844356">
       <screen x="-2560" y="0" width="2560" height="1440" />
@@ -261,9 +264,22 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="767" y="332" key="run.anything.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602384911637" />
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603022955942">
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603208232688">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1603022955942" />
+    <state x="-1787" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603206498652" />
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1603208232688" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HudManager.cs</url>
+          <line>19</line>
+          <properties documentPath="C:\Users\epicd\Documents\Unity Projects\Doing the thing\Assets\Scripts\Player\Weapons\WeaponUIVisualiser.cs" initialLine="19" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

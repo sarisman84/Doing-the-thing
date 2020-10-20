@@ -1,7 +1,9 @@
 ﻿using System;
 using Extensions;
+using Interactivity.Pickup;
 using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Random = System.Random;
 
 namespace Interactivity.Enemies
@@ -45,14 +47,10 @@ namespace Interactivity.Enemies
         protected override void OnDeath()
         {
             base.OnDeath();
-            Random rnd = new Random();
-            for (int i = 0; i < rnd.Next(2,10); i++)
-            {
-                GameObject obj = ObjectManager.DynamicInstantiate(Resources.Load<GameObject>("Drops/Currency"));
-                obj.SetActive(true);
-                obj.transform.position = transform.position.GetRandomPositionInRange(1);
-            }
-            
+            BaseEnemy.DropCurrency(transform,2, 14);
+            BaseEnemy.DropAmmo(transform,"Pickup", 1);
         }
+
+        
     }
 }

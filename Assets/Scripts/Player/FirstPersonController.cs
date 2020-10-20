@@ -6,6 +6,8 @@ using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
+using Interactivity.Pickup;
+using Player.Weapons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,12 +25,13 @@ namespace Player
         public float jumpForce;
         public Vector3 groundCheckSize = Vector3.one;
         public Vector3 sealingCheckSize = Vector3.one;
+        public LayerMask movementCheckLayer;
 
         public CinemachineFreeLook playerCamera;
         [Range(10f, 100f)] public float fieldOfView = 60f;
         [Range(10f, 100f)] public float fieldOfViewWhileSprinting = 90f;
 
-        [Space] public LayerMask currencyMask;
+        [Space] public LayerMask pickupMask;
         public float currencyPickupRange = 20;
         public int currentCurrency = 0;
 
@@ -36,7 +39,7 @@ namespace Player
         private CapsuleCollider _collisionBody;
         private FPCameraHandler _fpcHandler;
         private CurrencyHandler _currencyHandler;
-        private WeaponController _weaponController;
+        public WeaponController weaponController;
         private Vector2 _inputVector;
         private float _totalSpeed;
         private float _standingHeight;
@@ -73,7 +76,7 @@ namespace Player
 
         private void Awake()
         {
-            _currencyHandler = new CurrencyHandler();
+            _currencyHandler = new CurrencyHandler(this);
             EnemyBehaivourManager.Access.AssignTarget(transform);
 
             _collisionBody = GetComponent<CapsuleCollider>();
@@ -86,7 +89,7 @@ namespace Player
             playerCamera.m_Lens.FieldOfView = _originalFOV;
             InputExtension.SetActiveAll(false, movementInput, sprintInput, jumpInput, crouchInput, lookInput,
                 aimSightsInput, primaryFireInput, secondaryFireInput);
-            _weaponController = new WeaponController(aimSightsInput, primaryFireInput, secondaryFireInput, this);
+            weaponController = new WeaponController(aimSightsInput, primaryFireInput, secondaryFireInput, this);
         }
 
 
@@ -117,8 +120,8 @@ namespace Player
 
             //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
-            
-            
+
+
             onUpdateCallback?.Invoke();
 
 
@@ -148,7 +151,8 @@ namespace Player
 
         private bool CanStand()
         {
-            List<Collider> foundObjects = Physics.OverlapBox(TopPositionOfCollider, sealingCheckSize).ToList();
+            List<Collider> foundObjects = Physics
+                .OverlapBox(TopPositionOfCollider, sealingCheckSize, transform.rotation, movementCheckLayer).ToList();
             return foundObjects.FindAll(c => c != this._collisionBody).Count == 0;
         }
 
@@ -158,27 +162,38 @@ namespace Player
             velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
             _physics.velocity = velocity;
 
-            PickupCurrency(currencyPickupRange, currencyMask);
+            PickupEntities(currencyPickupRange, pickupMask);
 
             if (_isJumping && IsGrounded() && !_isCrouching)
                 _physics.AddForce(Vector3.up * (jumpForce * 10), ForceMode.VelocityChange);
         }
 
-        private void PickupCurrency(float pickupRange, LayerMask currencyMask)
+        private void PickupEntities(float pickupRange, LayerMask pickupMask)
         {
-            Collider[] foundObjs = Physics.OverlapSphere(transform.position, pickupRange, currencyMask);
+            Collider[] foundObjs = Physics.OverlapSphere(transform.position, pickupRange, pickupMask);
 
             if (foundObjs.Equals(null)) return;
             foreach (var t in foundObjs)
             {
-                _currencyHandler.Earn(1);
+                BasePickup weapon = t.GetComponent<BasePickup>();
+                if (weapon)
+                {
+                    if (!weapon.OnPickup(this))
+                        continue;
+                }
+                else
+                {
+                    _currencyHandler.Earn(1);
+                }
+
                 t.gameObject.SetActive(false);
             }
         }
 
         private bool IsGrounded()
         {
-            List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize).ToList();
+            List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
+                transform.rotation, movementCheckLayer).ToList();
             return foundObjects.FindAll(c => c != this._collisionBody).Count != 0;
         }
 
