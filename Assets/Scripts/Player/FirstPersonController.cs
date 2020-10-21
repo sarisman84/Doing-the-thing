@@ -194,7 +194,7 @@ namespace Player
         {
             List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
                 transform.rotation, movementCheckLayer).ToList();
-            return foundObjects.FindAll(c => c != this._collisionBody).Count != 0;
+            return foundObjects.FindAll(c => c != _collisionBody).Count != 0;
         }
 
 

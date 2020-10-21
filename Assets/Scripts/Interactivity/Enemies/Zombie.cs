@@ -47,10 +47,7 @@ namespace Interactivity.Enemies
         protected override void OnDeath()
         {
             base.OnDeath();
-            BaseEnemy.DropCurrency(transform,2, 14);
-            BaseEnemy.DropAmmo(transform,"Pickup", 1);
+            BasePickup.SpawnCurrency(transform, 2, 14);
         }
-
-        
     }
 }

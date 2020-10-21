@@ -8,8 +8,5 @@ namespace Interactivity
     }
 
 
-    public interface IPathfind
-    {
-        Vector3 PathfindToTarget(Vector3 target);
-    }
+  
 }

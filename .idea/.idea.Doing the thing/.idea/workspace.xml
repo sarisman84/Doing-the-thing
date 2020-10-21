@@ -20,25 +20,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HUDManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HudManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Currency.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Currency.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Crates and Pickups/Crates/AmmoCrate/AmmoCrate.obj.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Crates and Pickups/Crates/AmmoCrate/AmmoCrate.obj.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Crates and Pickups/Crates/BoltCrate/BoltCrate.obj.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Crates and Pickups/Crates/BoltCrate/BoltCrate.obj.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +60,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ParticleEffectsManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Hostiles/BaseEnemy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemies.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyManager.cs" />
         <option value="$PROJECT_DIR$/Library/PackageCache/com.spyro.utility.object_pooler@2401664d36/Runtime/PoolManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" />
@@ -76,12 +71,19 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HudManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/TestWeaponAmmo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/BaseWeapon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/FirstPersonController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/TestButton.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/BaseEnemy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crates.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/TestWeapon_AmmoCrate.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/TestWeaponAmmoCrate.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" />
       </list>
     </option>
   </component>
@@ -139,7 +141,8 @@
       <workItem from="1602846844004" duration="3533000" />
       <workItem from="1603011720406" duration="11132000" />
       <workItem from="1603102938044" duration="3008000" />
-      <workItem from="1603205757244" duration="4050000" />
+      <workItem from="1603205757244" duration="7494000" />
+      <workItem from="1603285278393" duration="1401000" />
     </task>
     <servers />
   </component>
@@ -264,11 +267,11 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="767" y="332" key="run.anything.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1602384911637" />
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603208232688">
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup" timestamp="1603285346597">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="-1787" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@-2560.0.2560.1440" timestamp="1603206498652" />
-    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1603208232688" />
+    <state x="773" y="0" width="1009" height="1470" key="search.everywhere.popup/-2560.0.2560.1440/0.0.2560.1440@0.0.2560.1440" timestamp="1603285346597" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
