@@ -20,7 +20,8 @@ namespace Extensions.InputExtension
 
         public static T GetInputValue<T>(this InputActionReference reference) where T : struct
         {
-            T v = default(T);
+            T v = default;
+       
             if (v is bool)
             {
                 float a = reference.action.ReadValue<float>();
@@ -28,6 +29,11 @@ namespace Extensions.InputExtension
             }
 
             return reference.action.ReadValue<T>();
+        }
+
+        public static bool GetButtonDown(this InputActionReference reference)
+        {
+            return reference.action.triggered && reference.action.ReadValue<float>() > 0;
         }
         
         

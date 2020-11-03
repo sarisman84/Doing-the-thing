@@ -9,8 +9,6 @@ namespace Player.Weapons
     {
         public TMP_Text ammoCounter;
         public Image weaponIcon;
-
-
         public TMP_Text currencyCounter;
 
 
@@ -18,9 +16,9 @@ namespace Player.Weapons
         {
             set => currencyCounter.text = value.ToString(CultureInfo.InvariantCulture);
         }
-        public void UpdateAmmoCounter(int currentAmmo, int maxAmmo)
+        public void UpdateAmmoCounter(Weapon weapon)
         {
-            ammoCounter.text = $"{maxAmmo}/{currentAmmo}";
+            ammoCounter.text = $"{weapon.maxAmmoCount}/{weapon.currentAmmoCount}";
         }
 
         public void SetWeaponIcon(Sprite icon)

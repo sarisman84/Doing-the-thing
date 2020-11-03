@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minAmountCurrency: 0
   maxAmountCurrency: 0
+  ammoType: Test_Pistol
+  amountOfAmmo: 1
 --- !u!1001 &5354361843212838105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,6 +30,14 @@ PrefabInstance:
     - target: {fileID: 3867595473095409910, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532773227062270540, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4554008221650321353, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8141216174324761094, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -75,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8644807155614269324, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}
       propertyPath: m_Name
-      value: TestWeapon_AmmoCrate
+      value: Crate (72)
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5563037866596036482, guid: 16f439e7fa50b5f4c92051a1eb23b61e, type: 3}

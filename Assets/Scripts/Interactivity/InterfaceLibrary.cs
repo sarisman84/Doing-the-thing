@@ -8,5 +8,10 @@ namespace Interactivity
     }
 
 
-  
+    public interface IPolymorphable
+    {
+        void Transform(GameObject newModel);
+
+        bool HasTransformed { get; }
+    }
 }

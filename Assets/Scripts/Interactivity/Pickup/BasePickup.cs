@@ -24,7 +24,7 @@ namespace Interactivity.Pickup
 
         public static void SpawnAmmo(Transform owner, string type, int amount)
         {
-            BasePickup ammo = ObjectManager.DynamicComponentInstantiate(Resources.Load<BasePickup>($"Drops/{type}"));
+            BasePickup ammo = ObjectManager.DynamicComponentInstantiate(Resources.Load<BasePickup>($"Drops/{type}_Ammo"));
             ammo.gameObject.SetActive(true);
             ammo.transform.position = owner.position;
         }

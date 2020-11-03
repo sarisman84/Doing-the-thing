@@ -8,9 +8,10 @@ using Random = System.Random;
 
 namespace Interactivity
 {
-    public class BaseEnemy : MonoBehaviour, IDamageable
+    public class BaseEnemy : MonoBehaviour, IDamageable, IPolymorphable
     {
         protected NavMeshAgent agent;
+
 
         protected virtual void Awake()
         {
@@ -32,6 +33,11 @@ namespace Interactivity
             gameObject.SetActive(false);
         }
 
-        
+
+        public virtual void Transform(GameObject newModel)
+        {
+        }
+
+        public virtual bool HasTransformed { get; set; }
     }
 }

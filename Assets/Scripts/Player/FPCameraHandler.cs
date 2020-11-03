@@ -7,6 +7,18 @@ namespace Player
     {
         public FPCameraHandler()
         {
+           AlterCursorState(false);
+        }
+
+        public void AlterCursorState(bool value)
+        {
+            if (value)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                return;
+            }
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

@@ -1,55 +1,34 @@
 ﻿using System.Collections.Generic;
+using Extensions;
 using UnityEngine;
 
 namespace Player.Weapons
 {
     public class WeaponVisualiser : MonoBehaviour
     {
-        Dictionary<string, GameObject> _knownWeaponModels = new Dictionary<string, GameObject>();
+        private int _selectedModel;
 
-        private string _selectedModel;
-
-        private void ChangeWeaponModel(string weaponModelName)
+        public void ChangeWeaponModel(WeaponController controller, Weapon selectedWeapon)
         {
-            GameObject model;
-
-            if (!_knownWeaponModels.TryGetValue(weaponModelName, out model))
-                return;
-            foreach (var keyPair in _knownWeaponModels)
-            {
-                keyPair.Value.SetActive(false);
-            }
-
-            model.SetActive(true);
-            _selectedModel = weaponModelName;
+            controller.weaponLibrary.ApplyAction(w => w.model.SetActive(false));
+            selectedWeapon.model.SetActive(true);
         }
 
-        public Transform WeaponBarrel
+        public void SetWeaponModel(WeaponController controller, Weapon weapon)
         {
-            get
+            if (controller.weaponLibrary.Exists(w => w.ID == weapon.ID && weapon.model.transform.parent == transform))
             {
-                if (_knownWeaponModels[_selectedModel].Equals(null)) return null;
-                return _knownWeaponModels[_selectedModel].transform.GetChild(0);
-            }
-        }
-
-
-        public void SetWeaponModel(string weaponModelName, GameObject weaponModel)
-        {
-            if (_knownWeaponModels.ContainsKey(weaponModelName))
-            {
-                ChangeWeaponModel(weaponModelName);
+                ChangeWeaponModel(controller, weapon);
                 return;
             }
-            if (_knownWeaponModels.ContainsValue(weaponModel)) return;
 
 
-            weaponModel.transform.SetParent(transform);
-            weaponModel.transform.localPosition = Vector3.zero;
-            weaponModel.SetActive(false);
-            _knownWeaponModels.Add(weaponModelName, weaponModel);
+            weapon.model.transform.SetParent(transform);
+            weapon.model.transform.localPosition = Vector3.zero;
+            weapon.model.transform.localRotation = Quaternion.identity;
+            weapon.model.SetActive(false);
 
-            ChangeWeaponModel(weaponModelName);
+            ChangeWeaponModel(controller, weapon);
         }
     }
 }
