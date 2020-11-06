@@ -7,6 +7,7 @@ using Player.Weapons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
+using Utility;
 
 namespace Player
 {
@@ -18,26 +19,20 @@ namespace Player
         public List<Weapon> weaponLibrary = new List<Weapon>();
 
 
-        private InputActionReference _aimSightsInput;
-        private readonly InputActionReference _primaryFireInput;
-        private InputActionReference _secondaryFireInput, _weaponSelectionInput;
-        public FirstPersonController player;
+       
+        public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
         public HudManager hudManager;
 
-        public WeaponController(InputActionReference aimSights, InputActionReference primaryFire,
-            InputActionReference secondaryFire, InputActionReference weaponSelection, FirstPersonController player)
+        public WeaponController(PlayerController player)
         {
-            _aimSightsInput = aimSights;
-            _primaryFireInput = primaryFire;
-            _secondaryFireInput = secondaryFire;
-            _weaponSelectionInput = weaponSelection;
+           
             this.player = player;
 
 
             _weaponVisualiser = player.playerCamera.transform.GetComponentInChildren<WeaponVisualiser>();
 
-            hudManager = player.transform.GetComponentInChildren<HudManager>();
+            hudManager = new HudManager();
 
             player.ONUpdateCallback += LocalUpdate;
 
@@ -71,7 +66,7 @@ namespace Player
 
         void LocalUpdate()
         {
-            if (_weaponSelectionInput.GetButtonDown())
+            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect))
             {
                 WeaponSelectMenu.OpenMenu(SelectWeapon, weaponLibrary);
             }
@@ -80,7 +75,7 @@ namespace Player
 
             if (currentWeapon == null) return;
 
-            currentWeapon.OnWeaponPrimaryFire(_primaryFireInput, this);
+            currentWeapon.OnWeaponPrimaryFire(this);
         }
     }
 }

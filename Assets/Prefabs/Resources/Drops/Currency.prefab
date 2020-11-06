@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3750818903595271417}
   m_Layer: 9
   m_Name: Currency
-  m_TagString: Untagged
+  m_TagString: Currency
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

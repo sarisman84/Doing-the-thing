@@ -27,7 +27,7 @@ namespace Player.Weapons
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.collider.Equals(null) || other.collider.GetComponent<FirstPersonController>()) return;
+            if (other.collider.Equals(null) || other.collider.GetComponent<PlayerController>()) return;
             OnHitEvent?.Invoke(transform, CollisionRadious, ProjectileDamage);
         }
 

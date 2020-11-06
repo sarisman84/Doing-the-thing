@@ -39,7 +39,7 @@ namespace Interactivity.Moving_Objects
         {
             if (foundObjects.Exists(c => c.CompareTag("Player")))
             {
-                EventManager.TriggerEvent(FirstPersonController.MoveEntityEvent, delta * Time.fixedDeltaTime);
+                EventManager.TriggerEvent(PlayerController.MoveEntityEvent, delta * Time.fixedDeltaTime);
             }
         }
 

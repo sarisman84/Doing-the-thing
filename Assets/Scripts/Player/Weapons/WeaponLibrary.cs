@@ -9,6 +9,7 @@ using Interactivity;
 using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility;
 using static Player.Weapons.VisualWeaponBehaivourLibrary;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -82,7 +83,7 @@ namespace Player.Weapons
         private float _localCounter = 0;
         private int _localAmmoCount = 0;
 
-        public void OnWeaponPrimaryFire(InputActionReference primaryFire, WeaponController controller)
+        public void OnWeaponPrimaryFire(WeaponController controller)
         {
             _controller = _controller ?? controller;
             _localCounter += Time.deltaTime;
@@ -95,7 +96,7 @@ namespace Player.Weapons
             Ray weaponRay = new Ray(firePosition, fireDirection);
 
 
-            if (_localCounter.Equals(fireRate) && primaryFire.GetInputValue<bool>() && _localAmmoCount > 0)
+            if (_localCounter.Equals(fireRate) && InputListener.GetKey(InputListener.KeyCode.Attack) && _localAmmoCount > 0)
             {
                 fireEvent.Invoke(this, weaponRay);
                 _controller.hudManager.UpdateAmmoCounter(this);
@@ -179,7 +180,7 @@ namespace Player.Weapons
             foreach (var entity in orderedEnumerable)
             {
                 if (Vector3.Distance(transform.position, entity.transform.position) <= radius &&
-                    !entity.GetComponent<FirstPersonController>())
+                    !entity.GetComponent<PlayerController>())
                     DamageEntity(entity, damage);
                 KnockbackEntity(entity, transform, radius);
             }
@@ -210,7 +211,7 @@ namespace Player.Weapons
             _traceRenderer = _traceRenderer
                 ? _traceRenderer
                 : Object.Instantiate(Resources.Load<TrailRenderer>("WeaponEffects/Bullet Trail"));
-        
+
             Transform transform;
             (transform = _traceRenderer.transform).SetParent(parent);
             transform.position = origin.position;
@@ -220,7 +221,6 @@ namespace Player.Weapons
             _traceRenderer.AddPosition(targetPoint.TryGetValue(origin));
             _traceRenderer.startColor = color;
             _traceRenderer.endColor = color;
-            
         }
     }
 }

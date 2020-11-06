@@ -7,7 +7,7 @@ using Utility;
 
 namespace Player
 {
-    public class Health : MonoBehaviour, IDamageable
+    public class HealthComponent : MonoBehaviour, IDamageable
     {
         public float maxHealth;
         private float _currentHealth;
@@ -41,9 +41,9 @@ namespace Player
         public void OnFall()
         {
             //EventManager.TriggerEvent("PlayerFall_DetachFromPlayer");
-            EventManager.TriggerEvent(FirstPersonController.CameraFallBehaivourEvent, CameraBehaivour.Look);
-            EventManager.TriggerEvent(FirstPersonController.SetCursorActiveEvent, true);
-            EventManager.TriggerEvent(FirstPersonController.SetInputActiveEvent, false);
+            EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Look);
+            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
+            
             _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
             StartCoroutine(Respawn(4f, LatestRespawnPos));
         }
@@ -54,7 +54,7 @@ namespace Player
             while (time < respawnTime)
             {
                 yield return new WaitForEndOfFrame();
-                EventManager.TriggerEvent(FirstPersonController.ConstantlyLookTowardsThePlayerEvent);
+                EventManager.TriggerEvent(PlayerController.ConstantlyLookTowardsThePlayerEvent);
                 time += Time.deltaTime;
             }
 
@@ -63,9 +63,9 @@ namespace Player
             _physics.velocity = Vector3.zero;
             // EventManager.TriggerEvent("Player_DisableCursor");
             // EventManager.TriggerEvent("PlayerFall_FollowPlayer");
-            EventManager.TriggerEvent(FirstPersonController.SetCursorActiveEvent, false);
-            EventManager.TriggerEvent(FirstPersonController.CameraFallBehaivourEvent, CameraBehaivour.Follow);
-            EventManager.TriggerEvent(FirstPersonController.SetInputActiveEvent, true);
+            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Follow);
+           
 
             yield return null;
         }

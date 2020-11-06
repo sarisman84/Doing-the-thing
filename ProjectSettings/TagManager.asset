@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Player Shop
+  - HUD/Ammo Counter
+  - HUD/Weapon Icon
+  - HUD/Currency Counter
+  - Currency
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - Enemy
   - Ammo
   - Player
-  - 
+  - Shop
   - 
   - 
   - 

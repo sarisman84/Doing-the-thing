@@ -65,19 +65,24 @@
           </e>
           <e p="Player" t="Include">
             <e p="CurrencyHandler.cs" t="Include" />
-            <e p="FirstPersonController.cs" t="Include" />
             <e p="FPCameraHandler.cs" t="Include" />
-            <e p="Health.cs" t="Include" />
+            <e p="HealthComponent.cs" t="Include" />
+            <e p="InputListener.cs" t="Include" />
+            <e p="InteractionController.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
             <e p="WeaponController.cs" t="Include" />
             <e p="Weapons" t="Include">
               <e p="HUDManager.cs" t="Include" />
               <e p="Projectile.cs" t="Include" />
               <e p="ProjectileBehaivour.cs" t="Include" />
               <e p="WeaponLibrary.cs" t="Include" />
-              <e p="WeaponSelectMenu.cs" t="Include" />
-              <e p="WeaponSlot.cs" t="Include" />
               <e p="WeaponVisualiser.cs" t="Include" />
             </e>
+          </e>
+          <e p="UI" t="Include">
+            <e p="WeaponSelectMenu.cs" t="Include" />
+            <e p="WeaponShop.cs" t="Include" />
+            <e p="WeaponSlot.cs" t="Include" />
           </e>
           <e p="Utility" t="Include">
             <e p="DetectionArea.cs" t="Include" />

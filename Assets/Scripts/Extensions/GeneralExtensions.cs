@@ -104,7 +104,7 @@ namespace Extensions
                 if (minDistance > hits[i].distance)
                 {
                     if (hits[i].collider)
-                        if (hits[i].collider.GetComponent<FirstPersonController>())
+                        if (hits[i].collider.GetComponent<PlayerController>())
                             continue;
                     if (hits[i].distance == 0) continue;
                     minDistance = hits[i].distance;
@@ -175,6 +175,7 @@ namespace Extensions
             {
                 return value;
             }
+
             var transform = ((Transform) Array.Find(args, o => o is Transform));
             var forward = transform.forward;
             Vector3 originFacingDirection = forward * 100f;
@@ -184,6 +185,11 @@ namespace Extensions
 
             Vector3 point = ray.GetPoint(info);
             return point;
+        }
+
+        public static bool NullcheckAndConfirm(this bool boolean, object value)
+        {
+            return boolean && !value.Equals(null);
         }
     }
 }

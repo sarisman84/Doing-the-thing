@@ -1,6 +1,7 @@
 ﻿using System;
 using Extensions;
 using Player;
+using Player.Weapons;
 using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
 using Random = System.Random;
@@ -9,7 +10,7 @@ namespace Interactivity.Pickup
 {
     public abstract class BasePickup : MonoBehaviour
     {
-        public abstract bool OnPickup(FirstPersonController controller);
+        public abstract bool OnPickup(Weapon weapon);
         
         public static void SpawnCurrency(Transform owner, int minAmount, int maxAmount)
         {

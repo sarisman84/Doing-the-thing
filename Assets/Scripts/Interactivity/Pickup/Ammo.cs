@@ -7,10 +7,10 @@ namespace Interactivity.Pickup
     public class Ammo : BasePickup
     {
         public string ammoType = "Test_Pistol";
-        public override bool OnPickup(FirstPersonController controller)
+        public override bool OnPickup(Weapon currentWeapon)
         {
-            if (controller.weaponController.currentWeapon.ID.Equals(WeaponManager.globalWeaponLibrary[ammoType].ID))
-                return controller.weaponController.currentWeapon.AddAmmo(100);
+            if (currentWeapon.ID.Equals(WeaponManager.globalWeaponLibrary[ammoType].ID))
+                return currentWeapon.AddAmmo(100);
             return false;
         }
     }

@@ -49,7 +49,7 @@ namespace Player.Weapons
                 }
             });
 
-            EventManager.TriggerEvent(FirstPersonController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
             IsAlreadyActive = false;
         }
 
@@ -63,7 +63,7 @@ namespace Player.Weapons
 
             int index = 0;
             IsAlreadyActive = true;
-            EventManager.TriggerEvent(FirstPersonController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
             _menu.weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
         }
 
@@ -77,7 +77,7 @@ namespace Player.Weapons
                 w.slotButton.onClick.AddListener(() =>
                     {
                         _menu.weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
-                        EventManager.TriggerEvent(FirstPersonController.SetCursorActiveEvent, false);
+                        EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
                         IsAlreadyActive = false;
                     }
                 );
