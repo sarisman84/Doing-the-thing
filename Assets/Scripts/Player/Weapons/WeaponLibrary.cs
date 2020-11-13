@@ -18,24 +18,30 @@ namespace Player.Weapons
 {
     public static class WeaponManager
     {
-        public static Dictionary<string, Weapon> globalWeaponLibrary = new Dictionary<string, Weapon>();
+        public static Dictionary<string, Weapon> globalWeaponLibrary;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         public static void OnGameStart()
         {
+            globalWeaponLibrary = new Dictionary<string, Weapon>();
+            
             globalWeaponLibrary.Add("Test_Pistol",
-                new Weapon(WeaponBehaviorLibrary.NormalFire, 500, 0.1f, 10, "Test_Pistol"));
+                new Weapon(WeaponBehaviorLibrary.NormalFire, 500, 0.1f, 10, "Test_Pistol",
+                    "A testing weapon that is a baseline for other weapons", 1000));
             globalWeaponLibrary.Add("Eliott's Seal Generator",
-                new Weapon(WeaponBehaviorLibrary.PolymorphRounds, 2500, 0.01f, 0, "Eliott's Seal Generator"));
+                new Weapon(WeaponBehaviorLibrary.PolymorphRounds, 2500, 0.01f, 0, "Eliott's Seal Generator",
+                    "Transforms enemies into harmless seals!", 500));
             globalWeaponLibrary.Add("Rocket Launcher",
-                new Weapon(WeaponBehaviorLibrary.ProjectileFire, 50, 1f, 500, "Rocket Launcher"));
+                new Weapon(WeaponBehaviorLibrary.ProjectileFire, 50, 1f, 500, "Rocket Launcher",
+                    "Used to nagotiate terms with enemies. Highly effective.", 500));
         }
     }
 
     [Serializable]
     public class Weapon
     {
-        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage, string weaponName)
+        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage, string weaponName,
+            string weaponDescription, int shopPrice)
         {
             this.fireEvent = fireEvent;
             this.fireRate = fireRate;
@@ -53,7 +59,8 @@ namespace Player.Weapons
 
 
             name = weaponName;
-
+            description = weaponDescription;
+            price = shopPrice;
             _id = Guid.NewGuid();
         }
 
@@ -66,6 +73,8 @@ namespace Player.Weapons
         public float fireRate;
         public float damage;
         public int maxAmmoCount;
+        public string description;
+        public int price;
 
         public string name;
         public GameObject model;
@@ -96,7 +105,8 @@ namespace Player.Weapons
             Ray weaponRay = new Ray(firePosition, fireDirection);
 
 
-            if (_localCounter.Equals(fireRate) && InputListener.GetKey(InputListener.KeyCode.Attack) && _localAmmoCount > 0)
+            if (_localCounter.Equals(fireRate) && InputListener.GetKey(InputListener.KeyCode.Attack) &&
+                _localAmmoCount > 0)
             {
                 fireEvent.Invoke(this, weaponRay);
                 _controller.hudManager.UpdateAmmoCounter(this);
@@ -106,6 +116,7 @@ namespace Player.Weapons
         }
 
         private WeaponController _controller;
+
 
         public bool AddAmmo(int i)
         {

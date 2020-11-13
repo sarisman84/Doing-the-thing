@@ -4,7 +4,9 @@ using System.Linq;
 using Extensions;
 using Extensions.InputExtension;
 using Player.Weapons;
+using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
@@ -19,14 +21,12 @@ namespace Player
         public List<Weapon> weaponLibrary = new List<Weapon>();
 
 
-       
         public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
         public HudManager hudManager;
 
         public WeaponController(PlayerController player)
         {
-           
             this.player = player;
 
 
@@ -38,8 +38,9 @@ namespace Player
 
 
             weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
-            weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Eliott's Seal Generator"]);
-            weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Rocket Launcher"]);
+
+            EventManager.AddListener<Action<Weapon>>("Player_BuyWeapon", OnWeaponPurchace);
+
 
             SelectWeapon(0);
         }
@@ -68,7 +69,7 @@ namespace Player
         {
             if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect))
             {
-                WeaponSelectMenu.OpenMenu(SelectWeapon, weaponLibrary);
+                WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
             }
 
             if (player.CameraLocked) return;
@@ -76,6 +77,15 @@ namespace Player
             if (currentWeapon == null) return;
 
             currentWeapon.OnWeaponPrimaryFire(this);
+        }
+
+
+        void OnWeaponPurchace(Weapon weapon)
+        {
+            if ((int)EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < weapon.price) return;
+            EventManager.TriggerEvent(CurrencyHandler.PayCurrency, weapon.price);
+            AddWeaponToLibrary(weapon);
+            SelectWeapon(weaponLibrary.Count - 1);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
 namespace Interactivity
 {
@@ -17,7 +18,8 @@ namespace Interactivity
 
     public interface IInteractable: IUnity
     {
-        void OnInteract();
+        void OnInteract(PlayerController controller);
+        void OnProximity();
     }
 
     public interface IUnity

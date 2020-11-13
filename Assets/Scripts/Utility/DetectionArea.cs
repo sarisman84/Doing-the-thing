@@ -22,7 +22,7 @@ namespace Utility
 
         public LayerMask detectionMask;
 
-        [HideInInspector]public Collider collider;
+        [HideInInspector]public new Collider collider;
 
         bool IsColliderLayerInDetectionMask(Collider other)
         {

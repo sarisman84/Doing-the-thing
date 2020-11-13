@@ -1,23 +1,48 @@
-﻿using UnityEngine;
+﻿using System;
+using Packages.Rider.Editor.UnitTesting;
+using UnityEngine;
+using Utility;
 
 namespace Interactivity
 {
     public class EnemyBehaivourManager
     {
-        private static EnemyBehaivourManager _ins;
-        
-        public static EnemyBehaivourManager Access
+        private const string c_AssignNewTarget = "Enemy_AssignNewTarget";
+        private const string c_GetTargetPosition = "Enemy_TrackTarget";
+        private const string c_RemoveCurrentTarget = "Enemy_ClearTarget";
+
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void OnGameLoad()
         {
-            get
-            {
-                _ins = _ins ?? new EnemyBehaivourManager();
-                return _ins;
-            }
+            EnemyBehaivourManager manager = new EnemyBehaivourManager();
+            EventManager.AddListener(c_AssignNewTarget,
+                new Action<Transform>(value => manager.AssignTarget(value)));
+            EventManager.AddListener(c_GetTargetPosition,
+                new Func<Vector3>(() => manager._GetTargetPosition()));
+            EventManager.AddListener(c_RemoveCurrentTarget, new Action(() => { manager.ClearTarget(); }));
         }
+
+
+        public static void AssignNewTarget(Transform value)
+        {
+            EventManager.TriggerEvent(c_AssignNewTarget, value);
+        }
+
+        public static Vector3 GetCurrentTargetPosition()
+        {
+            return (Vector3)EventManager.TriggerEvent(c_GetTargetPosition);
+        }
+
+        public static void ClearTargetFocus()
+        {
+            EventManager.TriggerEvent(c_RemoveCurrentTarget);
+        }
+
 
         private Transform _target;
 
-        public void AssignTarget(Transform target)
+        private void AssignTarget(Transform target)
         {
             if (target)
             {
@@ -25,13 +50,13 @@ namespace Interactivity
             }
         }
 
-        public Vector3 GetTargetPosition()
+        private Vector3 _GetTargetPosition()
         {
             return _target.Equals(null) ? Vector3.zero : _target.position;
         }
 
 
-        public void ClearTarget()
+        private void ClearTarget()
         {
             _target = null;
         }

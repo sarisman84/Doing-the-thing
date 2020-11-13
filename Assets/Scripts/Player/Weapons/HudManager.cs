@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace Player.Weapons
             ammoCounter = GameObject.FindGameObjectWithTag("HUD/Ammo Counter").GetComponent<TMP_Text>();
             weaponIcon = GameObject.FindGameObjectWithTag("HUD/Weapon Icon").GetComponent<Image>();
             currencyCounter = GameObject.FindGameObjectWithTag("HUD/Currency Counter").GetComponent<TMP_Text>();
-            EventManager.AddListener(UpdateCurrency, o => _UpdateCurrency((int)o));
+            EventManager.AddListener(UpdateCurrency, new Action<int>(_UpdateCurrency));
         }
 
         public float CurrencyCounter
@@ -28,10 +29,9 @@ namespace Player.Weapons
             set => currencyCounter.text = value.ToString(CultureInfo.InvariantCulture);
         }
 
-        private object _UpdateCurrency(int amount)
+        private void _UpdateCurrency(int amount)
         {
             CurrencyCounter = amount;
-            return null;
         }
 
         public void UpdateAmmoCounter(Weapon weapon)

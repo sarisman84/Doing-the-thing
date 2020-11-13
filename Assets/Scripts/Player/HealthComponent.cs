@@ -43,7 +43,7 @@ namespace Player
             //EventManager.TriggerEvent("PlayerFall_DetachFromPlayer");
             EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Look);
             EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
-            
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
             StartCoroutine(Respawn(4f, LatestRespawnPos));
         }
@@ -65,7 +65,8 @@ namespace Player
             // EventManager.TriggerEvent("PlayerFall_FollowPlayer");
             EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
             EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Follow);
-           
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
+
 
             yield return null;
         }
@@ -78,7 +79,7 @@ namespace Player
             FollowAndLook
         }
 
-        public static object SetCameraBehaivour(CinemachineFreeLook camera, Transform target, CameraBehaivour value)
+        public static void SetCameraBehaivour(CinemachineFreeLook camera, Transform target, CameraBehaivour value)
         {
             switch (value)
             {
@@ -98,16 +99,13 @@ namespace Player
                     camera.transform.parent = target;
                     break;
             }
-
-            return null;
         }
 
-        public static object RotateCameraTowards(CinemachineFreeLook camera, Transform target)
+        public static void RotateCameraTowards(CinemachineFreeLook camera, Transform target)
         {
             var cameraTransform = camera.transform;
             camera.transform.rotation = Quaternion.Lerp(cameraTransform.rotation,
                 Quaternion.LookRotation(target.position - cameraTransform.position, Vector3.up), 0.25f);
-            return null;
         }
     }
 }

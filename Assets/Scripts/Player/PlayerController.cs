@@ -18,8 +18,12 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        
-        
+        public const string CameraFallBehaivourEvent = "Player_SetFallingBehaivour";
+        public const string SetCursorActiveEvent = "Player_SetCursorActive";
+
+        public const string ConstantlyLookTowardsThePlayerEvent = "PlayerFall_LookAtPlayer";
+        public const string MoveEntityEvent = "Player_MoveEntity";
+
 
         //Controller information
 
@@ -47,14 +51,13 @@ namespace Player
         [Range(10f, 100f)] public float fieldOfViewWhileSprinting = 90f;
 
         //Pickup information
-       
+
 
         //Local references to components and custom classes. 
         //Local variables that store information such as speed or input.
         private Rigidbody _physics;
         private CapsuleCollider _collisionBody;
         public FPCameraHandler fpcHandler;
-        private CurrencyHandler _currencyHandler;
         public WeaponController weaponController;
         private Vector2 _inputVector;
         private float _totalSpeed;
@@ -95,10 +98,8 @@ namespace Player
 
         private void Awake()
         {
-          
-
             //Assigns the player as a priority target for any enemy.
-            EnemyBehaivourManager.Access.AssignTarget(transform);
+            EnemyBehaivourManager.AssignNewTarget(transform);
 
             //Init
             _collisionBody = GetComponent<CapsuleCollider>();
@@ -112,12 +113,9 @@ namespace Player
             //Applies FOV to the camera's lens.
             playerCamera.m_Lens.FieldOfView = _originalFOV;
 
-            //Init for the Input System. Enables all of the references assigned in the argument.
-           
 
             //Init for the weapon managing class that handles the selection and firing of the current weapon.
             weaponController = new WeaponController(this);
-            _currencyHandler = new CurrencyHandler();
         }
 
 
@@ -129,8 +127,7 @@ namespace Player
             _isSprinting = InputListener.GetKey(Sprint);
             _isJumping = InputListener.GetKey(Jump);
             _isCrouching = InputListener.GetKey(Crouch);
-            
-         
+
 
             //Calculate input values to reflect strafing in correlation to player direction.
             //Calculate and alter final speed values depending on whenever or not the player is using x input.
@@ -154,7 +151,11 @@ namespace Player
 
 
             ONUpdateCallback?.Invoke();
-        
+
+            if (InputListener.GetKeyDown(Escape))
+            {
+                EventManager.TriggerEvent(WeaponShop.CloseShop);
+            }
         }
 
         /// <summary>
@@ -205,8 +206,6 @@ namespace Player
                 _physics.AddForce(Vector3.up * (jumpForce * 10), ForceMode.VelocityChange);
         }
 
-      
-        
 
         /// <summary>
         /// Checks if there are any gameObjects bellow the player's feet.
@@ -243,7 +242,7 @@ namespace Player
         private void OnDisable()
         {
             //In case this gameObject is disabled, it is required to disable the input references with it as to avoid any input errors.
-          
+
             RemoveListenersFromEventManager();
         }
 
@@ -251,56 +250,44 @@ namespace Player
         private void OnEnable()
         {
             //In case this gameObject is enabled, the references assigned to the gameObject will be enabled with the gameObject so that the player can regain control of this gameObject.
-           
+
             AddListenersToEventManager();
         }
 
         private void AddListenersToEventManager()
         {
-            EventManager.AddListener(SetCursorActiveEvent, (value) => SetCameraAndCursorActive((bool) value));
-            EventManager.AddListener(CameraFallBehaivourEvent,
-                (value) => HealthComponent.SetCameraBehaivour(playerCamera, transform, (HealthComponent.CameraBehaivour) value));
-            EventManager.AddListener(ConstantlyLookTowardsThePlayerEvent,
-                (value) => HealthComponent.RotateCameraTowards(playerCamera, transform));
-            
-
-            EventManager.AddListener(MoveEntityEvent, o => MovePlayer((Vector3) o));
+            EventManager.AddListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
+            EventManager.AddListener<Action<HealthComponent.CameraBehaivour>>(CameraFallBehaivourEvent,
+                value => HealthComponent.SetCameraBehaivour(playerCamera, transform, value));
+            EventManager.AddListener<Action>(ConstantlyLookTowardsThePlayerEvent,
+                () => HealthComponent.RotateCameraTowards(playerCamera, transform));
+            EventManager.AddListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
-        //Constant names to use player events elsewhere. Reduces the chance of not finding a desired event.
-        public const string CameraFallBehaivourEvent = "Player_SetFallingBehaivour";
-        public const string SetCursorActiveEvent = "Player_SetCursorActive";
-    
-        public const string ConstantlyLookTowardsThePlayerEvent = "PlayerFall_LookAtPlayer";
-        public const string MoveEntityEvent = "Player_MoveEntity";
 
         private void RemoveListenersFromEventManager()
         {
-            EventManager.RemoveListener(SetCursorActiveEvent, (value) => SetCameraAndCursorActive((bool) value));
-            
-            EventManager.RemoveListener(CameraFallBehaivourEvent,
-                (value) => HealthComponent.SetCameraBehaivour(playerCamera, transform, (HealthComponent.CameraBehaivour) value));
-            EventManager.RemoveListener(ConstantlyLookTowardsThePlayerEvent,
-                (value) => HealthComponent.RotateCameraTowards(playerCamera, transform));
-            EventManager.RemoveListener(MoveEntityEvent, o => MovePlayer((Vector3) o));
+            EventManager.RemoveListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
+            EventManager.RemoveListener<Action<HealthComponent.CameraBehaivour>>(CameraFallBehaivourEvent,
+                value => HealthComponent.SetCameraBehaivour(playerCamera, transform, value));
+            EventManager.RemoveListener<Action>(ConstantlyLookTowardsThePlayerEvent,
+                () => HealthComponent.RotateCameraTowards(playerCamera, transform));
+            EventManager.RemoveListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
-        private object SetCameraAndCursorActive(bool value)
+        private void SetCameraAndCursorActive(bool value)
         {
             CameraLocked = value;
-            fpcHandler.AlterCursorState(value);
+            // fpcHandler.AlterCursorState(value);
+            EventManager.TriggerEvent(FPCameraHandler.ChangeCursorState, value);
             EventManager.TriggerEvent(InputListener.SetPlayerLookInputActiveState, !value);
-            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, !value);
-            return null;
+            //EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, !value);
         }
 
-        private object MovePlayer(Vector3 velocity)
+        private Vector3 MovePlayer(Vector3 velocity)
         {
             _physics.MovePosition(transform.position + velocity);
             return _physics.velocity;
         }
-
-
-       
     }
 }

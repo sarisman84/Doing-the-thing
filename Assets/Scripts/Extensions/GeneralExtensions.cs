@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Player;
 using Player.Weapons;
 using UnityEngine;
@@ -118,13 +120,25 @@ namespace Extensions
 
         public static IEnumerable<T> ApplyAction<T>(this IEnumerable<T> list, Action<T> method)
         {
-            var applyAction = list as T[] ?? list.ToArray();
+            var applyAction = list.ToArray();
             foreach (var variable in applyAction)
             {
                 method.Invoke(variable);
             }
 
             return applyAction;
+        }
+
+        public static object ApplyFunction<TEvent>(this IEnumerable list, TEvent method) where TEvent : Delegate
+        {
+            var applyAction = list;
+            List<object> results = new List<object>();
+            foreach (var variable in applyAction)
+            {
+                results.Add(method.DynamicInvoke(variable));
+            }
+
+            return results;
         }
 
 
@@ -190,6 +204,53 @@ namespace Extensions
         public static bool NullcheckAndConfirm(this bool boolean, object value)
         {
             return boolean && !value.Equals(null);
+        }
+
+
+        public static List<Transform> GetChildrenWithTag<T>(this T value, string tag) where T : Component
+        {
+            List<Transform> list = new List<Transform>();
+            for (int child = 0; child < value.transform.childCount; child++)
+            {
+                Transform trans = value.transform.GetChild(child);
+                if (trans.Equals(null) && !trans.CompareTag(tag)) continue;
+                list.Add(trans);
+            }
+
+            return list;
+        }
+
+        public static List<TComponent> GetComponent<TComponent>(this IEnumerable<Component> value)
+            where TComponent : Component
+        {
+            List<TComponent> list = new List<TComponent>();
+
+            foreach (var var in value)
+            {
+                list.Add(var.GetComponent<TComponent>());
+            }
+
+            return list;
+        }
+
+        public static Transform GetChildWithTag<T>(this T value, string tag) where T : Component
+        {
+            Transform result = null;
+
+            for (int child = 0; child < value.transform.childCount; child++)
+            {
+                if (value.transform.GetChild(child).CompareTag(tag))
+                {
+                    result = value.transform.GetChild(child);
+
+                    break;
+                }
+
+                result = GetChildWithTag(value.transform.GetChild(child), tag);
+                if (result && result.CompareTag(tag)) break;
+            }
+
+            return result;
         }
     }
 }

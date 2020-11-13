@@ -1,44 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Extensions;
+using Player;
+using Player.Weapons;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 using Utility;
-using Button = UnityEngine.UIElements.Button;
+using Object = UnityEngine.Object;
 
-namespace Player.Weapons
+namespace UI
 {
-    public class WeaponSelectMenu : MonoBehaviour
+    public class WeaponSelectMenu
     {
-        public List<WeaponSlot> weaponSlots = new List<WeaponSlot>();
+        private const string OpenWeaponSelection = "UI_WeaponSelectMenu";
+        private readonly List<WeaponSlot> _weaponSlots;
+        private Canvas _canvas;
 
-
-        private static WeaponSelectMenu _menu;
-        private static bool IsAlreadyActive { get; set; } = false;
-
-
-        private void Awake()
+        public WeaponSelectMenu(Canvas asset)
         {
-            if (_menu)
-            {
-                Destroy(gameObject);
-                return;
-            }
+            _canvas = asset;
+            Transform selectCanvas = _canvas.transform;
+            _weaponSlots = selectCanvas.GetComponentsInChildren<WeaponSlot>().ToList();
 
-
-            weaponSlots.ApplyAction(w => w.gameObject.SetActive(false));
-
-            _menu = this;
+            EventManager.AddListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
+            _weaponSlots.ApplyAction(s => s.gameObject.SetActive(false));
         }
 
-        private void OnEnable()
+        private bool IsAlreadyActive { get; set; } = false;
+
+        public static void Access(List<Weapon> weapons, Action<int> selectWeapon)
         {
+            EventManager.TriggerEvent(OpenWeaponSelection, selectWeapon, weapons);
         }
 
-        public static void CloseMenu()
+        private void CloseMenu()
         {
-            _menu.weaponSlots.ApplyAction(w =>
+            _weaponSlots.ApplyAction(w =>
             {
                 if (IsAlreadyActive)
                 {
@@ -48,26 +45,27 @@ namespace Player.Weapons
                     w.gameObject.SetActive(false);
                 }
             });
-
+            _canvas.gameObject.SetActive(false);
             EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
             IsAlreadyActive = false;
         }
 
-        public static void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
+        private void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
         {
-            if (_menu.Equals(null) || IsAlreadyActive)
+            if (IsAlreadyActive)
             {
                 CloseMenu();
                 return;
             }
 
+            _canvas.gameObject.SetActive(true);
             int index = 0;
             IsAlreadyActive = true;
             EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
-            _menu.weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
+            _weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
         }
 
-        private static int ApplyBehaivour(List<Weapon> weaponLibrary, Action<int> selectWeapon, WeaponSlot w, int index)
+        private int ApplyBehaivour(List<Weapon> weaponLibrary, Action<int> selectWeapon, WeaponSlot w, int index)
         {
             if (index >= 0 && index < weaponLibrary.Count)
             {
@@ -76,7 +74,7 @@ namespace Player.Weapons
                 w.slotButton.onClick.AddListener(() => selectWeapon.Invoke(index1));
                 w.slotButton.onClick.AddListener(() =>
                     {
-                        _menu.weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
+                        _weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
                         EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
                         IsAlreadyActive = false;
                     }

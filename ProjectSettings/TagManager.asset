@@ -9,6 +9,10 @@ TagManager:
   - HUD/Weapon Icon
   - HUD/Currency Counter
   - Currency
+  - HUD/Shop/Slots
+  - HUD/Shop/Description
+  - HUD/Shop/Price
+  - HUD/Shop/Name
   layers:
   - Default
   - TransparentFX

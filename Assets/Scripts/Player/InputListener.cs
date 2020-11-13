@@ -4,13 +4,26 @@ using Extensions.InputExtension;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
-using Event = UnityEngine.Event;
 
 namespace Player
 {
-    public class InputListener : MonoBehaviour
+    public class InputListener
     {
-        public InputActionAsset input;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void OnGameLoad()
+        {
+            InputListener listener = new InputListener();
+            listener._input = Resources.Load<InputActionAsset>("Controls");
+            if (listener._input.Equals(null)) return;
+            listener.AssignReferencesFromAsset();
+            listener.SetAllInputActive(true);
+            listener.SetInputEventsToEventManager(EventManager.ManagerAction.Add);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+
+        private InputActionAsset _input;
         public const string SetAllPlayerInputActiveState = "Input_SetAllPlayerInput";
         public const string SetPlayerLookInputActiveState = "Input_SetPlayerLookInput";
         public const string SetPlayerMovementInputActiveState = "Input_SetPlayerMovementInput";
@@ -113,80 +126,36 @@ namespace Player
             _weaponSelectInput,
             _escapeInput;
 
-        private void Awake()
+
+        private void SetInputEventsToEventManager(EventManager.ManagerAction managerAction)
         {
-            AssignReferencesFromAsset();
-            SetAllInputActive(true);
-            SetInputEventsToEventManager(EventManager.Event.Add);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        private void SetInputEventsToEventManager(EventManager.Event @event)
-        {
-            #region Local Methods
-
-            object m_SetAllInputActive(object value)
+            switch (managerAction)
             {
-                m_SetAllInputActive((bool) value);
-                return null;
-            }
-
-            object m_SetMouseDeltaActive(object value)
-            {
-                _mouseDeltaInput.SetActive((bool) value);
-                return null;
-            }
-
-            object m_GetInputKeyDown(object value)
-            {
-                return _GetInputKeyDown((KeyCode) value);
-            }
-
-            object m_GetInput(object value)
-            {
-                return _GetInput((KeyCode) value);
-            }
-
-            object m_SetMovementInputActive(object value)
-            {
-                _movementInput.SetActive((bool) value);
-                return null;
-            }
-
-            object m_GetAxisRaw(object value)
-            {
-                return _GetAxisRaw();
-            }
-
-            object m_GetMouseDelta(object value)
-            {
-                return _mouseDeltaInput.GetInputValue<Vector2>();
-            }
-
-            #endregion
-
-            switch (@event)
-            {
-                case EventManager.Event.Add:
-                    EventManager.AddListener(SetAllPlayerInputActiveState, m_SetAllInputActive);
-                    EventManager.AddListener(SetPlayerLookInputActiveState, m_SetMouseDeltaActive);
-                    EventManager.AddListener(SetPlayerMovementInputActiveState, m_SetMovementInputActive);
-                    EventManager.AddListener(c_GetInputKeyDown, m_GetInputKeyDown);
-                    EventManager.AddListener(c_GetAxisRaw, m_GetAxisRaw);
-                    EventManager.AddListener(c_GetMouseDelta, m_GetMouseDelta);
-                    EventManager.AddListener(c_GetInputKey, m_GetInput);
+                case EventManager.ManagerAction.Add:
+                    EventManager.AddListener<Action<bool>>(SetAllPlayerInputActiveState, SetAllInputActive);
+                    EventManager.AddListener<Action<bool>>(SetPlayerLookInputActiveState,
+                        value => _mouseDeltaInput.SetActive(value));
+                    EventManager.AddListener<Action<bool>>(SetPlayerMovementInputActiveState,
+                        value => _movementInput.SetActive(value));
+                    EventManager.AddListener<Func<KeyCode, bool>>(c_GetInputKey, _GetInput);
+                    EventManager.AddListener<Func<Vector2>>(c_GetAxisRaw, _GetAxisRaw);
+                    EventManager.AddListener<Func<Vector2>>(c_GetMouseDelta,
+                        () => _mouseDeltaInput.GetInputValue<Vector2>());
+                    EventManager.AddListener<Func<KeyCode, bool>>(c_GetInputKeyDown, _GetInputKeyDown);
                     break;
 
-                case EventManager.Event.Remove:
+                case EventManager.ManagerAction.Remove:
 
-                    EventManager.RemoveListener(SetAllPlayerInputActiveState, m_SetAllInputActive);
-                    EventManager.RemoveListener(SetPlayerLookInputActiveState, m_SetMouseDeltaActive);
-                    EventManager.RemoveListener(SetPlayerMovementInputActiveState, m_SetMovementInputActive);
-                    EventManager.RemoveListener(c_GetInputKeyDown, m_GetInputKeyDown);
-                    EventManager.RemoveListener(c_GetAxisRaw, m_GetAxisRaw);
-                    EventManager.RemoveListener(c_GetMouseDelta, m_GetMouseDelta);
-                    EventManager.RemoveListener(c_GetInputKey, m_GetInput);
+                    EventManager.RemoveListener<Action<bool>>(SetAllPlayerInputActiveState, SetAllInputActive);
+                    EventManager.RemoveListener<Action<bool>>(SetPlayerLookInputActiveState,
+                        value => _mouseDeltaInput.SetActive(value));
+                    EventManager.RemoveListener<Action<bool>>(SetPlayerMovementInputActiveState,
+                        value => _movementInput.SetActive(value));
+                    EventManager.RemoveListener<Func<KeyCode, bool>>(c_GetInputKey, _GetInput);
+                    EventManager.RemoveListener<Func<Vector2>>(c_GetAxisRaw, _GetAxisRaw);
+                    EventManager.RemoveListener<Func<Vector2>>(c_GetMouseDelta,
+                        () => _mouseDeltaInput.GetInputValue<Vector2>());
+                    EventManager.RemoveListener<Func<KeyCode, bool>>(c_GetInputKeyDown, _GetInputKeyDown);
                     break;
             }
         }
@@ -194,16 +163,16 @@ namespace Player
 
         private void AssignReferencesFromAsset()
         {
-            _interactInput = InputActionReference.Create(input.FindAction("Interact"));
-            _shootInput = InputActionReference.Create(input.FindAction("Attack"));
-            _aimInput = InputActionReference.Create(input.FindAction("Aim"));
-            _mouseDeltaInput = InputActionReference.Create(input.FindAction("Look"));
-            _movementInput = InputActionReference.Create(input.FindAction("Movement"));
-            _jumpInput = InputActionReference.Create(input.FindAction("Jump"));
-            _crounchInput = InputActionReference.Create(input.FindAction("Crouch"));
-            _sprintInput = InputActionReference.Create(input.FindAction("Sprint"));
-            _weaponSelectInput = InputActionReference.Create(input.FindAction("Weapon Select"));
-            _escapeInput = InputActionReference.Create(input.FindAction("Escape"));
+            _interactInput = InputActionReference.Create(_input.FindAction("Interact"));
+            _shootInput = InputActionReference.Create(_input.FindAction("Attack"));
+            _aimInput = InputActionReference.Create(_input.FindAction("Aim"));
+            _mouseDeltaInput = InputActionReference.Create(_input.FindAction("Look"));
+            _movementInput = InputActionReference.Create(_input.FindAction("Movement"));
+            _jumpInput = InputActionReference.Create(_input.FindAction("Jump"));
+            _crounchInput = InputActionReference.Create(_input.FindAction("Crouch"));
+            _sprintInput = InputActionReference.Create(_input.FindAction("Sprint"));
+            _weaponSelectInput = InputActionReference.Create(_input.FindAction("Weapon Select"));
+            _escapeInput = InputActionReference.Create(_input.FindAction("Escape"));
         }
 
 
@@ -215,7 +184,7 @@ namespace Player
         private void OnDisable()
         {
             SetAllInputActive(false);
-            SetInputEventsToEventManager(EventManager.Event.Remove);
+            SetInputEventsToEventManager(EventManager.ManagerAction.Remove);
         }
 
         private void SetAllInputActive(bool value)
@@ -228,21 +197,26 @@ namespace Player
         public static bool GetKeyDown(KeyCode code)
         {
             return (bool) EventManager.TriggerEvent(c_GetInputKeyDown, code);
+          
         }
 
         public static bool GetKey(KeyCode code)
         {
-            return (bool) EventManager.TriggerEvent(c_GetInputKey, code);
+            return (bool)EventManager.TriggerEvent(c_GetInputKey, code);
+           
         }
 
         public static Vector2 GetAxisRaw()
         {
-            return (Vector2) EventManager.TriggerEvent(c_GetAxisRaw);
+            return (Vector2)EventManager.TriggerEvent(c_GetAxisRaw);
+         
         }
 
         public static Vector2 GetMouseDelta()
         {
-            return (Vector2) EventManager.TriggerEvent(c_GetMouseDelta);
+            return (Vector2)EventManager.TriggerEvent(c_GetMouseDelta);
+          
+            
         }
     }
 }

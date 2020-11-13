@@ -51,7 +51,7 @@ namespace Interactivity.Enemies
         protected override void Update()
         {
             if (!HasTransformed)
-                agent.destination = EnemyBehaivourManager.Access.GetTargetPosition();
+                agent.destination = EnemyBehaivourManager.GetCurrentTargetPosition();
             if (!agent.speed.Equals(_defaultSpeed))
                 agent.speed = _defaultSpeed;
             _modelRenderer.material.color = Color.Lerp(_modelRenderer.material.color, _originalColor, 0.01f);

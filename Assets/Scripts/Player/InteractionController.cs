@@ -26,7 +26,7 @@ namespace Player
 
         private void Update()
         {
-            _isInteracting = InputListener.GetKey(Interact);
+            _isInteracting = InputListener.GetKeyDown(Interact);
             InteractWithEntities(detectionRange, interactionFilter);
         }
 
@@ -67,12 +67,12 @@ namespace Player
                         if (distance >= interactionRange) return true;
                         if (_isInteracting)
                         {
-                            interactable.OnInteract();
+                            interactable.OnInteract(_player);
                         }
 
                         return true;
                     default:
-                        if (entity.CompareTag($"Currency"))
+                        if (entity.CompareTag("Currency"))
                         {
                             EventManager.TriggerEvent(CurrencyHandler.EarnCurrency, 1);
                             return false;

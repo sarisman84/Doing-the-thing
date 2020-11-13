@@ -1,16 +1,23 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using UnityEngine;
+using Utility;
 
 namespace Player
 {
     public class FPCameraHandler
     {
+        public const string ChangeCursorState = "Camera_ChangeCursorState";
+
         public FPCameraHandler()
         {
-           AlterCursorState(false);
+       
+
+            EventManager.AddListener<Action<bool>>(ChangeCursorState, AlterCursorState);
+            EventManager.TriggerEvent(ChangeCursorState, false);
         }
 
-        public void AlterCursorState(bool value)
+        private void AlterCursorState(bool value)
         {
             if (value)
             {
