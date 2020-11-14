@@ -13,6 +13,7 @@ TagManager:
   - HUD/Shop/Description
   - HUD/Shop/Price
   - HUD/Shop/Name
+  - HUD/Shop/Renderer
   layers:
   - Default
   - TransparentFX

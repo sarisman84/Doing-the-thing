@@ -36,6 +36,11 @@ namespace Player.Weapons
 
         public void UpdateAmmoCounter(Weapon weapon)
         {
+            if (weapon.maxAmmoCount == -1)
+            {
+                ammoCounter.text = "";
+                return;
+            }
             ammoCounter.text = $"{weapon.maxAmmoCount}/{weapon.currentAmmoCount}";
         }
 

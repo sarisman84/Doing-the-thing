@@ -24,7 +24,7 @@ namespace Player.Weapons
         public static void OnGameStart()
         {
             globalWeaponLibrary = new Dictionary<string, Weapon>();
-            
+
             globalWeaponLibrary.Add("Test_Pistol",
                 new Weapon(WeaponBehaviorLibrary.NormalFire, 500, 0.1f, 10, "Test_Pistol",
                     "A testing weapon that is a baseline for other weapons", 1000));
@@ -34,6 +34,10 @@ namespace Player.Weapons
             globalWeaponLibrary.Add("Rocket Launcher",
                 new Weapon(WeaponBehaviorLibrary.ProjectileFire, 50, 1f, 500, "Rocket Launcher",
                     "Used to nagotiate terms with enemies. Highly effective.", 500));
+
+            globalWeaponLibrary.Add("Rocket Glove",
+                new Weapon(WeaponBehaviorLibrary.MeleePunch, -1, 0.4f, 20, "Rocket Glove",
+                    "A glove so powerfull, it makes frans drool for more.", 1));
         }
     }
 
@@ -106,12 +110,13 @@ namespace Player.Weapons
 
 
             if (_localCounter.Equals(fireRate) && InputListener.GetKey(InputListener.KeyCode.Attack) &&
-                _localAmmoCount > 0)
+                (_localAmmoCount > 0 || maxAmmoCount == -1))
             {
                 fireEvent.Invoke(this, weaponRay);
                 _controller.hudManager.UpdateAmmoCounter(this);
                 _localCounter = 0;
-                _localAmmoCount--;
+                if (maxAmmoCount != -1)
+                    _localAmmoCount--;
             }
         }
 
@@ -197,6 +202,22 @@ namespace Player.Weapons
             }
 
             transform.gameObject.SetActive(false);
+        }
+
+        public static void MeleePunch(Weapon weapon, Ray trajectoryInformation)
+        {
+            List<Collider> foundObjects = Physics.OverlapCapsule(weapon.WeaponBarrel.position - Vector3.up / 2f,
+                weapon.WeaponBarrel.position + Vector3.up * 2f, 0.5f).ToList();
+
+            foundObjects.ApplyAction(t =>
+            {
+                if (t.Equals(null)) return;
+                IDamageable entity = t.GetComponent<IDamageable>();
+                if (entity != null)
+                {
+                    entity.TakeDamage(weapon.damage);
+                }
+            });
         }
 
         private static void KnockbackEntity(Collider entity, Transform transform, float radius)

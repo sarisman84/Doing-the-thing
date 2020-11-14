@@ -38,10 +38,11 @@ namespace Player
 
 
             weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
+           
+            
+            EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
 
-            EventManager.AddListener<Action<Weapon>>("Player_BuyWeapon", OnWeaponPurchace);
-
-
+            
             SelectWeapon(0);
         }
 
@@ -58,10 +59,7 @@ namespace Player
 
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
-            if (weaponLibrary.Find(w => w.ID == newWeapon.ID).Equals(null))
-            {
-                weaponLibrary.Add(newWeapon);
-            }
+            weaponLibrary.Add(newWeapon);
         }
 
 
@@ -80,11 +78,12 @@ namespace Player
         }
 
 
-        void OnWeaponPurchace(Weapon weapon)
+        void OnWeaponPurchace(string weapon)
         {
-            if ((int)EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < weapon.price) return;
-            EventManager.TriggerEvent(CurrencyHandler.PayCurrency, weapon.price);
-            AddWeaponToLibrary(weapon);
+            Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
+            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < newWeapon.price) return;
+            EventManager.TriggerEvent(CurrencyHandler.PayCurrency, newWeapon.price);
+            AddWeaponToLibrary(newWeapon);
             SelectWeapon(weaponLibrary.Count - 1);
         }
     }
