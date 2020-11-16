@@ -10,7 +10,7 @@ namespace Interactivity
         [Space] public string proximityMessage;
         public void OnInteract(PlayerController owner)
         {
-            EventManager.TriggerEvent(eventName, owner.weaponController.weaponLibrary);
+            EventManager.TriggerEvent(eventName, owner.GetComponent<WeaponController>().weaponLibrary);
         }
 
         public void OnProximity()

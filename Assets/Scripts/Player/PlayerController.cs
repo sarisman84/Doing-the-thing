@@ -58,10 +58,8 @@ namespace Player
         private Rigidbody _physics;
         private CapsuleCollider _collisionBody;
         public FPCameraHandler fpcHandler;
-        public WeaponController weaponController;
         private Vector2 _inputVector;
         private float _totalSpeed;
-        private float _standingHeight;
         private Vector3 _trueInputVector;
         private Vector2 _lookValue;
 
@@ -114,8 +112,7 @@ namespace Player
             playerCamera.m_Lens.FieldOfView = _originalFOV;
 
 
-            //Init for the weapon managing class that handles the selection and firing of the current weapon.
-            weaponController = new WeaponController(this);
+         
         }
 
 
@@ -167,7 +164,6 @@ namespace Player
             var position = transform.position;
             if (isCrouching)
             {
-                _standingHeight = position.y;
                 _collisionBody.height = 1f;
                 _collisionBody.center = new Vector3(0, -0.5f, 0);
                 playerCamera.m_Orbits[1].m_Height = -0.5f;

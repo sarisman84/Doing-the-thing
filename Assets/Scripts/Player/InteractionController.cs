@@ -3,6 +3,7 @@ using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Pickup;
 using Player.Weapons;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
@@ -14,13 +15,14 @@ namespace Player
     {
         [Space] public LayerMask interactionFilter;
         public float detectionRange = 20, interactionRange = 10;
-        public int currentCurrency = 0;
         private PlayerController _player;
+        private WeaponController _weaponController;
 
 
         private void Awake()
         {
             _player = GetComponent<PlayerController>();
+            _weaponController = GetComponent<WeaponController>();
         }
 
 
@@ -39,7 +41,7 @@ namespace Player
             if (foundObjs.Equals(null)) return;
             foreach (var t in foundObjs)
             {
-                if (TriggerInteraction(t, _player.weaponController.currentWeapon)) continue;
+                if (TriggerInteraction(t, _weaponController.currentWeapon)) continue;
 
 
                 t.gameObject.SetActive(false);
@@ -54,7 +56,7 @@ namespace Player
                 switch (component)
                 {
                     case BasePickup pickup:
-                        if (pickup)
+                        if (pickup && args != null)
                         {
                             return !pickup.OnPickup((Weapon) args);
                         }

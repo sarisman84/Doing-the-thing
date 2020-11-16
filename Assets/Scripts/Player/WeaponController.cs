@@ -13,7 +13,7 @@ using Utility;
 
 namespace Player
 {
-    public class WeaponController
+    public class WeaponController : MonoBehaviour
     {
         public Weapon currentWeapon;
 
@@ -21,13 +21,13 @@ namespace Player
         public List<Weapon> weaponLibrary = new List<Weapon>();
 
 
-        public PlayerController player;
+        [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
         public HudManager hudManager;
 
-        public WeaponController(PlayerController player)
+        public void Awake()
         {
-            this.player = player;
+            player = GetComponent<PlayerController>();
 
 
             _weaponVisualiser = player.playerCamera.transform.GetComponentInChildren<WeaponVisualiser>();
@@ -38,11 +38,11 @@ namespace Player
 
 
             weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
-           
-            
+
+
             EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
 
-            
+
             SelectWeapon(0);
         }
 
