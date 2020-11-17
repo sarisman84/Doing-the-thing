@@ -16,6 +16,7 @@ using static Player.InputListener.KeyCode;
 
 namespace Player
 {
+    [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
         public const string CameraFallBehaivourEvent = "Player_SetFallingBehaivour";
@@ -37,9 +38,12 @@ namespace Player
         //Camera sensitivity
         [Range(50, 300f)] public float sensitivity = 200f;
         public float jumpForce;
+        public float fallMultipler = 2.5f;
+        public float lowJumpMultiplier = 2f;
 
         //Collision sizes and checks for the Ground and Stand methods.
         public Vector3 groundCheckSize = Vector3.one;
+        public float groundCheckDelay = .10f;
         public Vector3 sealingCheckSize = Vector3.one;
         public LayerMask movementCheckLayer;
 
@@ -62,6 +66,7 @@ namespace Player
         private float _totalSpeed;
         private Vector3 _trueInputVector;
         private Vector2 _lookValue;
+        private float _groundCheckDelay;
 
         private float _originalFOV;
         private float _sprintFOV;
@@ -110,9 +115,6 @@ namespace Player
 
             //Applies FOV to the camera's lens.
             playerCamera.m_Lens.FieldOfView = _originalFOV;
-
-
-         
         }
 
 
@@ -192,14 +194,25 @@ namespace Player
 
         private void FixedUpdate()
         {
+            //Applying input and its speed to the Rigidbody while keeping the gravity intact.
             var velocity = _physics.velocity;
             velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
             _physics.velocity = velocity;
+            
 
-            //InteractWithEntities(currencyPickupRange, pickupMask);
+            //Better jump logic by Boards to Bits Games (https://www.youtube.com/watch?v=7KiK0Aqtmzc)
+            if (_physics.velocity.y < 0)
+            {
+                _physics.velocity += Vector3.up * (Physics.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime);
+            }
+            else if (_physics.velocity.y > 0 && !_isJumping)
+            {
+                _physics.velocity += Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
+            }
 
+            
             if (_isJumping && IsGrounded() && !_isCrouching)
-                _physics.AddForce(Vector3.up * (jumpForce * 10), ForceMode.VelocityChange);
+                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
 
 
@@ -209,9 +222,14 @@ namespace Player
         /// <returns>Returns true if there is at least one gameObject bellow the player's feet.</returns>
         private bool IsGrounded()
         {
+            _groundCheckDelay = _groundCheckDelay.Equals(groundCheckDelay) ? 0 : _groundCheckDelay;
+            _groundCheckDelay += Time.deltaTime;
+            _groundCheckDelay = Mathf.Clamp(_groundCheckDelay, 0, groundCheckDelay);
             List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
                 transform.rotation, movementCheckLayer).ToList();
-            return foundObjects.FindAll(c => c != _collisionBody).Count != 0;
+            bool result = foundObjects.FindAll(c => c != _collisionBody).Count != 0;
+
+            return result && _groundCheckDelay.Equals(groundCheckDelay);
         }
 
 

@@ -11,18 +11,20 @@ using Object = UnityEngine.Object;
 
 namespace UI
 {
+    public class UIManagerComponent : MonoBehaviour
+    {
+        public static UIManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            Instance = new UIManager("Weapon Shop", "Weapon Select");
+        }
+    }
     public class UIManager
     {
         private WeaponSelectMenu _weaponSelectMenu;
         private WeaponShop _weaponShop;
-        public static UIManager Instance { get; private set; }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        public static void OnGameLoad()
-        {
-            Instance = new UIManager("Weapon Shop", "Weapon Select");
-        }
-
+        
         public UIManager(params string[] uiAssets)
         {
             Dictionary<string, Canvas> uiCanvases = new Dictionary<string, Canvas>();

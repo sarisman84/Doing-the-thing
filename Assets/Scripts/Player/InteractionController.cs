@@ -17,6 +17,8 @@ namespace Player
         public float detectionRange = 20, interactionRange = 10;
         private PlayerController _player;
         private WeaponController _weaponController;
+        public bool holdDownInteractionKey = true;
+        public bool showPickupRange = false;
 
 
         private void Awake()
@@ -28,7 +30,9 @@ namespace Player
 
         private void Update()
         {
-            _isInteracting = InputListener.GetKeyDown(Interact);
+            _isInteracting = holdDownInteractionKey
+                ? InputListener.GetKey(Interact)
+                : InputListener.GetKeyDown(Interact);
             InteractWithEntities(detectionRange, interactionFilter);
         }
 
@@ -41,7 +45,8 @@ namespace Player
             if (foundObjs.Equals(null)) return;
             foreach (var t in foundObjs)
             {
-                if (TriggerInteraction(t, _weaponController.currentWeapon)) continue;
+                Weapon weapon = _weaponController != null ? _weaponController.currentWeapon : null;
+                if (TriggerInteraction(t, weapon)) continue;
 
 
                 t.gameObject.SetActive(false);
@@ -90,6 +95,7 @@ namespace Player
 
         private void OnDrawGizmos()
         {
+            if (!showPickupRange) return;
             Gizmos.color = Color.blue;
 
             Gizmos.DrawSphere(transform.position, detectionRange);

@@ -61,6 +61,7 @@
             <e p="InterfaceLibrary.cs" t="Include" />
             <e p="Moving Objects" t="Include">
               <e p="MovingPlatform.cs" t="Include" />
+              <e p="PickableObject.cs" t="Include" />
             </e>
             <e p="Pickup" t="Include">
               <e p="Ammo.cs" t="Include" />
@@ -86,7 +87,7 @@
           <e p="UI" t="Include">
             <e p="CustomUIElement.cs" t="Include" />
             <e p="ShopButton.cs" t="Include" />
-            <e p="UIManager.cs" t="Include" />
+            <e p="UIManagerComponent.cs" t="Include" />
             <e p="WeaponSelectMenu.cs" t="Include" />
             <e p="WeaponSlot.cs" t="Include" />
           </e>
