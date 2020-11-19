@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using Interactivity.Pickup;
@@ -16,7 +17,7 @@ namespace Interactivity.Enemies
         private Mesh _originalMesh;
         private Material _originalMaterial;
         public int maxHealth = 100;
-
+        public float detectionRange = 20f;
         private float _currentHealth;
 
         protected override void Awake()
@@ -48,10 +49,21 @@ namespace Interactivity.Enemies
             }
         }
 
+        private float _randomPositionCounter;
+        private Vector3 _randomPosition;
         protected override void Update()
         {
             if (!HasTransformed)
-                agent.destination = EnemyBehaivourManager.GetCurrentTargetPosition();
+            {
+                Vector3 target = EnemyBehaivourManager.GetCurrentTargetPosition();
+
+                if (Vector3.Distance(target, transform.position) < detectionRange)
+                    agent.destination = target;
+                else
+                {
+                    agent.destination = transform.position.GetRandomPositionInRange(4, 6f, ref _randomPositionCounter, ref _randomPosition);
+                }
+            }
             if (!agent.speed.Equals(_defaultSpeed))
                 agent.speed = _defaultSpeed;
             _modelRenderer.material.color = Color.Lerp(_modelRenderer.material.color, _originalColor, 0.01f);
@@ -112,6 +124,12 @@ namespace Interactivity.Enemies
                 StopCoroutine(_delayedDeath);
                 _delayedDeath = null;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red - new Color(0, 0, 0, 0.75f);
+            Gizmos.DrawSphere(transform.position, detectionRange);
         }
     }
 }

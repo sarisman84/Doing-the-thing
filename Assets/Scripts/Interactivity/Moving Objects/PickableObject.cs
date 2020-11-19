@@ -1,35 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Interactivity;
-using Player;
+﻿using Player;
 using UnityEngine;
 
-public class PickableObject : MonoBehaviour, IInteractable
+namespace Interactivity.Moving_Objects
 {
-    private Rigidbody _rigidbody;
-    private bool _isBeingGrabbed;
-
-    private void Awake()
+    public class PickableObject : MonoBehaviour, IInteractable
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        private Rigidbody _rigidbody;
+        private Outline _outline;
+        private bool _isBeingGrabbed;
 
-    private void Update()
-    {
-        _rigidbody.useGravity = !_isBeingGrabbed;
-        _isBeingGrabbed = false;
-    }
 
-    public void OnInteract(PlayerController controller)
-    {
-        _isBeingGrabbed = true;
-        var pickupPosition = controller.transform.position + controller.playerCamera.transform.forward.normalized * 2f;
-        _rigidbody.MovePosition(pickupPosition);
-    }
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+            _outline = GetComponent<Outline>();
+            _outline.enabled = false;
+        }
 
-    public void OnProximity()
-    {
-        
+        private void Update()
+        {
+            _rigidbody.useGravity = !_isBeingGrabbed;
+            _isBeingGrabbed = false;
+        }
+
+        public void OnInteract(PlayerController controller)
+        {
+            _isBeingGrabbed = true;
+            var pickupPosition = controller.transform.position + controller.playerCamera.transform.forward.normalized * 2f;
+            _rigidbody.MovePosition(pickupPosition);
+        }
+
+        public void OnProximityEnter()
+        {
+            _outline.enabled = true;
+        }
+
+        public void OnProximityExit()
+        {
+            _outline.enabled = false;
+        }
+
+        public InteractionInput InputType { get; } = InteractionInput.Hold;
+
+        public bool NeedToLookAtInteractable
+        {
+            get => !_isBeingGrabbed;
+        }
     }
 }

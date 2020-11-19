@@ -59,7 +59,7 @@ namespace UI
             _name = asset.transform.GetChildWithTag("HUD/Shop/Name").GetComponent<TMP_Text>();
             _priceCounter = asset.transform.GetChildWithTag("HUD/Shop/Price").GetComponent<TMP_Text>();
             GameObject weaponRenderer = GameObject.FindGameObjectWithTag("HUD/Shop/Renderer");
-           
+            weaponRenderer = weaponRenderer == null ? new GameObject("Temp") : weaponRenderer; 
 
             foreach (var var in WeaponManager.globalWeaponLibrary)
             {
@@ -89,6 +89,7 @@ namespace UI
 
         private void OpenShop(List<Weapon> library)
         {
+           
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
 

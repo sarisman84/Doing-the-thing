@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Extensions;
 using UnityEngine;
 
@@ -62,12 +63,15 @@ namespace Utility
         {
             if (EventDictionary.TryGetValue(eventName.ToLower(), out var someEvent))
             {
-                object result = null; 
-                someEvent.ApplyAction(d => result = d.DynamicInvoke(args));
+                object result = null;
+                someEvent.ApplyAction(d => { result = d.DynamicInvoke(args); });
                 return result;
             }
 
             return default;
         }
+       
+        
+        
     }
 }

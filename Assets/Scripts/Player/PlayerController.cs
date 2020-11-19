@@ -95,7 +95,7 @@ namespace Player
             get
             {
                 var position = transform.position;
-                return new Vector3(position.x, position.y + (_collisionBody.bounds.size.y / 2f), position.z);
+                return new Vector3(position.x, position.y + (_collisionBody.bounds.size.y / 2f) - 0.25f, position.z);
             }
         }
 

@@ -65,6 +65,33 @@ namespace Extensions
             XYZAxis
         }
 
+        public static IEnumerator GetDelayedRandomPositionInRange(this Vector3 vector3, float range, float delay,
+            out Vector3 result)
+        {
+            result = GetRandomPositionInRange(vector3, range);
+            return Delay(delay);
+        }
+
+        private static IEnumerator Delay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+
+
+        public static Vector3 GetRandomPositionInRange(this Vector3 vector3, float range, float delay,
+            ref float counter, ref Vector3 lastResult, RadiusAxis axis = XZAxis)
+        {
+            counter += Time.deltaTime;
+            counter = Mathf.Clamp(counter, 0, delay);
+            if (delay.Equals(counter))
+            {
+                lastResult = GetRandomPositionInRange(vector3, range, axis);
+                counter = 0;
+            }
+
+            return lastResult;
+        }
+
         public static Vector3 GetRandomPositionInRange(this Vector3 vector3, float d,
             RadiusAxis axis = XZAxis)
         {
@@ -128,6 +155,19 @@ namespace Extensions
 
             return applyAction;
         }
+
+        public static IEnumerable<T> ApplyAction<T>(this IEnumerable<T> list, Action<T, int> method)
+        {
+            var applyAction = list.ToArray();
+            for (var index = 0; index < applyAction.Length; index++)
+            {
+                var variable = applyAction[index];
+                method.Invoke(variable, index);
+            }
+
+            return applyAction;
+        }
+
 
         public static object ApplyFunction<TEvent>(this IEnumerable list, TEvent method) where TEvent : Delegate
         {
