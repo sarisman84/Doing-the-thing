@@ -38,6 +38,10 @@ namespace Player.Weapons
             globalWeaponLibrary.Add("Rocket Glove",
                 new Weapon(WeaponBehaviorLibrary.MeleePunch, -1, 0.4f, 20, "Rocket Glove",
                     "A glove so powerfull, it makes frans drool for more.", 1));
+
+            globalWeaponLibrary.Add("Starter Weapon",
+                new Weapon(WeaponBehaviorLibrary.NormalFire, 200, 0.25f, 2, "Starter Weapon",
+                    "The starting weapon for the player [Unobtainable]", Int32.MaxValue));
         }
     }
 

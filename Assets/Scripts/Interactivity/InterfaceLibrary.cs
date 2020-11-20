@@ -3,23 +3,33 @@ using UnityEngine;
 
 namespace Interactivity
 {
-    public interface IDamageable: IUnity
+    public interface IDamageable : IUnity
     {
         void TakeDamage(float damage);
     }
 
 
-    public interface IPolymorphable: IUnity
+    public interface IPolymorphable : IUnity
     {
         void Transform(GameObject newModel);
 
         bool HasTransformed { get; }
     }
 
-    public interface IInteractable: IUnity
+    public enum InteractionInput
+    {
+        Hold,
+        Press
+    }
+
+    public interface IInteractable : IUnity
     {
         void OnInteract(PlayerController controller);
-        void OnProximity();
+        void OnProximityEnter();
+        void OnProximityExit();
+
+        InteractionInput InputType { get; }
+        bool NeedToLookAtInteractable { get; }
     }
 
     public interface IUnity

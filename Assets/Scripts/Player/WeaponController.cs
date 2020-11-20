@@ -32,18 +32,38 @@ namespace Player
 
             _weaponVisualiser = player.playerCamera.transform.GetComponentInChildren<WeaponVisualiser>();
 
-            hudManager = new HudManager();
+            hudManager = new HudManager(this);
 
             player.ONUpdateCallback += LocalUpdate;
 
 
-            weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
-
-
-            EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
-
-
             SelectWeapon(0);
+        }
+
+        private void OnEnable()
+        {
+            EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
+            {
+                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
+                {
+                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
+                    SelectWeapon(weaponLibrary.Count - 1);
+                }
+            });
+        }
+
+        private void OnDisable()
+        {
+            EventManager.RemoveListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
+            {
+                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
+                {
+                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
+                    SelectWeapon(weaponLibrary.Count - 1);
+                }
+            });
         }
 
         public void SelectWeapon(int index)
@@ -59,13 +79,14 @@ namespace Player
 
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
-            weaponLibrary.Add(newWeapon);
+            if (!weaponLibrary.Contains(newWeapon))
+                weaponLibrary.Add(newWeapon);
         }
 
 
         void LocalUpdate()
         {
-            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect))
+            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
             {
                 WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
             }
@@ -81,7 +102,7 @@ namespace Player
         void OnWeaponPurchace(string weapon)
         {
             Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
-            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < newWeapon.price) return;
+            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency, "") < newWeapon.price) return;
             EventManager.TriggerEvent(CurrencyHandler.PayCurrency, newWeapon.price);
             AddWeaponToLibrary(newWeapon);
             SelectWeapon(weaponLibrary.Count - 1);

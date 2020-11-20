@@ -17,6 +17,8 @@ namespace Player
         public float detectionRange = 20, interactionRange = 10;
         private PlayerController _player;
         private WeaponController _weaponController;
+        private float _lastInteractionDistance = 0;
+        public bool showPickupRange = false;
 
 
         private void Awake()
@@ -28,7 +30,6 @@ namespace Player
 
         private void Update()
         {
-            _isInteracting = InputListener.GetKeyDown(Interact);
             InteractWithEntities(detectionRange, interactionFilter);
         }
 
@@ -41,10 +42,33 @@ namespace Player
             if (foundObjs.Equals(null)) return;
             foreach (var t in foundObjs)
             {
-                if (TriggerInteraction(t, _weaponController.currentWeapon)) continue;
+                Weapon weapon = _weaponController != null ? _weaponController.currentWeapon : null;
+                TriggerProximity(t);
+                if (TriggerInteraction(t, weapon)) continue;
 
 
                 t.gameObject.SetActive(false);
+            }
+        }
+
+        private void TriggerProximity(Collider collider1)
+        {
+            IInteractable interactable = collider1.GetComponent<IInteractable>();
+            if (interactable == null) return;
+
+
+            float distance = Vector3.Distance(transform.position, interactable.transform.position);
+            if (distance >= _lastInteractionDistance && _lastInteractionDistance != 0)
+            {
+                interactable.OnProximityExit();
+                _lastInteractionDistance = 0;
+            }
+
+            if (distance >= interactionRange) return;
+            if (_lastInteractionDistance == 0 && CanBeInteracted(interactable))
+            {
+                _lastInteractionDistance = distance;
+                interactable.OnProximityEnter();
             }
         }
 
@@ -66,11 +90,19 @@ namespace Player
                     case IInteractable interactable:
                         float distance = Vector3.Distance(transform.position, interactable.transform.position);
 
-                        if (distance >= interactionRange) return true;
-                        if (_isInteracting)
+                        if (distance >= interactionRange || !CanBeInteracted(interactable)) return true;
+                        switch (interactable.InputType)
                         {
-                            interactable.OnInteract(_player);
+                            case InteractionInput.Hold:
+                                if (InputListener.GetKey(Interact))
+                                    interactable.OnInteract(_player);
+                                break;
+                            case InteractionInput.Press:
+                                if (InputListener.GetKeyDown(Interact))
+                                    interactable.OnInteract(_player);
+                                break;
                         }
+
 
                         return true;
                     default:
@@ -88,8 +120,24 @@ namespace Player
             return true;
         }
 
+        private bool CanBeInteracted(IInteractable interactable)
+        {
+            float dotProduct;
+            if (interactable.NeedToLookAtInteractable)
+            {
+                Vector3 direction = interactable.transform.position - _player.transform.position;
+                direction.Normalize();
+
+                dotProduct = Vector3.Dot(direction, _player.playerCamera.transform.forward.normalized);
+                return dotProduct >= 0.9f;
+            }
+
+            return true;
+        }
+
         private void OnDrawGizmos()
         {
+            if (!showPickupRange) return;
             Gizmos.color = Color.blue;
 
             Gizmos.DrawSphere(transform.position, detectionRange);
