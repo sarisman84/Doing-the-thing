@@ -28,6 +28,7 @@ namespace Interactivity
         }
 
         public bool IsDead => gameObject.activeSelf;
+        public float CurrentHealth { get; set; } = 0;
 
 
         protected virtual void OnDeath()

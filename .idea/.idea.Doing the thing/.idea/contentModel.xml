@@ -177,7 +177,7 @@
             </e>
             <e p="WeaponController.cs" t="Include" />
             <e p="Weapons" t="Include">
-              <e p="HUDManager.cs" t="Include" />
+              <e p="HeadsUpDisplay.cs" t="Include" />
               <e p="Projectile.cs" t="Include" />
               <e p="ProjectileBehaivour.cs" t="Include" />
               <e p="WeaponLibrary.cs" t="Include" />
@@ -193,6 +193,7 @@
             <e p="ShopButton.cs" t="Include" />
             <e p="UIRenderer.cs" t="Include" />
             <e p="WeaponSelectMenu.cs" t="Include" />
+            <e p="WeaponShop.cs" t="Include" />
             <e p="WeaponSlot.cs" t="Include" />
           </e>
           <e p="Utility" t="Include">

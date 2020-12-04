@@ -118,7 +118,7 @@ namespace Player.Weapons
                 (_localAmmoCount > 0 || maxAmmoCount == -1))
             {
                 fireEvent.Invoke(this, weaponRay);
-                EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, this);
+                HeadsUpDisplay.UpdateAmmoUI(this);
                 _localCounter = 0;
                 if (maxAmmoCount != -1)
                     _localAmmoCount--;
@@ -133,7 +133,7 @@ namespace Player.Weapons
             if (_localAmmoCount >= maxAmmoCount) return false;
             _localAmmoCount += maxAmmoCount;
             _localAmmoCount = Mathf.Clamp(_localAmmoCount, 0, maxAmmoCount);
-            EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, this);
+            HeadsUpDisplay.UpdateAmmoUI(this);
             return true;
         }
     }

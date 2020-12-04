@@ -15,6 +15,7 @@ namespace Interactivity.Destructable_Objects
         }
 
         public bool IsDead => gameObject.activeSelf;
+        public float CurrentHealth { get; set; } = 0;
 
         protected void OnDeath()
         {

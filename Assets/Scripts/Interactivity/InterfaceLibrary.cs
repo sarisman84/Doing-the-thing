@@ -7,6 +7,7 @@ namespace Interactivity
     {
         void TakeDamage(float damage);
         bool IsDead { get; }
+        float CurrentHealth { get; set; }
     }
 
 

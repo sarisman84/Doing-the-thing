@@ -47,7 +47,7 @@ namespace Player
 
         private void OnEnable()
         {
-            EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
             EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
             {
                 if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
@@ -60,7 +60,7 @@ namespace Player
 
         private void OnDisable()
         {
-            EventManager.RemoveListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.RemoveListener<Func<string,bool>>("Player_BuyWeapon", OnWeaponPurchace);
             EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
             {
                 if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
@@ -77,8 +77,11 @@ namespace Player
             {
                 currentWeapon = weaponLibrary[index];
                 _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-                EventManager.TriggerEvent(HudManager.UpdateWeaponIcon, currentWeapon.icon);
-                EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, currentWeapon);
+                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
+                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
+                
+                HeadsUpDisplay.UpdateWeaponIconUI(currentWeapon.icon);
+                HeadsUpDisplay.UpdateAmmoUI(currentWeapon);
             }
         }
 
@@ -104,13 +107,14 @@ namespace Player
         }
 
 
-        void OnWeaponPurchace(string weapon)
+        bool OnWeaponPurchace(string weapon)
         {
             Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
-            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency, "") < newWeapon.price) return;
+            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < newWeapon.price) return false;
             EventManager.TriggerEvent(CurrencyHandler.PayCurrency, newWeapon.price);
             AddWeaponToLibrary(newWeapon);
             SelectWeapon(weaponLibrary.Count - 1);
+            return true;
         }
     }
 }

@@ -23,21 +23,32 @@ namespace Player.Quests
             EventManager.AddListener<Action<QuestAsset>>("Quest/Handler/AddQuest", AddQuest);
         }
 
+        #region Callback Subscription
+
         private void OnEnable()
         {
             _interactionController.ONPickupCallback += OnPickup;
-            _interactionController.ONKillCallback += OnKill;
-        }
-
-        private void OnKill(IDamageable obj)
-        {
-            currentQuests.ApplyAction(a => { a.CheckProgress(1, obj.gameObject.name); });
+            _interactionController.ONKillCallback += OnProximityEnter;
+            _interactionController.ONInteractionCallback += OnInteract;
         }
 
         private void OnDisable()
         {
             _interactionController.ONPickupCallback -= OnPickup;
-            _interactionController.ONKillCallback -= OnKill;
+            _interactionController.ONKillCallback -= OnProximityEnter;
+            _interactionController.ONInteractionCallback -= OnInteract;
+        }
+
+        #endregion
+
+        private void OnInteract(IInteractable obj)
+        {
+            currentQuests.ApplyAction(a => { a.IsQuestCompleted  = a.CheckProgress(1, obj.gameObject.name); });
+        }
+
+        private void OnProximityEnter(IDamageable obj)
+        {
+            currentQuests.ApplyAction(a => { a.IsQuestCompleted  = a.CheckProgress(1, obj.gameObject.name, obj.CurrentHealth); });
         }
 
         private void OnPickup(BasePickup obj)

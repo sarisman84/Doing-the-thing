@@ -35,8 +35,6 @@ namespace Player
             InteractWithEntities(detectionRange, interactionFilter);
         }
 
-        public bool _isInteracting { get; set; }
-
         private void InteractWithEntities(float detectionRadius, LayerMask interactionMask)
         {
             Collider[] foundObjs = Physics.OverlapSphere(transform.position, detectionRadius, interactionMask);

@@ -34,6 +34,7 @@ namespace Player
         }
 
         public bool IsDead => gameObject.activeSelf;
+        public float CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
 
         private void Die()
         {

@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d906873e7c1483288f2436a9184d837, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  title: Test
+  title: Collecting spheres.
   questConditions:
   - {fileID: 11400000, guid: 7b601c81aea65e349a3c7122c3bfc515, type: 2}
-  onQuestComplete:
-    m_PersistentCalls:
-      m_Calls: []
+  - {fileID: 11400000, guid: 7b601c81aea65e349a3c7122c3bfc515, type: 2}
