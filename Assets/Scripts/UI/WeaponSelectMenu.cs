@@ -46,7 +46,7 @@ namespace UI
                 }
             });
             _canvas.gameObject.SetActive(false);
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
             IsAlreadyActive = false;
         }
 
@@ -61,7 +61,7 @@ namespace UI
             _canvas.gameObject.SetActive(true);
             int index = 0;
             IsAlreadyActive = true;
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
             _weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
         }
 
@@ -75,7 +75,7 @@ namespace UI
                 w.slotButton.onClick.AddListener(() =>
                     {
                         _weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
-                        EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+                        EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
                         IsAlreadyActive = false;
                     }
                 );

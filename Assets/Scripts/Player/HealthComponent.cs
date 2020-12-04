@@ -33,6 +33,8 @@ namespace Player
             }
         }
 
+        public bool IsDead => gameObject.activeSelf;
+
         private void Die()
         {
             gameObject.SetActive(false);
@@ -41,8 +43,8 @@ namespace Player
         public void OnFall()
         {
             //EventManager.TriggerEvent("PlayerFall_DetachFromPlayer");
-            EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Look);
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent, CameraController.CameraBehaivour.Look);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
             StartCoroutine(Respawn(4f, LatestRespawnPos));
@@ -54,7 +56,7 @@ namespace Player
             while (time < respawnTime)
             {
                 yield return new WaitForEndOfFrame();
-                EventManager.TriggerEvent(PlayerController.ConstantlyLookTowardsThePlayerEvent);
+                EventManager.TriggerEvent(CameraController.ConstantlyLookTowardsThePlayerEvent);
                 time += Time.deltaTime;
             }
 
@@ -63,8 +65,8 @@ namespace Player
             _physics.velocity = Vector3.zero;
             // EventManager.TriggerEvent("Player_DisableCursor");
             // EventManager.TriggerEvent("PlayerFall_FollowPlayer");
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
-            EventManager.TriggerEvent(PlayerController.CameraFallBehaivourEvent, CameraBehaivour.Follow);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent, CameraController.CameraBehaivour.Follow);
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
 
 
@@ -72,40 +74,10 @@ namespace Player
         }
 
 
-        public enum CameraBehaivour
-        {
-            Follow,
-            Look,
-            FollowAndLook
-        }
+       
 
-        public static void SetCameraBehaivour(CinemachineFreeLook camera, Transform target, CameraBehaivour value)
-        {
-            switch (value)
-            {
-                case CameraBehaivour.Follow:
-                    camera.Follow = target;
-                    camera.LookAt = null;
-                    camera.transform.parent = target;
-                    break;
-                case CameraBehaivour.Look:
-                    camera.Follow = null;
-                    camera.LookAt = target;
-                    camera.transform.parent = null;
-                    break;
-                case CameraBehaivour.FollowAndLook:
-                    camera.Follow = target;
-                    camera.LookAt = target;
-                    camera.transform.parent = target;
-                    break;
-            }
-        }
+        
 
-        public static void RotateCameraTowards(CinemachineFreeLook camera, Transform target)
-        {
-            var cameraTransform = camera.transform;
-            camera.transform.rotation = Quaternion.Lerp(cameraTransform.rotation,
-                Quaternion.LookRotation(target.position - cameraTransform.position, Vector3.up), 0.25f);
-        }
+       
     }
 }

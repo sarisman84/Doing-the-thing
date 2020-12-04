@@ -26,7 +26,7 @@ namespace Interactivity.Moving_Objects
         public void OnInteract(PlayerController controller)
         {
             _isBeingGrabbed = true;
-            var pickupPosition = controller.transform.position + controller.playerCamera.transform.forward.normalized * 2f;
+            var pickupPosition = controller.transform.position + controller.CameraController.PlayerCamera.forward.normalized * 2f;
             _rigidbody.MovePosition(pickupPosition);
         }
 

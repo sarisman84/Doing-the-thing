@@ -27,6 +27,8 @@ namespace Interactivity
             OnDeath();
         }
 
+        public bool IsDead => gameObject.activeSelf;
+
 
         protected virtual void OnDeath()
         {

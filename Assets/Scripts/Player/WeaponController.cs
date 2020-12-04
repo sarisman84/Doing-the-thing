@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
+using Interactivity;
 using Player.Weapons;
 using UI;
 using UnityEngine;
@@ -10,32 +12,35 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
+using Debug = System.Diagnostics.Debug;
 
 namespace Player
 {
     public class WeaponController : MonoBehaviour
     {
         public Weapon currentWeapon;
-
-
-        public List<Weapon> weaponLibrary = new List<Weapon>();
+        public List<Weapon> weaponLibrary;
 
 
         [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
-        public HudManager hudManager;
+       
 
-        public void Awake()
+
+        public void Start()
         {
             player = GetComponent<PlayerController>();
 
+            weaponLibrary = new List<Weapon>();
+            
+            _weaponVisualiser =
+              Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
 
-            _weaponVisualiser = player.playerCamera.transform.GetComponentInChildren<WeaponVisualiser>();
-
-            hudManager = new HudManager(this);
 
             player.ONUpdateCallback += LocalUpdate;
 
+            AddWeaponToLibrary(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
+            
 
             SelectWeapon(0);
         }
@@ -72,8 +77,8 @@ namespace Player
             {
                 currentWeapon = weaponLibrary[index];
                 _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-                hudManager.SetWeaponIcon(currentWeapon.icon);
-                hudManager.UpdateAmmoCounter(currentWeapon);
+                EventManager.TriggerEvent(HudManager.UpdateWeaponIcon, currentWeapon.icon);
+                EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, currentWeapon);
             }
         }
 
@@ -91,7 +96,7 @@ namespace Player
                 WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
             }
 
-            if (player.CameraLocked) return;
+            if (player.CameraController.CameraLocked) return;
 
             if (currentWeapon == null) return;
 

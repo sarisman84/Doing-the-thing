@@ -19,7 +19,9 @@ namespace Player
         private WeaponController _weaponController;
         private float _lastInteractionDistance = 0;
         public bool showPickupRange = false;
-
+        public event Action<BasePickup> ONPickupCallback;
+        public event Action<IInteractable> ONInteractionCallback;
+        public event Action<IDamageable> ONKillCallback;
 
         private void Awake()
         {
@@ -55,20 +57,33 @@ namespace Player
         {
             IInteractable interactable = collider1.GetComponent<IInteractable>();
             if (interactable == null) return;
+            ProximityCheck(interactable.transform, () => interactable.OnProximityEnter(),
+                () => interactable.OnProximityExit(), interactionRange, _lastInteractionDistance,
+                () => CanBeInteracted(interactable));
 
+            IDamageable damageable = collider1.GetComponent<IDamageable>();
+            if (damageable == null) return;
+            ProximityCheck(damageable.transform.transform, () => ONKillCallback?.Invoke(damageable),
+                () => { }, interactionRange, _lastInteractionDistance,
+                () => damageable.IsDead);
+        }
 
-            float distance = Vector3.Distance(transform.position, interactable.transform.position);
-            if (distance >= _lastInteractionDistance && _lastInteractionDistance != 0)
+        private void ProximityCheck(Transform target, Action onEnter, Action onExit, float range,
+            float lastCheckedRange, Func<bool> onEnterConditions)
+        {
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance >= interactionRange)
             {
-                interactable.OnProximityExit();
-                _lastInteractionDistance = 0;
+                if (distance >= _lastInteractionDistance && _lastInteractionDistance != 0)
+                {
+                    onExit?.Invoke();
+                    _lastInteractionDistance = 0;
+                }
             }
-
-            if (distance >= interactionRange) return;
-            if (_lastInteractionDistance == 0 && CanBeInteracted(interactable))
+            else if (onEnterConditions != null && _lastInteractionDistance == 0 && onEnterConditions.Invoke())
             {
                 _lastInteractionDistance = distance;
-                interactable.OnProximityEnter();
+                onEnter?.Invoke();
             }
         }
 
@@ -82,7 +97,13 @@ namespace Player
                     case BasePickup pickup:
                         if (pickup && args != null)
                         {
-                            return !pickup.OnPickup((Weapon) args);
+                            bool result = pickup.OnPickup((Weapon) args);
+                            if (result)
+                            {
+                                ONPickupCallback?.Invoke(pickup);
+                            }
+
+                            return !result;
                         }
 
                         return true;
@@ -95,11 +116,19 @@ namespace Player
                         {
                             case InteractionInput.Hold:
                                 if (InputListener.GetKey(Interact))
+                                {
+                                    ONInteractionCallback?.Invoke(interactable);
                                     interactable.OnInteract(_player);
+                                }
+
                                 break;
                             case InteractionInput.Press:
                                 if (InputListener.GetKeyDown(Interact))
+                                {
+                                    ONInteractionCallback?.Invoke(interactable);
                                     interactable.OnInteract(_player);
+                                }
+
                                 break;
                         }
 
@@ -128,7 +157,7 @@ namespace Player
                 Vector3 direction = interactable.transform.position - _player.transform.position;
                 direction.Normalize();
 
-                dotProduct = Vector3.Dot(direction, _player.playerCamera.transform.forward.normalized);
+                dotProduct = Vector3.Dot(direction, _player.CameraController.PlayerCamera.transform.forward.normalized);
                 return dotProduct >= 0.9f;
             }
 
@@ -138,10 +167,10 @@ namespace Player
         private void OnDrawGizmos()
         {
             if (!showPickupRange) return;
-            Gizmos.color = Color.blue;
-
+            Gizmos.color = Color.blue - new Color(0, 0, 0, 0.5f);
             Gizmos.DrawSphere(transform.position, detectionRange);
-            Gizmos.color = Color.red;
+
+            Gizmos.color = Color.red - new Color(0, 0, 0, 0.5f);
             Gizmos.DrawSphere(transform.position, interactionRange);
         }
     }

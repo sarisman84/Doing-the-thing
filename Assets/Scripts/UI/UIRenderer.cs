@@ -3,29 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using Player;
+using Player.Quests;
 using Player.Weapons;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Utility;
 using Object = UnityEngine.Object;
 
 namespace UI
 {
-    public class UIManagerComponent : MonoBehaviour
+    public class UIRenderer : MonoBehaviour
     {
         public static UIManager Instance { get; private set; }
 
         private void Awake()
         {
-            Instance = new UIManager("Weapon Shop", "Weapon Select");
+            Instance = new UIManager(this, "Weapon Shop", "Weapon Select");
         }
     }
+
     public class UIManager
     {
         private WeaponSelectMenu _weaponSelectMenu;
         private WeaponShop _weaponShop;
-        
-        public UIManager(params string[] uiAssets)
+        private HudManager _hudManager;
+        private PauseMenu _pauseMenu;
+        private QuestDisplay _questDisplay;
+
+
+        public UIManager(MonoBehaviour monoBehaviour, params string[] uiAssets)
         {
             Dictionary<string, Canvas> uiCanvases = new Dictionary<string, Canvas>();
             foreach (var asset in uiAssets)
@@ -33,33 +41,52 @@ namespace UI
                 uiCanvases.Add(asset, Object.Instantiate(Resources.Load<Canvas>($"UI/{asset}")));
             }
 
-            _weaponSelectMenu = new WeaponSelectMenu(uiCanvases["Weapon Select"]);
-            _weaponShop = new WeaponShop(uiCanvases["Weapon Shop"]);
+            _hudManager = new HudManager(monoBehaviour);
+
+            Canvas _uiCanvas;
+            uiCanvases.TryGetValue("Weapon Select", out _uiCanvas);
+            _weaponSelectMenu = new WeaponSelectMenu(_uiCanvas);
+
+            uiCanvases.TryGetValue("Weapon Shop", out _uiCanvas);
+            _weaponShop = new WeaponShop(_uiCanvas);
+
+           
+
+           
         }
     }
-
     public class WeaponShop
     {
         public const string CloseShop = "Shop_CloseShop";
+        public static bool isShopOpen;
         List<ShopButton> _shopSlots;
         private Canvas _weaponShop;
         private TMP_Text _description;
         private TMP_Text _name;
         private TMP_Text _priceCounter;
 
-        Dictionary<Guid,GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
-        private bool _isAlreadyActive = false;
+        Dictionary<Guid, GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
+
 
         public WeaponShop(Canvas asset)
         {
-            _weaponShop = asset;
+            try
+            {
+                _weaponShop = asset;
+            }
+            catch (Exception)
+            {
+                throw new NullReferenceException("Could not find the Weapon Shop asset. (Assigned parameter is null)");
+            }
+
+            isShopOpen = false;
             _shopSlots = new List<ShopButton>();
             Transform buttonHolder = asset.transform.GetChildWithTag("HUD/Shop/Slots");
             _description = asset.transform.GetChildWithTag("HUD/Shop/Description").GetComponent<TMP_Text>();
             _name = asset.transform.GetChildWithTag("HUD/Shop/Name").GetComponent<TMP_Text>();
             _priceCounter = asset.transform.GetChildWithTag("HUD/Shop/Price").GetComponent<TMP_Text>();
             GameObject weaponRenderer = GameObject.FindGameObjectWithTag("HUD/Shop/Renderer");
-            weaponRenderer = weaponRenderer == null ? new GameObject("Temp") : weaponRenderer; 
+            weaponRenderer = weaponRenderer == null ? new GameObject("Temp") : weaponRenderer;
 
             foreach (var var in WeaponManager.globalWeaponLibrary)
             {
@@ -76,7 +103,7 @@ namespace UI
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localRotation = Quaternion.identity;
 
-                _weaponModels.Add(var.Value.ID,model);
+                _weaponModels.Add(var.Value.ID, model);
             }
 
             _weaponShop.gameObject.SetActive(false);
@@ -89,13 +116,13 @@ namespace UI
 
         private void OpenShop(List<Weapon> library)
         {
-           
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
 
             _weaponShop.gameObject.SetActive(true);
             UpdateShop(library);
-            _isAlreadyActive = true;
+
+            isShopOpen = true;
         }
 
         private void UpdateShop(List<Weapon> library)
@@ -117,9 +144,10 @@ namespace UI
         private void _CloseShop()
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
             _weaponShop.gameObject.SetActive(false);
-            _isAlreadyActive = false;
+
+            isShopOpen = false;
         }
 
         private void BuyItem(Weapon weapon)

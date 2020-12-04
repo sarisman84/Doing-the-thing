@@ -48,7 +48,8 @@ namespace Player.Weapons
     [Serializable]
     public class Weapon
     {
-        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage, string weaponName,
+        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage,
+            string weaponName,
             string weaponDescription, int shopPrice)
         {
             this.fireEvent = fireEvent;
@@ -61,7 +62,7 @@ namespace Player.Weapons
 
             this.damage = damage;
 
-            model = Object.Instantiate(Resources.Load<GameObject>($"WeaponModels/{weaponName}_Model"));
+            model = Resources.Load<GameObject>($"WeaponModels/{weaponName}_Model");
             model.SetActive(false);
             icon = Resources.Load<Sprite>($"WeaponIcons/{weaponName}_Icon");
 
@@ -106,7 +107,7 @@ namespace Player.Weapons
             _localCounter += Time.deltaTime;
             _localCounter = Mathf.Clamp(_localCounter, 0, fireRate);
 
-            var transform = controller.player.playerCamera.transform;
+            var transform = controller.player.CameraController.PlayerCamera;
             var firePosition = transform.position;
             var fireDirection = transform.forward;
 
@@ -117,7 +118,7 @@ namespace Player.Weapons
                 (_localAmmoCount > 0 || maxAmmoCount == -1))
             {
                 fireEvent.Invoke(this, weaponRay);
-                _controller.hudManager.UpdateAmmoCounter(this);
+                EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, this);
                 _localCounter = 0;
                 if (maxAmmoCount != -1)
                     _localAmmoCount--;
@@ -132,7 +133,7 @@ namespace Player.Weapons
             if (_localAmmoCount >= maxAmmoCount) return false;
             _localAmmoCount += maxAmmoCount;
             _localAmmoCount = Mathf.Clamp(_localAmmoCount, 0, maxAmmoCount);
-            _controller.hudManager.UpdateAmmoCounter(this);
+            EventManager.TriggerEvent(HudManager.UpdateAmmoCounter, this);
             return true;
         }
     }
@@ -186,7 +187,7 @@ namespace Player.Weapons
             projectile.Physics.constraints = RigidbodyConstraints.FreezeRotation;
             projectile.Physics.AddForce(trajectoryInformation.direction * 1000f, ForceMode.Force);
             projectile.FetchInformation(weapon.damage, 5f, Explosion);
-            projectile.SetProjectileModel("Fireball");
+            projectile.SetProjectileModel(weapon.name);
         }
 
         private static void Explosion(Transform transform, float radius, float damage)

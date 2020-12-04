@@ -6,6 +6,7 @@ namespace Interactivity
     public interface IDamageable : IUnity
     {
         void TakeDamage(float damage);
+        bool IsDead { get; }
     }
 
 

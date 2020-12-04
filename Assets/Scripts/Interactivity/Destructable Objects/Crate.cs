@@ -14,6 +14,8 @@ namespace Interactivity.Destructable_Objects
             BasePickup.SpawnCurrency(transform, minAmountCurrency, maxAmountCurrency);
         }
 
+        public bool IsDead => gameObject.activeSelf;
+
         protected void OnDeath()
         {
             gameObject.SetActive(false);

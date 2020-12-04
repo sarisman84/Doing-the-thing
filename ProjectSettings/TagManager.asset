@@ -14,6 +14,9 @@ TagManager:
   - HUD/Shop/Price
   - HUD/Shop/Name
   - HUD/Shop/Renderer
+  - UI/Menu/Pause/ToMainMenu
+  - UI/Menu/Pause/Quit
+  - UI/Menu/Pause/Resume
   layers:
   - Default
   - TransparentFX

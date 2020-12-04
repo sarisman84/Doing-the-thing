@@ -22,7 +22,7 @@ namespace Player.Weapons
                 return;
             }
 
-
+            weapon.model = Instantiate(weapon.model, transform);
             weapon.model.transform.SetParent(transform);
             weapon.model.transform.localPosition = Vector3.zero;
             weapon.model.transform.localRotation = Quaternion.identity;

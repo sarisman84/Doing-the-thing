@@ -15,12 +15,12 @@ namespace Interactivity.Vendor
             _outlines = transform.GetComponentsInChildren<Outline>();
             SetOutlineActive(false);
         }
-
+#if UNITY_EDITOR
         private void Update()
         {
             UpdateOutlines();
         }
-
+#endif
 
         public void SetOutlineActive(bool value)
         {
