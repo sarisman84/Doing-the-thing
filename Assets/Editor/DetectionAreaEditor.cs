@@ -7,10 +7,10 @@ using Utility;
 namespace Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(DetectionArea))]
+    [UnityEditor.CustomEditor(typeof(DetectionArea))]
     public class DetectionAreaEditor : UnityEditor.Editor
     {
-        private DetectionArea _area;
+        
 
         private void OnEnable()
         {
@@ -60,14 +60,6 @@ namespace Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawHandles()
-        {
-            if (_area.collider is SphereCollider sphereCollider)
-            {
-                Handles.color = Color.white;
-                var transform = sphereCollider.transform;
-                Handles.DotHandleCap(0, transform.position, transform.rotation,1f, EventType.Repaint);
-            }
-        }
+      
     }
 }

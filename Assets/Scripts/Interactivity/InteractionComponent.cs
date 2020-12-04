@@ -85,5 +85,8 @@ namespace Interactivity
             if (interactionType == InteractionType.Damage)
                 onDamageEvent?.Invoke();
         }
+
+        public bool IsDead => gameObject.activeSelf;
+        public float CurrentHealth { get; set; } = 0;
     }
 }

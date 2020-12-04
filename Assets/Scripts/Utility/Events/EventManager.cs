@@ -36,7 +36,12 @@ namespace Utility
                 someEvent.Add(listener);
             }
 
-            EventDictionary.Add(eventName.ToLower(), someEvent);
+            if (EventDictionary.ContainsKey(eventName.ToLower()))
+            {
+                EventDictionary[eventName.ToLower()] = someEvent;
+            }
+            else
+                EventDictionary.Add(eventName.ToLower(), someEvent);
         }
 
         /// <summary>
@@ -70,8 +75,5 @@ namespace Utility
 
             return default;
         }
-       
-        
-        
     }
 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Player;
+using Player.Quests;
 using Player.Weapons;
 using UnityEngine;
 using static Extensions.GeneralExtensions.RadiusAxis;
@@ -168,28 +169,14 @@ namespace Extensions
             return applyAction;
         }
 
-
-        public static object ApplyFunction<TEvent>(this IEnumerable list, TEvent method) where TEvent : Delegate
+        public static T Execute<T>(this T entity, Action<T> action)
         {
-            var applyAction = list;
-            List<object> results = new List<object>();
-            foreach (var variable in applyAction)
+            if (entity != null)
             {
-                results.Add(method.DynamicInvoke(variable));
+                action?.Invoke(entity);
             }
 
-            return results;
-        }
-
-
-        public static T ApplyAction<T>(this T value, Action<T> method)
-        {
-            if (!value.Equals(null))
-            {
-                method.Invoke(value);
-            }
-
-            return value;
+            return entity;
         }
 
 
@@ -290,6 +277,60 @@ namespace Extensions
                 if (result && result.CompareTag(tag)) break;
             }
 
+            return result;
+        }
+
+
+        public static bool IsInTheVicinityOf(this Vector3 ogPosition, Vector3 targetPos, float range = 1f)
+        {
+            return ogPosition.x >= targetPos.x - range
+                   && ogPosition.x <= targetPos.x + range
+                   && ogPosition.y >= targetPos.y - range &&
+                   ogPosition.y <= targetPos.y + range
+                   && ogPosition.z >= targetPos.z - range &&
+                   ogPosition.z <= targetPos.z + range;
+        }
+
+
+        public static bool CheckProgress(this QuestData asset, params object[] args)
+        {
+            bool result = false;
+
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                var i1 = i;
+                asset.relatedQuest.questConditions.ApplyAction((c, a) =>
+                {
+                    asset.CurrentTargetEntity = args[i1] is string ? (string) args[i1] : asset.CurrentTargetEntity;
+                    asset.CountProgress = args[i1] is int ? asset.CountProgress + (int) args[i1] : asset.CountProgress;
+                    asset.CurrentLocation = args[i1] is Vector3 ? (Vector3) args[i1] : asset.CurrentLocation;
+
+                    Debug.Log(
+                        $"Check progess on: {asset.relatedQuest.title}. \n Count Progess: {asset.CountProgress} \n Current Entity: {asset.CurrentTargetEntity} \n Current Location: {asset.CurrentLocation}");
+
+                    if (!string.IsNullOrEmpty(asset.CurrentTargetEntity) &&
+                        c.TargetEntity.name.Contains(asset.CurrentTargetEntity))
+                    {
+                        switch (c.conditionType)
+                        {
+                            case QuestCondition.Type.Kill:
+                            case QuestCondition.Type.Gather:
+                                result = asset.CountProgress >= c.CoundCondition;
+                                break;
+                            case QuestCondition.Type.Escort:
+                            case QuestCondition.Type.Goto:
+                                result = asset.CurrentLocation.IsInTheVicinityOf(c.TargetLocation.position);
+                                break;
+                            case QuestCondition.Type.Defend:
+                                result = asset.CountProgress < 0;
+                                break;
+                        }
+                    }
+                });
+            }
+
+            Debug.Log(result);
             return result;
         }
     }

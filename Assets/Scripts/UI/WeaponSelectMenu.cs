@@ -10,20 +10,26 @@ using Object = UnityEngine.Object;
 
 namespace UI
 {
-    public class WeaponSelectMenu
+    public class WeaponSelectMenu : MonoBehaviour
     {
         private const string OpenWeaponSelection = "UI_WeaponSelectMenu";
-        private readonly List<WeaponSlot> _weaponSlots;
-        private Canvas _canvas;
+        private List<WeaponSlot> _weaponSlots;
 
-        public WeaponSelectMenu(Canvas asset)
+
+        private void Awake()
         {
-            _canvas = asset;
-            Transform selectCanvas = _canvas.transform;
-            _weaponSlots = selectCanvas.GetComponentsInChildren<WeaponSlot>().ToList();
-
-            EventManager.AddListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
+            _weaponSlots = transform.GetComponentsInChildren<WeaponSlot>().ToList();
             _weaponSlots.ApplyAction(s => s.gameObject.SetActive(false));
+        }
+
+        private void OnEnable()
+        {
+            EventManager.AddListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.RemoveListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
         }
 
         private bool IsAlreadyActive { get; set; } = false;
@@ -45,8 +51,8 @@ namespace UI
                     w.gameObject.SetActive(false);
                 }
             });
-            _canvas.gameObject.SetActive(false);
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+            gameObject.SetActive(false);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
             IsAlreadyActive = false;
         }
 
@@ -58,10 +64,11 @@ namespace UI
                 return;
             }
 
-            _canvas.gameObject.SetActive(true);
+
+            gameObject.SetActive(true);
             int index = 0;
             IsAlreadyActive = true;
-            EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
             _weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
         }
 
@@ -75,7 +82,7 @@ namespace UI
                 w.slotButton.onClick.AddListener(() =>
                     {
                         _weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
-                        EventManager.TriggerEvent(PlayerController.SetCursorActiveEvent, false);
+                        EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
                         IsAlreadyActive = false;
                     }
                 );

@@ -23,7 +23,8 @@ namespace Player
             EventManager.AddListener<Action<int>>(EarnCurrency, Earn);
             EventManager.AddListener<Action<int>>(PayCurrency, Pay);
             EventManager.AddListener<Func<int>>(GetCurrency, () => Currency);
-            EventManager.TriggerEvent(HudManager.UpdateCurrency, Currency);
+            // EventManager.TriggerEvent(HeadsUpDisplay.UpdateCurrency, Currency);
+            HeadsUpDisplay.UpdateCurrencyUI(Currency);
         }
 
         public int Currency { get; private set; }
@@ -33,14 +34,14 @@ namespace Player
         {
             Currency -= amount;
             // _manager.CurrencyCounter = Currency;
-            EventManager.TriggerEvent(HudManager.UpdateCurrency, Currency);
+            HeadsUpDisplay.UpdateCurrencyUI(Currency);
         }
 
         private void Earn(int amount)
         {
             Currency += amount;
             // _manager.CurrencyCounter = Currency;
-            EventManager.TriggerEvent(HudManager.UpdateCurrency, Currency);
+            HeadsUpDisplay.UpdateCurrencyUI(Currency);
         }
     }
 }
