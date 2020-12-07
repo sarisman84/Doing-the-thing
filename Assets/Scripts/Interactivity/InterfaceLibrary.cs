@@ -1,13 +1,13 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine;
 
 namespace Interactivity
 {
     public interface IDamageable : IUnity
     {
-        void TakeDamage(float damage);
-        bool IsDead { get; }
-        float CurrentHealth { get; set; }
+        void TakeDamage(Collider col, float damage);
+        void OnDeath(Collider col);
     }
 
 
@@ -26,13 +26,21 @@ namespace Interactivity
 
     public interface IInteractable : IUnity
     {
-        void OnInteract(PlayerController controller);
-        void OnProximityEnter();
-        void OnProximityExit();
-
+        void OnInteract(Collider collider);
+        IInteractable AddCallback(Action<Collider> callback);
         InteractionInput InputType { get; }
-        bool NeedToLookAtInteractable { get; }
+     
     }
+
+    public interface IDetectable : IUnity
+    {
+        void OnAreaEnter(Collider col);
+        void OnAreaStay(Collider collider);
+        void OnAreaExit(Collider collider);
+        
+    }
+
+  
 
     public interface IUnity
     {

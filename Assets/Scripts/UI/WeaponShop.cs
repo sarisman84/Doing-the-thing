@@ -13,7 +13,7 @@ namespace UI
 {
     public class WeaponShop : MonoBehaviour
     {
-        public const string CloseShop = "Shop_CloseShop";
+        public const string CloseShop = "UI/Game/Shop/CloseShop";
         public static bool isShopOpen;
 
 
@@ -50,7 +50,8 @@ namespace UI
             gameObject.SetActive(false);
             _weaponModels.ApplyAction(w => w.Value.SetActive(false));
 
-            EventManager.AddListener<Action<List<Weapon>>>("Shop_OpenShop", OpenShop);
+            EventManager.AddListener<Action<GameObject>>("UI/Game/Shop/OpenShop",
+                obj => OpenShop(obj.GetComponent<WeaponController>().weaponLibrary));
             EventManager.AddListener<Action>(CloseShop, _CloseShop);
         }
 
@@ -93,12 +94,11 @@ namespace UI
 
         private void BuyItem(Weapon weapon)
         {
-            if ((bool)EventManager.TriggerEvent("Player_BuyWeapon", weapon.name))
+            if ((bool) EventManager.TriggerEvent("Player_BuyWeapon", weapon.name))
             {
                 _shopSlots.Find(s => s.ID == weapon.ID).gameObject.SetActive(false);
                 ResetInformation();
             }
-            
         }
 
         private void ResetInformation()

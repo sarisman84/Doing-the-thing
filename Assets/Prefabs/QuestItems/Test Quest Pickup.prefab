@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 878557648524104848}
   - component: {fileID: 7753882107576571286}
   - component: {fileID: 7705824887666839794}
-  - component: {fileID: 5404543642658750557}
-  m_Layer: 14
+  - component: {fileID: 1148901584872245597}
+  m_Layer: 15
   m_Name: Test Quest Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5404543642658750557
+--- !u!114 &1148901584872245597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,6 +105,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 1488690528778734218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aec014f9d66450e83f103e8fa7975ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e81f5104b5c4e978f530073a73b856f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAreaEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1488690528778734218}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onAreaStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onAreaExit:
+    m_PersistentCalls:
+      m_Calls: []
+  useCustomEvent: 0
+  onAreaEnterCustomEvent:
+    name: 
+    args: []
+  onAreaStayCustomEvent:
+    name: 
+    args: []
+  onAreaExitCustomEvent:
+    name: 
+    args: []

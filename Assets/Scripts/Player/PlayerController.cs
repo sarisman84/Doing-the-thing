@@ -6,6 +6,7 @@ using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
+using Interactivity.Components;
 using Interactivity.Pickup;
 using Player.Weapons;
 using UI;
@@ -16,7 +17,7 @@ using static Player.InputListener.KeyCode;
 
 namespace Player
 {
-    [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]
+    [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody), typeof(DamageableEntity))]
     public class PlayerController : MonoBehaviour
     {
         public const string MoveEntityEvent = "Player_MoveEntity";
@@ -63,8 +64,8 @@ namespace Player
         private bool _isInteracting;
 
         public bool IsSprinting => _isSprinting;
-
         public bool IsCrouching => _isCrouching;
+        public Vector3 LatestRespawnPos { get; set; }
 
         #endregion
 
@@ -262,6 +263,40 @@ namespace Player
         {
             _physics.MovePosition(transform.position + velocity);
             return _physics.velocity;
+        }
+
+
+        public void OnFall()
+        {
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent, CameraController.CameraBehaivour.Look);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
+            _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
+            StartCoroutine(Respawn(4f, LatestRespawnPos));
+        }
+
+
+        IEnumerator Respawn(float respawnTime, Vector3 spawnPos)
+        {
+            float time = 0;
+            while (time < respawnTime)
+            {
+                yield return new WaitForEndOfFrame();
+                EventManager.TriggerEvent(CameraController.ConstantlyLookTowardsThePlayerEvent);
+                time += Time.deltaTime;
+            }
+
+            yield return null;
+            transform.position = spawnPos;
+            _physics.velocity = Vector3.zero;
+
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent,
+                CameraController.CameraBehaivour.Follow);
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
+
+
+            yield return null;
         }
     }
 }

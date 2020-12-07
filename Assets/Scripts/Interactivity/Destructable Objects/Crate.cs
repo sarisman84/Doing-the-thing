@@ -1,25 +1,28 @@
 ﻿using System;
+using Interactivity.Components;
 using Interactivity.Pickup;
 using UnityEngine;
 
 namespace Interactivity.Destructable_Objects
 {
-    public class Crate : MonoBehaviour, IDamageable
+    
+    [RequireComponent(typeof(DamageableEntity))]
+    public class Crate : MonoBehaviour
     {
         [SerializeField] private int minAmountCurrency, maxAmountCurrency;
-
-        public virtual void TakeDamage(float damage)
+        protected DamageableEntity damageableEntity;
+        private void Awake()
         {
-            OnDeath();
-            BasePickup.SpawnCurrency(transform, minAmountCurrency, maxAmountCurrency);
+            damageableEntity = GetComponent<DamageableEntity>();
+            damageableEntity.maxHealth = 1;
+            damageableEntity.onDeathEvent.AddListener(args => OnDeathEvent());
         }
+        
 
-        public bool IsDead => gameObject.activeSelf;
-        public float CurrentHealth { get; set; } = 0;
-
-        protected void OnDeath()
+        protected virtual void OnDeathEvent()
         {
-            gameObject.SetActive(false);
+            BasePickup.SpawnCurrency(transform, minAmountCurrency, maxAmountCurrency);
+         
         }
     }
 }

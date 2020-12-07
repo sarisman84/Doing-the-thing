@@ -19,11 +19,13 @@ namespace Interactivity.Enemies
         public int maxHealth = 100;
         public float detectionRange = 20f;
         private float _currentHealth;
-
+        private float _randomPositionCounter;
+        private Vector3 _randomPosition;
+        Dictionary<int, GameObject> _transformationList = new Dictionary<int, GameObject>();
         protected override void Awake()
         {
             base.Awake();
-            _currentHealth = maxHealth;
+            damageableEntity.onDeathEvent.AddListener(arg0 => OnDeath());
             _modelRenderer = GetComponent<MeshRenderer>();
             _modelFilter = GetComponent<MeshFilter>();
 
@@ -35,22 +37,9 @@ namespace Interactivity.Enemies
 
             _defaultSpeed = agent.speed;
         }
+        
 
-        public override void TakeDamage(float damage)
-        {
-            _modelRenderer.sharedMaterial.color = Color.red;
-            _currentHealth -= damage;
-            if (_currentHealth <= 0)
-            {
-                OnDeath();
-
-                //Reset health
-                _currentHealth = maxHealth;
-            }
-        }
-
-        private float _randomPositionCounter;
-        private Vector3 _randomPosition;
+       
         protected override void Update()
         {
             if (!HasTransformed)
@@ -70,7 +59,7 @@ namespace Interactivity.Enemies
         }
 
 
-        Dictionary<int, GameObject> _transformationList = new Dictionary<int, GameObject>();
+      
 
         public override void Transform(GameObject newModel)
         {
@@ -109,13 +98,13 @@ namespace Interactivity.Enemies
             }
 
             yield return null;
-            TakeDamage(maxHealth);
+            damageableEntity.TakeDamage(GetComponent<Collider>(), maxHealth);
         }
 
 
-        protected override void OnDeath()
+        private void OnDeath()
         {
-            gameObject.SetActive(false);
+            
             BasePickup.SpawnCurrency(transform, 2, 14);
             _modelRenderer.enabled = true;
             _transformationList.ApplyAction(t => t.Value.SetActive(false));

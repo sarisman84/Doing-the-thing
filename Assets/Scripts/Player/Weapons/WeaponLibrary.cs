@@ -85,6 +85,7 @@ namespace Player.Weapons
         public string description;
         public int price;
 
+        public Collider owner;
         public string name;
         public GameObject model;
         public Sprite icon;
@@ -103,7 +104,8 @@ namespace Player.Weapons
 
         public void OnWeaponPrimaryFire(WeaponController controller)
         {
-            _controller = _controller ?? controller;
+            WeaponController _controller = controller;
+            owner = controller.GetComponent<Collider>();
             _localCounter += Time.deltaTime;
             _localCounter = Mathf.Clamp(_localCounter, 0, fireRate);
 
@@ -125,8 +127,6 @@ namespace Player.Weapons
             }
         }
 
-        private WeaponController _controller;
-
 
         public bool AddAmmo(int i)
         {
@@ -145,18 +145,18 @@ namespace Player.Weapons
         {
             RaycastHit closestHit = Physics.RaycastAll(trajectoryInformation).GetClosestHit();
 
-            DamageEntity(closestHit.collider, weapon.damage);
+            DamageEntity(closestHit.collider, weapon);
 
             TracerRounds(weapon.model.transform, weapon.WeaponBarrel.transform, closestHit.point,
                 new Color(1, 0.56f, 0.25f, 1));
         }
 
-        private static void DamageEntity(Collider hit, float damage)
+        private static void DamageEntity(Collider hit, Weapon weapon)
         {
             if (hit)
             {
                 IDamageable damageable = hit.GetComponent<IDamageable>();
-                damageable?.TakeDamage(damage);
+                damageable?.TakeDamage(weapon.owner, weapon.damage);
             }
         }
 
@@ -186,11 +186,11 @@ namespace Player.Weapons
             projectile.Physics.useGravity = false;
             projectile.Physics.constraints = RigidbodyConstraints.FreezeRotation;
             projectile.Physics.AddForce(trajectoryInformation.direction * 1000f, ForceMode.Force);
-            projectile.FetchInformation(weapon.damage, 5f, Explosion);
+            projectile.FetchInformation(weapon.damage, 5f, (transform, radius, damage) => Explosion(weapon, transform, radius));
             projectile.SetProjectileModel(weapon.name);
         }
 
-        private static void Explosion(Transform transform, float radius, float damage)
+        private static void Explosion(Weapon weapon, Transform transform, float radius)
         {
             List<Collider> foundObjects = Physics.OverlapSphere(transform.position, radius * 2f).ToList();
 
@@ -202,7 +202,7 @@ namespace Player.Weapons
             {
                 if (Vector3.Distance(transform.position, entity.transform.position) <= radius &&
                     !entity.GetComponent<PlayerController>())
-                    DamageEntity(entity, damage);
+                    DamageEntity(entity, weapon);
                 KnockbackEntity(entity, transform, radius);
             }
 
@@ -220,7 +220,7 @@ namespace Player.Weapons
                 IDamageable entity = t.GetComponent<IDamageable>();
                 if (entity != null)
                 {
-                    entity.TakeDamage(weapon.damage);
+                    entity.TakeDamage(weapon.owner,weapon.damage);
                 }
             });
         }
