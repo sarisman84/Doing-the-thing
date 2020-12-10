@@ -1,8 +1,10 @@
 ﻿using System;
+using Interactivity.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
 using Utility.Attributes;
+using CustomEvent = Interactivity.Events.CustomEvent;
 using Object = UnityEngine.Object;
 
 namespace Interactivity.Components
@@ -16,45 +18,46 @@ namespace Interactivity.Components
         public bool executeOnExitCallbackAtStart;
         public bool useCustomEvent;
 
-        [EnableIf("useCustomEvent")]
-        public CustomEvent onAreaEnterCustomEvent, onAreaStayCustomEvent, onAreaExitCustomEvent;
+        [EnableIf("useCustomEvent")] public CustomEventWrapper onAreaEnterCustomEventWrapper,
+            onAreaStayCustomEventWrapper,
+            onAreaExitCustomEventWrapper;
 
         private void Awake()
         {
-            if(executeOnExitCallbackAtStart)
+            if (executeOnExitCallbackAtStart)
                 onAreaExit?.Invoke(null);
         }
 
         public void OnAreaEnter(Collider col)
         {
             onAreaEnter?.Invoke(col);
-            TriggerMethod(onAreaEnterCustomEvent);
+            TriggerMethod(onAreaEnterCustomEventWrapper);
         }
 
         public void OnAreaStay(Collider col)
         {
             onAreaStay?.Invoke(col);
-            TriggerMethod(onAreaStayCustomEvent);
+            TriggerMethod(onAreaStayCustomEventWrapper);
         }
 
         public void OnAreaExit(Collider col)
         {
             onAreaExit?.Invoke(col);
-            TriggerMethod(onAreaExitCustomEvent);
+            TriggerMethod(onAreaExitCustomEventWrapper);
         }
 
 
-        private void TriggerMethod(CustomEvent customEvent)
+        private void TriggerMethod(CustomEventWrapper customEventWrapper)
         {
-            if (useCustomEvent)
-                EventManager.TriggerEvent(customEvent.name, customEvent.args);
+            if (!customEventWrapper.customEvent)
+                customEventWrapper.customEvent.Raise(customEventWrapper.triggerOnce);
         }
     }
 
     [Serializable]
-    public class CustomEvent
+    public class CustomEventWrapper
     {
-        public string name;
-        public Object[] args;
+        public CustomEvent customEvent;
+        public bool triggerOnce;
     }
 }

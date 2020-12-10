@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Extensions;
+using Interactivity.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
@@ -15,11 +16,8 @@ namespace Interactivity.Components
         public InteractionInput InputType => interactionInputType;
         public bool useCustomEvent;
 
-        [EnableIf("useCustomEvent")] public string eventName;
-        [EnableIf("useCustomEvent")] public Object[] args;
+        [EnableIf("useCustomEvent")] public CustomEventWrapper onInteractEventWrapper;
 
-
-        private readonly List<Action<Collider>> _storedCallbacks = new List<Action<Collider>>();
 
         public InteractionInput interactionInputType = InteractionInput.Hold;
 
@@ -28,38 +26,9 @@ namespace Interactivity.Components
             onInteractCallback?.Invoke(collider);
             if (useCustomEvent)
             {
-                EventManager.TriggerEvent(eventName, args);
+                if (onInteractEventWrapper.customEvent)
+                    onInteractEventWrapper.customEvent.Raise(onInteractEventWrapper.triggerOnce);
             }
-        }
-
-
-        public IInteractable AddCallback(Action<Collider> callback)
-        {
-            _storedCallbacks.Add(callback);
-            onInteractCallback.AddListener(callback.Invoke);
-            return this;
-        }
-
-
-        private void OnEnable()
-        {
-            AddStoredCallbacks();
-        }
-
-        private void OnDisable()
-        {
-            RemoveStoredCallbacks();
-        }
-
-        private void RemoveStoredCallbacks()
-        {
-            _storedCallbacks.ApplyAction(c =>   onInteractCallback.RemoveListener(c.Invoke));
-
-        }
-
-        private void AddStoredCallbacks()
-        {
-            _storedCallbacks.ApplyAction(c =>   onInteractCallback.AddListener(c.Invoke));
         }
     }
 }

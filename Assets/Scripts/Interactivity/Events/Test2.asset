@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bcb58a5e3bc490da5475712a64bbaa9, type: 3}
   m_Name: Test2
   m_EditorClassIdentifier: 
+  hasTriggered: 1
+  targetTime: 10

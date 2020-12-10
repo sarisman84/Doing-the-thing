@@ -140,10 +140,12 @@
           </e>
           <e p="Interactivity" t="Include">
             <e p="Components" t="Include">
+              <e p="CountdownEvent.cs" t="Include" />
+              <e p="CountEntityEvent.cs" t="Include" />
               <e p="DamageableEntity.cs" t="Include" />
+              <e p="DefendEvent.cs" t="Include" />
               <e p="DetectableEntity.cs" t="Include" />
               <e p="InteractableEntity.cs" t="Include" />
-              <e p="TimedCondition.cs" t="Include" />
             </e>
             <e p="Destructable Objects" t="Include">
               <e p="AmmoCrate.cs" t="Include" />
@@ -156,6 +158,11 @@
             </e>
             <e p="EnemyBehaivourManager.cs" t="Include" />
             <e p="EnemySpawner.cs" t="Include" />
+            <e p="Events" t="Include">
+              <e p="ConditionGroup.cs" t="Include" />
+              <e p="CustomEvent.cs" t="Include" />
+              <e p="TestListener.cs" t="Include" />
+            </e>
             <e p="InterfaceLibrary.cs" t="Include" />
             <e p="Moving Objects" t="Include">
               <e p="MovingPlatform.cs" t="Include" />

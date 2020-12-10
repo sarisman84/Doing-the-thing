@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using Interactivity.Events;
 using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
+using Utility.Attributes;
 
 namespace Interactivity.Components
 {
@@ -12,8 +14,12 @@ namespace Interactivity.Components
         public float maxHealth;
         private float _currentHealth;
 
-        [Space] public UnityEvent<Collider> onDamageTakenEvent;
-        public UnityEvent<Collider> onDeathEvent;
+        [Space] public UnityEvent onDamageTakenEvent;
+        public UnityEvent onDeathEvent;
+
+        public bool useCustomEvent;
+
+        [EnableIf("useCustomEvent")] public CustomEventWrapper onDamageTakenEventWrapper, onDeathEventWrapper;
 
 
         private void OnEnable()
@@ -24,7 +30,9 @@ namespace Interactivity.Components
 
         public void TakeDamage(Collider col, float damage)
         {
-            onDamageTakenEvent?.Invoke(col);
+            onDamageTakenEvent?.Invoke();
+            if (!onDamageTakenEventWrapper.customEvent)
+                onDamageTakenEventWrapper.customEvent.Raise(onDamageTakenEventWrapper.triggerOnce);
             _currentHealth -= damage;
             _currentHealth = !_currentHealth.Equals(-1) ? Mathf.Clamp(_currentHealth, 0, maxHealth) : _currentHealth;
             if (_currentHealth.Equals(0))
@@ -35,11 +43,9 @@ namespace Interactivity.Components
 
         public void OnDeath(Collider col)
         {
-            onDeathEvent?.Invoke(col);
+            onDeathEvent?.Invoke();
+            if (!onDeathEventWrapper.customEvent) onDeathEventWrapper.customEvent.Raise(false);
             gameObject.SetActive(false);
         }
-
-
-       
     }
 }

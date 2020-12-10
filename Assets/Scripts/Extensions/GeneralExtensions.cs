@@ -15,6 +15,20 @@ namespace Extensions
 {
     public static class GeneralExtensions
     {
+        public static T[] RemoveElements<T>(this T[] array, int amount, Func<bool> ifCondition = null)
+        {
+            T[] newArray = array;
+            if (ifCondition != default)
+                if (ifCondition.Invoke())
+                {
+                    newArray = new T[array.Length - amount];
+                    Array.Copy(array, amount, newArray, 0, newArray.Length);
+                }
+
+            return newArray;
+        }
+
+
         public static void ChangeSize<T>(this Collider collider, T value)
         {
             BoxCollider boxCol = collider.GetComponent<BoxCollider>();
@@ -164,7 +178,7 @@ namespace Extensions
             {
                 propertyMethod.Invoke(p.Copy());
             }
-            
+
 
             return value;
         }

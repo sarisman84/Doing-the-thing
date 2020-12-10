@@ -27,7 +27,6 @@ namespace Interactivity
     public interface IInteractable : IUnity
     {
         void OnInteract(Collider collider);
-        IInteractable AddCallback(Action<Collider> callback);
         InteractionInput InputType { get; }
      
     }

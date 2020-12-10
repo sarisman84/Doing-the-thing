@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d17b06ccd1d44bd8b92b428d4a5d36cc, type: 3}
   m_Name: Test4
   m_EditorClassIdentifier: 
+  hasTriggered: 1
+  entityToCount: {fileID: 1488690528778734218, guid: fa1e20fb07ac6e143ae1174990dffe95, type: 3}
+  maxCount: 10

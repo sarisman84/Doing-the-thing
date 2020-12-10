@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Extensions;
 using Interactivity.Events;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,34 +8,27 @@ using UnityEngine.Events;
 namespace Interactivity.Components
 {
     [CreateAssetMenu(fileName = "New Time Condition", menuName = "Event/Time Condition", order = 0)]
-    public class TimedCondition : CustomEvent
+    public class CountdownEvent : CustomEvent
     {
         private float _startingTime;
+        public int targetTime;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             _startingTime = 0;
+            hasTriggered = false;
         }
 
-        public override object Raise(object[] args)
+        public override object Raise(bool triggerEventOnce, params object[] args)
         {
-            int i = 0;
-            if (args[0] is int targetTime)
-                i = targetTime;
             if (_startingTime == 0) ResetCount();
-            else if (Time.time - _startingTime >= i)
+            if (Mathf.Clamp(Time.time - _startingTime, 0, targetTime) == targetTime && !hasTriggered)
             {
-                object[] newArgs = new object[args.Length - 1];
-                Array.Copy(args, 1, newArgs, 0, newArgs.Length);
-                return gameEvent?.Invoke(newArgs);
+                hasTriggered = triggerEventOnce;
+                return gameEvent?.Invoke(args);
             }
 
             return default;
-        }
-
-        private IEnumerator DelayRaise()
-        {
-            throw new NotImplementedException();
         }
 
 

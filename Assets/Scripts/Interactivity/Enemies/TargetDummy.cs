@@ -12,7 +12,7 @@ namespace Interactivity.Enemies
         {
             base.Awake();
             damageableEntity.maxHealth = -1;
-            damageableEntity.onDamageTakenEvent.AddListener(args => TakeDamage());
+            damageableEntity.onDamageTakenEvent.AddListener(TakeDamage);
             originalColor = modelRenderer.material.color;
         }
 
@@ -28,7 +28,6 @@ namespace Interactivity.Enemies
 
         public override void Transform(GameObject newModel)
         {
-            
         }
     }
 }

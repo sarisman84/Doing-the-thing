@@ -22,10 +22,11 @@ namespace Interactivity.Enemies
         private float _randomPositionCounter;
         private Vector3 _randomPosition;
         Dictionary<int, GameObject> _transformationList = new Dictionary<int, GameObject>();
+
         protected override void Awake()
         {
             base.Awake();
-            damageableEntity.onDeathEvent.AddListener(arg0 => OnDeath());
+            damageableEntity.onDeathEvent.AddListener(OnDeath);
             _modelRenderer = GetComponent<MeshRenderer>();
             _modelFilter = GetComponent<MeshFilter>();
 
@@ -37,9 +38,8 @@ namespace Interactivity.Enemies
 
             _defaultSpeed = agent.speed;
         }
-        
 
-       
+
         protected override void Update()
         {
             if (!HasTransformed)
@@ -50,16 +50,17 @@ namespace Interactivity.Enemies
                     agent.destination = target;
                 else
                 {
-                    agent.destination = transform.position.GetRandomPositionInRange(4, 6f, ref _randomPositionCounter, ref _randomPosition);
+                    agent.destination =
+                        transform.position.GetRandomPositionInRange(4, 6f, ref _randomPositionCounter,
+                            ref _randomPosition);
                 }
             }
+
             if (!agent.speed.Equals(_defaultSpeed))
                 agent.speed = _defaultSpeed;
             _modelRenderer.material.color = Color.Lerp(_modelRenderer.material.color, _originalColor, 0.01f);
         }
 
-
-      
 
         public override void Transform(GameObject newModel)
         {
@@ -104,7 +105,6 @@ namespace Interactivity.Enemies
 
         private void OnDeath()
         {
-            
             BasePickup.SpawnCurrency(transform, 2, 14);
             _modelRenderer.enabled = true;
             _transformationList.ApplyAction(t => t.Value.SetActive(false));

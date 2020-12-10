@@ -1,6 +1,8 @@
 ﻿using System;
 using Extensions.InputExtension;
 using Interactivity;
+using Interactivity.Components;
+using Interactivity.Events;
 using Interactivity.Pickup;
 using Player.Weapons;
 using UI;
@@ -21,6 +23,7 @@ namespace Player
         private WeaponController _weaponController;
         private float _lastInteractionDistance = 0;
 
+        public CountEntityEvent detectEntity;
 
         public bool showPickupRange = false;
         private Collider _col;
@@ -55,6 +58,7 @@ namespace Player
                 Weapon weapon = _weaponController != null ? _weaponController.currentWeapon : null;
                 if (OnTriggerDetection(t, weapon)) continue;
 
+                
 
                 t.gameObject.SetActive(false);
             }
@@ -91,21 +95,18 @@ namespace Player
             {
                 if (distance >= _lastInteractionDistance && _lastInteractionDistance != 0)
                 {
-                    Debug.Log("Exit callback called");
                     onExit?.Invoke();
                     _lastInteractionDistance = 0;
                 }
             }
             else if (_lastInteractionDistance == 0)
             {
-                Debug.Log("Enter callback called");
                 _lastInteractionDistance = distance;
                 onEnter?.Invoke();
             }
 
             if (distance < interactionRange)
             {
-                Debug.Log("Stay callback called");
                 onStay?.Invoke();
             }
         }
@@ -121,7 +122,7 @@ namespace Player
                         if (pickup && args != null)
                         {
                             bool result = pickup.OnPickup((Weapon) args);
-
+                           
 
                             return !result;
                         }
@@ -130,7 +131,8 @@ namespace Player
 
                     case IDetectable interactable:
                         var position = interactable.transform.position;
-                      
+                        
+                        detectEntity.Raise(interactable.gameObject, 69, "XD");
                         ProximityCheck(position, () => interactable.OnAreaEnter(_col),
                             () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
 
