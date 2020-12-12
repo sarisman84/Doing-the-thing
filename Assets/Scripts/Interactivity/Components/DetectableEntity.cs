@@ -16,48 +16,31 @@ namespace Interactivity.Components
         public UnityEvent<Collider> onAreaExit;
 
         public bool executeOnExitCallbackAtStart;
-        public bool useCustomEvent;
+        public bool checkSelf;
+        private Collider _collider;
 
-        [EnableIf("useCustomEvent")] public CustomEventWrapper onAreaEnterCustomEventWrapper,
-            onAreaStayCustomEventWrapper,
-            onAreaExitCustomEventWrapper;
 
         private void Awake()
         {
+            _collider = GetComponent<Collider>();
+
             if (executeOnExitCallbackAtStart)
-                onAreaExit?.Invoke(null);
+                onAreaExit?.Invoke(_collider ? _collider : null);
         }
 
         public void OnAreaEnter(Collider col)
         {
-            onAreaEnter?.Invoke(col);
-            TriggerMethod(onAreaEnterCustomEventWrapper);
+            onAreaEnter?.Invoke(checkSelf ? _collider : col);
         }
 
         public void OnAreaStay(Collider col)
         {
-            onAreaStay?.Invoke(col);
-            TriggerMethod(onAreaStayCustomEventWrapper);
+            onAreaStay?.Invoke(checkSelf ? _collider : col);
         }
 
         public void OnAreaExit(Collider col)
         {
-            onAreaExit?.Invoke(col);
-            TriggerMethod(onAreaExitCustomEventWrapper);
+            onAreaExit?.Invoke(checkSelf ? _collider : col);
         }
-
-
-        private void TriggerMethod(CustomEventWrapper customEventWrapper)
-        {
-            if (!customEventWrapper.customEvent)
-                customEventWrapper.customEvent.Raise(customEventWrapper.triggerOnce);
-        }
-    }
-
-    [Serializable]
-    public class CustomEventWrapper
-    {
-        public CustomEvent customEvent;
-        public bool triggerOnce;
     }
 }

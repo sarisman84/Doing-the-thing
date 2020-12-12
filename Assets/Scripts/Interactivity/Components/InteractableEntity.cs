@@ -14,9 +14,8 @@ namespace Interactivity.Components
     {
         public UnityEvent<Collider> onInteractCallback;
         public InteractionInput InputType => interactionInputType;
-        public bool useCustomEvent;
 
-        [EnableIf("useCustomEvent")] public CustomEventWrapper onInteractEventWrapper;
+
 
 
         public InteractionInput interactionInputType = InteractionInput.Hold;
@@ -24,11 +23,6 @@ namespace Interactivity.Components
         public virtual void OnInteract(Collider collider)
         {
             onInteractCallback?.Invoke(collider);
-            if (useCustomEvent)
-            {
-                if (onInteractEventWrapper.customEvent)
-                    onInteractEventWrapper.customEvent.Raise(onInteractEventWrapper.triggerOnce);
-            }
         }
     }
 }

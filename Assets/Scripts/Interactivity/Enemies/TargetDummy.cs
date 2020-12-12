@@ -16,7 +16,7 @@ namespace Interactivity.Enemies
             originalColor = modelRenderer.material.color;
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int currentHealth)
         {
             modelRenderer.sharedMaterial.color = Color.red;
         }

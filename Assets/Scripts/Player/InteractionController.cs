@@ -7,6 +7,7 @@ using Interactivity.Pickup;
 using Player.Weapons;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Utility;
 using Utility.Attributes;
@@ -23,7 +24,9 @@ namespace Player
         private WeaponController _weaponController;
         private float _lastInteractionDistance = 0;
 
-        public CountEntityEvent detectEntity;
+      
+
+      
 
         public bool showPickupRange = false;
         private Collider _col;
@@ -130,9 +133,8 @@ namespace Player
                         return true;
 
                     case IDetectable interactable:
-                        var position = interactable.transform.position;
                         
-                        detectEntity.Raise(interactable.gameObject, 69, "XD");
+                        var position = interactable.transform.position;
                         ProximityCheck(position, () => interactable.OnAreaEnter(_col),
                             () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
 
