@@ -23,6 +23,7 @@ namespace UI
         public TMP_Text description;
         public new TMP_Text name;
         public TMP_Text priceCounter;
+        
 
         Dictionary<Guid, GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
 
@@ -49,14 +50,11 @@ namespace UI
 
             gameObject.SetActive(false);
             _weaponModels.ApplyAction(w => w.Value.SetActive(false));
-
-            EventManager.AddListener<Action<GameObject>>("UI/Game/Shop/OpenShop",
-                obj => OpenShop(obj.GetComponent<WeaponController>().weaponLibrary));
-            EventManager.AddListener<Action>(CloseShop, _CloseShop);
+            
         }
 
 
-        private void OpenShop(List<Weapon> library)
+        public void OpenShop(List<Weapon> library)
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
@@ -83,7 +81,7 @@ namespace UI
             });
         }
 
-        private void _CloseShop()
+        public void _CloseShop()
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);

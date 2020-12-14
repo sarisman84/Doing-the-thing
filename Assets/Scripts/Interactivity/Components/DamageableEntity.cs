@@ -13,12 +13,19 @@ namespace Interactivity.Components
     {
         public float maxHealth;
         private float _currentHealth;
+        public bool godMode = false;
 
-        [Space] public UnityEvent<int> onDamageTakenEvent;
+        [Space] public UnityEvent<int> onUpdateEvent;
+        public UnityEvent<int> onDamageTakenEvent;
         public UnityEvent onDeathEvent;
-        
-        
+
+
         public int CurrentHealth => Mathf.RoundToInt(_currentHealth);
+
+        private void Update()
+        {
+            onUpdateEvent?.Invoke(CurrentHealth);
+        }
 
 
         private void OnEnable()
@@ -40,6 +47,7 @@ namespace Interactivity.Components
 
         public void OnDeath(Collider col)
         {
+            if (godMode) return;
             onDeathEvent?.Invoke();
             gameObject.SetActive(false);
         }

@@ -294,8 +294,6 @@ GameObject:
   - component: {fileID: 2156520296480879117}
   - component: {fileID: 2156520296480879119}
   - component: {fileID: 2156520296480879118}
-  - component: {fileID: 2156520296480879116}
-  - component: {fileID: 3781763890447736136}
   - component: {fileID: 2156520296480879223}
   m_Layer: 12
   m_Name: Player
@@ -344,7 +342,7 @@ MonoBehaviour:
   sealingCheckSize: {x: 0.3, y: 0.1, z: 0.3}
   movementCheckLayer:
     serializedVersion: 2
-    m_Bits: 17719
+    m_Bits: 17715
 --- !u!54 &2156520296480879218
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -389,10 +387,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionFilter:
     serializedVersion: 2
-    m_Bits: 27136
+    m_Bits: 24576
+  pickupFilter:
+    serializedVersion: 2
+    m_Bits: 59904
   detectionRange: 4
   interactionRange: 3
-  showPickupRange: 0
+  showPickupRange: 1
+  interactionColor: {r: 0.4590993, g: 0, b: 1, a: 1}
+  detectionColor: {r: 1, g: 0.40922374, b: 0, a: 1}
 --- !u!114 &2156520296480879119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +409,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  godMode: 0
+  onDamageTakenEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2156520296480879220}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2156520296480879118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,37 +446,14 @@ MonoBehaviour:
     maxAmmoCount: 0
     description: 
     price: 0
+    owner: {fileID: 0}
     name: 
     model: {fileID: 0}
     icon: {fileID: 0}
   weaponLibrary: []
   player: {fileID: 0}
---- !u!114 &2156520296480879116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156520296480879220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cdaa0e835ad4d5ea18b0e4fdc9d0df3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3781763890447736136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156520296480879220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7a7486b74e4b008a6738943025b38e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  assignedQuests:
-  - {fileID: 0}
+  closeShopEvent: {fileID: 11400000, guid: 15fd583655c73b74b8b7b5485e7ee419, type: 2}
+  weaponSelectEvent: {fileID: 11400000, guid: e54c97ee0eae4d349a758619ab75f380, type: 2}
 --- !u!114 &2156520296480879223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,7 +1671,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32311
+    m_Bits: 65079
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1756,6 +1755,85 @@ Transform:
   m_Father: {fileID: 2156520296480879216}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3781763890188980411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400220644245372434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233b148d7a934dd78746d648081333d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - listener: {fileID: 11400000, guid: e54c97ee0eae4d349a758619ab75f380, type: 2}
+    unityResponse:
+      eventType: 6
+      parameterlessEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      colorArg: {r: 0, g: 0, b: 0, a: 0}
+      colorEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      intArg: 0
+      intEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      floatArg: 0
+      floatEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      colliderArg: {fileID: 0}
+      colliderEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      gameObjectArg: {fileID: 0}
+      gameObjectEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      stringArg: 
+      stringEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      weaponLibraryArg: {fileID: 2156520296480879118}
+      weaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      useExtraArgs: 1
+      DelegateArg:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2156520296480879118}
+            m_TargetAssemblyTypeName: Player.WeaponController, Assembly-CSharp
+            m_MethodName: SelectWeapon
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      extraWeaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1510395641463187183}
+            m_TargetAssemblyTypeName: UI.WeaponSelectMenu, Assembly-CSharp
+            m_MethodName: OpenMenu
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    customResponse: {fileID: 0}
 --- !u!114 &4086328494511551011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,6 +1851,127 @@ MonoBehaviour:
   description: {fileID: 8607457601849978226}
   name: {fileID: 4073833727870901131}
   priceCounter: {fileID: 3977415224910808421}
+--- !u!114 &3781763890188980412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8607457603067721928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233b148d7a934dd78746d648081333d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - listener: {fileID: 11400000, guid: 74e62e2742820ad49b9227fb2ef35084, type: 2}
+    unityResponse:
+      eventType: 6
+      parameterlessEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      colorArg: {r: 0, g: 0, b: 0, a: 0}
+      colorEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      intArg: 0
+      intEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      floatArg: 0
+      floatEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      colliderArg: {fileID: 0}
+      colliderEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      gameObjectArg: {fileID: 0}
+      gameObjectEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      stringArg: 
+      stringEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      weaponLibraryArg: {fileID: 2156520296480879118}
+      weaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4086328494511551011}
+            m_TargetAssemblyTypeName: UI.WeaponShop, Assembly-CSharp
+            m_MethodName: OpenShop
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      useExtraArgs: 0
+      DelegateArg:
+        m_PersistentCalls:
+          m_Calls: []
+      extraWeaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls: []
+    customResponse: {fileID: 0}
+  - listener: {fileID: 11400000, guid: 15fd583655c73b74b8b7b5485e7ee419, type: 2}
+    unityResponse:
+      eventType: 7
+      parameterlessEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4086328494511551011}
+            m_TargetAssemblyTypeName: UI.WeaponShop, Assembly-CSharp
+            m_MethodName: _CloseShop
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      colorArg: {r: 0, g: 0, b: 0, a: 0}
+      colorEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      intArg: 0
+      intEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      floatArg: 0
+      floatEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      colliderArg: {fileID: 0}
+      colliderEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      gameObjectArg: {fileID: 0}
+      gameObjectEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      stringArg: 
+      stringEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      weaponLibraryArg: {fileID: 2156520296480879118}
+      weaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      useExtraArgs: 0
+      DelegateArg:
+        m_PersistentCalls:
+          m_Calls: []
+      extraWeaponLibraryEvent:
+        m_PersistentCalls:
+          m_Calls: []
+    customResponse: {fileID: 0}
 --- !u!1001 &111091111584689283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1870,11 +2069,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a52272cdcc7da2459c4c6db84272a46, type: 3}
+--- !u!1 &6400220644245372434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6438047413418103441, guid: 7a52272cdcc7da2459c4c6db84272a46, type: 3}
+  m_PrefabInstance: {fileID: 111091111584689283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6400220644245372439 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6438047413418103444, guid: 7a52272cdcc7da2459c4c6db84272a46, type: 3}
   m_PrefabInstance: {fileID: 111091111584689283}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1510395641463187183 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1548301566761716332, guid: 7a52272cdcc7da2459c4c6db84272a46, type: 3}
+  m_PrefabInstance: {fileID: 111091111584689283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400220644245372434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072e1e551c1343f8ab4b7fc79c68f68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7850172472491451924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1982,11 +2197,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1982357137966309080, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
   m_PrefabInstance: {fileID: 7850172472491451924}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &8607457601372278314 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1982357136807618622, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
-  m_PrefabInstance: {fileID: 7850172472491451924}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8607457601849978226 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1982357137286220646, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
@@ -2020,6 +2230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8607457601372278314 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1982357136807618622, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
+  m_PrefabInstance: {fileID: 7850172472491451924}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8615120648038962270
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,10 +20,7 @@ namespace Interactivity.Events
         {
             _currentAmount = 0;
         }
-
-        public override void OnInvokeEvent()
-        {
-        }
+        
 
         public void OnInvokeEvent(Collider collider = null)
         {

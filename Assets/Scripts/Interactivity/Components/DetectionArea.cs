@@ -63,7 +63,11 @@ namespace Interactivity.Components
         {
             OnEnter,
             OnExit,
-            OnStay
+            OnStay,
+            OnEnterOrStay,
+            OnStayOrExit,
+            OnExitOrEnter,
+            All
         }
 
         public ZoneTriggerType triggerType;

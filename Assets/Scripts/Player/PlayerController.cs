@@ -50,6 +50,7 @@ namespace Player
         //Local references to components and custom classes. 
         //Local variables that store information such as speed or input.
         private Rigidbody _physics;
+        private WeaponController _weaponController;
         private CapsuleCollider _collisionBody;
         public CameraController CameraController { get; private set; }
         private Vector2 _inputVector;
@@ -101,7 +102,7 @@ namespace Player
             CameraController = GetComponent<CameraController>();
 
 
-            //Applies FOV to the camera's lens.
+            _weaponController = GetComponent<WeaponController>();
         }
 
 
@@ -137,9 +138,10 @@ namespace Player
 
             if (InputListener.GetKeyDown(Escape))
             {
-                if (WeaponShop.isShopOpen)
+                if (WeaponShop.isShopOpen && _weaponController)
                 {
-                    EventManager.TriggerEvent(WeaponShop.CloseShop);
+                    if (_weaponController.closeShopEvent)
+                        _weaponController.closeShopEvent.OnInvokeEvent();
                     return;
                 }
 

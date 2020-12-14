@@ -10,6 +10,7 @@
       <e p="Assets" t="Include">
         <e p="Editor" t="Include">
           <e p="AmmoEditor.cs" t="Include" />
+          <e p="CustomEventDrawer.cs" t="Include" />
           <e p="DetectionAreaEditor.cs" t="Include" />
           <e p="Extension" t="Include">
             <e p="ExtendedEditor.cs" t="Include" />
@@ -19,6 +20,7 @@
             <e p="ConditionalDisplayPropertyDrawer.cs" t="Include" />
             <e p="EventListPropertyDrawer.cs" t="Include" />
             <e p="FancyListPropertyDrawer.cs" t="Include" />
+            <e p="UnityEventsPropertyDrawer.cs" t="Include" />
           </e>
           <e p="SpriteProcessor.cs" t="Include" />
           <e p="Test.cs" t="Include" />
@@ -161,8 +163,10 @@
             <e p="Events" t="Include">
               <e p="CountingEvent.cs" t="Include" />
               <e p="CustomEvent.cs" t="Include" />
+              <e p="DamageEvent.cs" t="Include" />
               <e p="DebugTest.cs" t="Include" />
               <e p="EventListener.cs" t="Include" />
+              <e p="GroupEvent.cs" t="Include" />
               <e p="TimeEvent.cs" t="Include" />
             </e>
             <e p="InterfaceLibrary.cs" t="Include" />

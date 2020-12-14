@@ -12,19 +12,20 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
 using Debug = System.Diagnostics.Debug;
 
 namespace Player
 {
     public class WeaponController : MonoBehaviour
     {
-        public Weapon currentWeapon;
-        public List<Weapon> weaponLibrary;
-
-
+        [HideInInspector] public Weapon currentWeapon;
+        [HideInInspector] public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
-       
+
+        public CustomEvent closeShopEvent;
+        public CustomEvent weaponSelectEvent;
 
 
         public void Start()
@@ -32,15 +33,15 @@ namespace Player
             player = GetComponent<PlayerController>();
 
             weaponLibrary = new List<Weapon>();
-            
+
             _weaponVisualiser =
-              Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
+                Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
 
 
             player.ONUpdateCallback += LocalUpdate;
 
             AddWeaponToLibrary(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
-            
+
 
             SelectWeapon(0);
         }
@@ -60,7 +61,7 @@ namespace Player
 
         private void OnDisable()
         {
-            EventManager.RemoveListener<Func<string,bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
             EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
             {
                 if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
@@ -79,7 +80,7 @@ namespace Player
                 _weaponVisualiser.SetWeaponModel(this, currentWeapon);
                 // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
                 // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
-                
+
                 HeadsUpDisplay.UpdateWeaponIconUI(currentWeapon.icon);
                 HeadsUpDisplay.UpdateAmmoUI(currentWeapon);
             }
@@ -96,7 +97,9 @@ namespace Player
         {
             if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
             {
-                WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
+                //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
+                if (weaponSelectEvent)
+                    weaponSelectEvent.OnInvokeEvent();
             }
 
             if (player.CameraController.CameraLocked) return;

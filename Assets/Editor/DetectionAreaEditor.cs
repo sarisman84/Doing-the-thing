@@ -46,25 +46,33 @@ namespace Editor
 
 
             EditorGUILayout.Space();
-            switch (_triggerType.enumValueIndex)
+            switch ((DetectionArea.ZoneTriggerType)_triggerType.enumValueIndex)
             {
-                case 0:
-
+                case DetectionArea.ZoneTriggerType.OnEnter:
                     EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
-
                     break;
-                case 1:
-
+                case DetectionArea.ZoneTriggerType.OnExit:
                     EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
-
                     break;
-                case 2:
+                case DetectionArea.ZoneTriggerType.OnStay:
                     EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
-
                     break;
-
-                default:
-                    Debug.Log(_triggerType.enumValueIndex.ToString());
+                case DetectionArea.ZoneTriggerType.OnEnterOrStay:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.OnStayOrExit:
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.OnExitOrEnter:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.All:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
                     break;
             }
 

@@ -39,7 +39,7 @@ namespace UI
             EventManager.TriggerEvent(OpenWeaponSelection, selectWeapon, weapons);
         }
 
-        private void CloseMenu()
+        public void CloseMenu()
         {
             _weaponSlots.ApplyAction(w =>
             {
@@ -56,7 +56,7 @@ namespace UI
             IsAlreadyActive = false;
         }
 
-        private void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
+        public void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
         {
             if (IsAlreadyActive)
             {

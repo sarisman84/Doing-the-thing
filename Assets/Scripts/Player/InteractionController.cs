@@ -23,6 +23,8 @@ namespace Player
         private PlayerController _player;
         private WeaponController _weaponController;
         private float _lastInteractionDistance = 0;
+        
+       
 
       
 
