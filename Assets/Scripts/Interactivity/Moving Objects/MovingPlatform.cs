@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Extensions;
 using Player;
 using UnityEngine;
 using Utility;
@@ -109,10 +110,17 @@ namespace Interactivity.Moving_Objects
 
         private void FixedUpdate()
         {
-            if (foundObjects.Exists(c => c.CompareTag("Player")))
+            // if (foundObjects.Exists(c => c.CompareTag("Player")))
+            // {
+            //     EventManager.TriggerEvent(PlayerController.MoveEntityEvent, delta * Time.fixedDeltaTime);
+            // }
+
+            foundObjects.ApplyAction(c =>
             {
-                EventManager.TriggerEvent(PlayerController.MoveEntityEvent, delta * Time.fixedDeltaTime);
-            }
+                c.transform.position += delta * Time.fixedDeltaTime;
+                if (!c.CompareTag("Player"))
+                    c.transform.rotation = Quaternion.LookRotation((c.transform.right - delta).normalized);
+            });
         }
 
         private void OnDrawGizmosSelected()

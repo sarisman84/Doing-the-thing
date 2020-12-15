@@ -16,6 +16,7 @@ MonoBehaviour:
   conditionType: 0
   targetEvents:
   - {fileID: 11400000, guid: 271850c455720894faaf8f8381221aa7, type: 2}
+  - {fileID: 11400000, guid: 271850c455720894faaf8f8381221aa7, type: 2}
   callEventWhileConditionsAreFalse: 1
   whileConditionsAreFalse: {fileID: 11400000, guid: 192b7449b495f9042a00767c5871cc28, type: 2}
   showDebugLogs: 0

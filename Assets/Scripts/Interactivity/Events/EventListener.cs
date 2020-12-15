@@ -44,6 +44,10 @@ namespace Interactivity.Events
                 case CountingEvent countingListener:
                     countingListener.Subscribe<Action<Collider>>((col) => unityResponse.InvokeEvent(col));
                     break;
+                
+                case InstanceEvent instanceEvent:
+                    instanceEvent.Subscribe<Action<int>>(id => unityResponse.InvokeEvent(id));
+                    break;
 
                 default:
 
@@ -57,12 +61,22 @@ namespace Interactivity.Events
 
         public void RemoveResponses()
         {
-            if (listener is CountingEvent countingEvent)
+            switch (listener)
             {
-                countingEvent.Subscribe<Action<Collider>>((col) => unityResponse.InvokeEvent(col));
+                case CountingEvent countingEvent:
+                    countingEvent.Unsubcribe<Action<Collider>>((col) => unityResponse.InvokeEvent(col));
+                    break;
+                
+                case InstanceEvent instanceEvent:
+                    instanceEvent.Unsubcribe<Action<int>>(id => unityResponse.InvokeEvent(id));
+                    break;
+                
+                default:
+                    listener.Unsubcribe<Action>(() => unityResponse.InvokeEvent());
+                    break;
             }
-            else
-                listener.Unsubcribe<Action>(() => unityResponse.InvokeEvent());
+            
+               
 
             if (customResponse)
                 listener.Unsubcribe<Action>(() => customResponse.OnInvokeEvent());

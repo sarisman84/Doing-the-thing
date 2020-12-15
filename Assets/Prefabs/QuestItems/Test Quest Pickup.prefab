@@ -129,13 +129,5 @@ MonoBehaviour:
   onAreaExit:
     m_PersistentCalls:
       m_Calls: []
-  useCustomEvent: 0
-  onAreaEnterCustomEvent:
-    name: 
-    args: []
-  onAreaStayCustomEvent:
-    name: 
-    args: []
-  onAreaExitCustomEvent:
-    name: 
-    args: []
+  executeOnExitCallbackAtStart: 0
+  checkSelf: 1
