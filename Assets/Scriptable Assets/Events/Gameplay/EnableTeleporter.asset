@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ffd393231f64602b957d296736c02e1, type: 3}
+  m_Name: EnableTeleporter
+  m_EditorClassIdentifier: 
+  triggerOnce: 0
+  invertCondition: 0
+  conditionType: 0
+  targetEvents:
+  - {fileID: 11400000, guid: ece45e73dc06ab14ab367f9e3c28fae1, type: 2}
+  - {fileID: 11400000, guid: f9e2208213bba894f88934944c9a3659, type: 2}
+  - {fileID: 11400000, guid: ed12324c672edb4408607b4dade335df, type: 2}
+  callEventWhileConditionsAreFalse: 0
+  whileConditionsAreFalse: {fileID: 0}
+  showDebugLogs: 0

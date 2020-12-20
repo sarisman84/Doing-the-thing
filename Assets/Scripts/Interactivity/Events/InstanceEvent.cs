@@ -4,28 +4,29 @@ using UnityEngine;
 
 namespace Interactivity.Events
 {
-    public delegate void InstanceDelegate(int id);
+    public delegate bool InstanceDelegate(GameObject id);
+
     [CreateAssetMenu(fileName = "New Instance Event", menuName = "Event/Instance Event", order = 0)]
     public class InstanceEvent : CustomEvent
     {
-        
-
         private event InstanceDelegate InstanceDelegate;
+        public bool IsInstanceBeingCalled { get; private set; }
 
         public void OnInvokeEvent(GameObject gameObject)
         {
-         Debug.Log("Instance event being called");
-            InstanceDelegate?.Invoke(gameObject.GetInstanceID());
+            if (InstanceDelegate != null)
+                IsInstanceBeingCalled = InstanceDelegate.Invoke(gameObject);
+            IsInstanceBeingCalled = !triggerOnce ? false : IsInstanceBeingCalled;
         }
 
         public override void Unsubcribe<TDel>(TDel method)
         {
-            InstanceDelegate -= id => method.DynamicInvoke(id);
+            InstanceDelegate -= id => (bool) method.DynamicInvoke(id);
         }
 
         public override void Subscribe<TDel>(TDel method)
         {
-            InstanceDelegate += id => method.DynamicInvoke(id);
+            InstanceDelegate += id => (bool) method.DynamicInvoke(id);
         }
     }
 }

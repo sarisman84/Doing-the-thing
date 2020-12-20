@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\epicd\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\epicd\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Doing the thing.-978900025.00" t="ExcludeRecursive" />
+    <e p="C:\Users\epicd\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\epicd\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Doing the thing.-978900025.00" t="ExcludeRecursive" />
     <e p="C:\Users\epicd\Documents\Unity Projects\Doing the thing" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
@@ -21,7 +21,6 @@
             <e p="ConditionalDisplayPropertyDrawer.cs" t="Include" />
             <e p="EventListPropertyDrawer.cs" t="Include" />
             <e p="FancyListPropertyDrawer.cs" t="Include" />
-            <e p="UnityEventsPropertyDrawer.cs" t="Include" />
           </e>
           <e p="SpriteProcessor.cs" t="Include" />
           <e p="Test.cs" t="Include" />
@@ -147,6 +146,7 @@
             <e p="Components" t="Include">
               <e p="Gameplay" t="Include">
                 <e p="DoorController.cs" t="Include" />
+                <e p="Teleporter.cs" t="Include" />
               </e>
               <e p="General" t="Include">
                 <e p="DamageableEntity.cs" t="Include" />
@@ -171,9 +171,11 @@
               <e p="CustomEvent.cs" t="Include" />
               <e p="DamageEvent.cs" t="Include" />
               <e p="DebugTest.cs" t="Include" />
-              <e p="EventListener.cs" t="Include" />
               <e p="GroupEvent.cs" t="Include" />
               <e p="InstanceEvent.cs" t="Include" />
+              <e p="Listener" t="Include">
+                <e p="EventListener.cs" t="Include" />
+              </e>
               <e p="TimeEvent.cs" t="Include" />
             </e>
             <e p="InterfaceLibrary.cs" t="Include" />

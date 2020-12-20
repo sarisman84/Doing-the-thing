@@ -12,28 +12,29 @@ namespace Interactivity.Components.Gameplay
 
         public Vector3 doorOpenPosition;
 
+
         public Vector3 DoorOpenPosition
         {
             get { return doorOpenPosition + transform.position; }
         }
+
 
         private void Awake()
         {
             _doorClosedPosition = transform.position;
         }
 
-        public void OpenDoor(int entity)
+        public void OpenDoor(GameObject entity)
         {
-            Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
-            if (gameObject.GetInstanceID() == entity)
+            //Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
+            //if (gameObject.GetInstanceID() == entity.GetInstanceID())
                 transform.DOMove(DoorOpenPosition, doorOpeningDuration);
         }
 
-        public void CloseDoor(int entity)
+        public void CloseDoor(GameObject entity)
         {
-            Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
-            if (gameObject.GetInstanceID() == entity)
-
+            //Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
+            //if (gameObject.GetInstanceID() == entity.GetInstanceID())
                 transform.DOMove(_doorClosedPosition, doorOpeningDuration);
         }
     }

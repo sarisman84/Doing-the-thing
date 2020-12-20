@@ -13,11 +13,12 @@ namespace Interactivity.Events
     public delegate void EmptyEvent();
 
 
-    public delegate object ObjectEvent<T>(params T[] args);
+    public delegate object ObjectEvent<in T>(params T[] args);
 
-    [CreateAssetMenu(fileName = "New Event Asset", menuName = "Event/New Event", order = 0)]
+    [CreateAssetMenu(fileName = "New Event Asset", menuName = "Event/Default Event", order = 0)]
     public class CustomEvent : ScriptableObject
     {
+        public bool triggerOnce = false;
         public bool IsBeingCalled { get; protected set; }
         protected event ObjectEvent<object> GameEvent;
 
@@ -26,6 +27,9 @@ namespace Interactivity.Events
         {
             IsBeingCalled = true;
             GameEvent?.Invoke();
+
+            if (!triggerOnce)
+                IsBeingCalled = false;
         }
 
 
@@ -39,5 +43,4 @@ namespace Interactivity.Events
             GameEvent -= method.DynamicInvoke;
         }
     }
-    
 }

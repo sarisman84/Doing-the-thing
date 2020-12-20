@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7609692113060173338}
   - component: {fileID: 7609692113060173341}
   - component: {fileID: 7609692113060173340}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Door Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpeningDuration: 0.5
-  doorOpenPosition: {x: 0, y: 0, z: 1.56}
+  doorOpenPosition: {x: 0, y: 0, z: 1.5734863}
 --- !u!1 &7609692113978624631
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +122,8 @@ GameObject:
   - component: {fileID: 7609692113978624624}
   - component: {fileID: 7609692113978624627}
   - component: {fileID: 7609692113978624626}
-  - component: {fileID: 7609692113978624629}
-  m_Layer: 2
+  - component: {fileID: 698967021}
+  m_Layer: 17
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.71, y: 3.25, z: 5.42}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7609692113978624629
+--- !u!114 &698967021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,143 +232,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 7609692113978624631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233b148d7a934dd78746d648081333d5, type: 3}
+  m_Script: {fileID: 11500000, guid: fff63a567b8a4c7f9fe4190e0d40a824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   events:
-  - listener: {fileID: 11400000, guid: 4195757ce8958e14d96bbf93be9afcde, type: 2}
-    unityResponse:
-      eventType: 0
-      parameterlessEvent:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 7609692113060173340}
-            m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-              Assembly-CSharp
-            m_MethodName: OpenDoor
-            m_Mode: 3
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      colorArg: {r: 0, g: 0, b: 0, a: 0}
-      colorEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      intArg: 0
-      intEvent:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 7609692113060173340}
-            m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-              Assembly-CSharp
-            m_MethodName: OpenDoor
-            m_Mode: 0
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      floatArg: 0
-      floatEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      colliderArg: {fileID: 0}
-      colliderEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      gameObjectArg: {fileID: 0}
-      gameObjectEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      stringArg: 
-      stringEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      weaponLibraryArg: {fileID: 0}
-      weaponLibraryEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      useExtraArgs: 0
-      DelegateArg:
-        m_PersistentCalls:
-          m_Calls: []
-      extraWeaponLibraryEvent:
-        m_PersistentCalls:
-          m_Calls: []
-    customResponse: {fileID: 0}
-  - listener: {fileID: 11400000, guid: 565c0091bb93080408a7cb737fe4aa73, type: 2}
-    unityResponse:
-      eventType: 0
-      parameterlessEvent:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 7609692113060173340}
-            m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-              Assembly-CSharp
-            m_MethodName: CloseDoor
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      colorArg: {r: 0, g: 0, b: 0, a: 0}
-      colorEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      intArg: 0
-      intEvent:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 7609692113060173340}
-            m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-              Assembly-CSharp
-            m_MethodName: CloseDoor
-            m_Mode: 0
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      floatArg: 0
-      floatEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      colliderArg: {fileID: 0}
-      colliderEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      gameObjectArg: {fileID: 0}
-      gameObjectEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      stringArg: 
-      stringEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      weaponLibraryArg: {fileID: 0}
-      weaponLibraryEvent:
-        m_PersistentCalls:
-          m_Calls: []
-      useExtraArgs: 0
-      DelegateArg:
-        m_PersistentCalls:
-          m_Calls: []
-      extraWeaponLibraryEvent:
-        m_PersistentCalls:
-          m_Calls: []
-    customResponse: {fileID: 0}
+  - eventListener: {fileID: 11400000, guid: 4195757ce8958e14d96bbf93be9afcde, type: 2}
+    entityComparison:
+    - {fileID: 7609692113060173342}
+    useCustomArg: 1
+    defaultUnityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    entityUnityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7609692113060173340}
+          m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
+            Assembly-CSharp
+          m_MethodName: OpenDoor
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventListener: {fileID: 11400000, guid: 565c0091bb93080408a7cb737fe4aa73, type: 2}
+    entityComparison:
+    - {fileID: 7609692113060173342}
+    useCustomArg: 1
+    defaultUnityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    entityUnityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7609692113060173340}
+          m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
+            Assembly-CSharp
+          m_MethodName: CloseDoor
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  eventEditType: 0

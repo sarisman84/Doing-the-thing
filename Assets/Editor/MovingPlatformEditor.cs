@@ -36,8 +36,11 @@ namespace Editor
             }
         }
 
+        private MovingPlatform _platform;
+
         private void OnEnable()
         {
+            _platform = ((MovingPlatform) target);
             SceneView.duringSceneGui += sv => OnSceneGUI();
         }
 
@@ -48,7 +51,8 @@ namespace Editor
 
         private void OnSceneGUI()
         {
-            DrawLinesBetweenWaypoints(((MovingPlatform) target).waypointList);
+            if (_platform)
+                DrawLinesBetweenWaypoints(_platform.transform, _platform.waypointList);
         }
 
         private void CreateWaypoint(MovingPlatform _target)
@@ -62,7 +66,7 @@ namespace Editor
                   Vector3.forward);
         }
 
-        private void DrawLinesBetweenWaypoints(List<Vector3> targetWaypointList)
+        private void DrawLinesBetweenWaypoints(Transform transform, List<Vector3> targetWaypointList)
         {
             Color originalColor = Color.blue;
             for (int i = 0; i < targetWaypointList.Count; i++)
@@ -72,7 +76,7 @@ namespace Editor
                 if (i == 0 || i == targetWaypointList.Count - 1)
                 {
                     Handles.color = Color.yellow;
-                    Handles.SphereHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 2,
+                    Handles.SphereHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 1.5f,
                         EventType.Repaint);
                 }
                 else
@@ -82,9 +86,19 @@ namespace Editor
                         EventType.Repaint);
                 }
 
-                Handles.color = originalColor;
-                waypointA = Handles.PositionHandle(waypointA, Quaternion.identity);
-                targetWaypointList[i] = waypointA;
+                if (i != 0)
+                {
+                    Handles.color = originalColor;
+                    waypointA = Handles.PositionHandle(waypointA, Quaternion.identity);
+                    targetWaypointList[i] = waypointA;
+                }
+                else
+                {
+                    Handles.color = originalColor;
+                    if (!Application.isPlaying)
+                        targetWaypointList[i] = transform.position;
+                }
+
                 if (i + 1 >= targetWaypointList.Count) break;
 
                 Vector3 waypointB = targetWaypointList[i + 1];

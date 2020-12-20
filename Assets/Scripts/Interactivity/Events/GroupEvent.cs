@@ -19,58 +19,72 @@ namespace Interactivity.Events
         public bool invertCondition;
         public ConditionType conditionType;
         public List<CustomEvent> targetEvents = new List<CustomEvent>();
-        public bool callEventWhileConditionsAreFalse;
-        [EnableIf("callEventWhileConditionsAreFalse")]
-        public CustomEvent whileConditionsAreFalse;
-#if UNITY_EDITOR
-        public bool showDebugLogs;
-#endif
+        
+
+
+        private void OnEnable()
+        {
+            targetEvents.ApplyAction(e => e.Subscribe<Action>(OnInvokeEvent));
+        }
+
+        private void OnDisable()
+        {
+            targetEvents.ApplyAction(e => e.Unsubcribe<Action>(OnInvokeEvent));
+        }
 
         public override void OnInvokeEvent()
         {
-#if UNITY_EDITOR
-            if (showDebugLogs)
-                targetEvents.ApplyAction(e =>
-                    Debug.Log($"Event ({e.name}) is {(e.IsBeingCalled ? "being called!" : "not being called!")}"));
-#endif
-            switch (conditionType)
+            if (invertCondition && !AreConditionsMet(conditionType))
             {
-                case ConditionType.All:
-                    if (targetEvents.All(e => invertCondition ? !e.IsBeingCalled : e.IsBeingCalled))
-                    {
-#if UNITY_EDITOR
-                        if (showDebugLogs)
-                            Debug.Log("All known events are being called!");
-#endif
-                        base.OnInvokeEvent();
-                    }
-                    else if (callEventWhileConditionsAreFalse && whileConditionsAreFalse)
-                    {
-                        IsBeingCalled = false;
-                        whileConditionsAreFalse.OnInvokeEvent();
-                    }
-
-                    break;
-                case ConditionType.Any:
-                    if (targetEvents.Any(e => invertCondition ? !e.IsBeingCalled : e.IsBeingCalled))
-                    {
-#if UNITY_EDITOR
-                        if (showDebugLogs)
-                            Debug.Log("Some of the known events are being called!");
-#endif
-
-                        base.OnInvokeEvent();
-                    }
-                    else if (callEventWhileConditionsAreFalse && whileConditionsAreFalse)
-                    {
-                        IsBeingCalled = false;
-                        whileConditionsAreFalse.OnInvokeEvent();
-                    }
-
-                    break;
+                base.OnInvokeEvent();
+            }
+            else if (AreConditionsMet(conditionType))
+            {
+                base.OnInvokeEvent();
             }
 
-            IsBeingCalled = false;
+            if (!triggerOnce)
+                IsBeingCalled = false;
+        }
+
+        private bool AreConditionsMet(ConditionType type)
+        {
+            foreach (CustomEvent eEvent in targetEvents)
+            {
+                switch (eEvent)
+                {
+                    case InstanceEvent instanceEvent:
+                        switch (type)
+                        {
+                            case ConditionType.All:
+                                if (!instanceEvent.IsInstanceBeingCalled)
+                                    return false;
+                                break;
+                            case ConditionType.Any:
+                                if (instanceEvent.IsInstanceBeingCalled)
+                                    return true;
+                                break;
+                        }
+
+                        break;
+                    default:
+                        switch (type)
+                        {
+                            case ConditionType.All:
+                                if (!eEvent.IsBeingCalled)
+                                    return false;
+                                break;
+                            case ConditionType.Any:
+                                if (eEvent.IsBeingCalled)
+                                    return true;
+                                break;
+                        }
+
+                        break;
+                }
+            }
+
+            return true;
         }
     }
 }

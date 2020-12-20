@@ -14,9 +14,9 @@ namespace Interactivity.Components
 
     public class DetectionArea : MonoBehaviour
     {
-        public UnityEvent onZoneEnter;
-        public UnityEvent onZoneExit;
-        public UnityEvent onZoneStay;
+        public UnityEvent<Collider> onZoneEnter;
+        public UnityEvent<Collider> onZoneExit;
+        public UnityEvent<Collider> onZoneStay;
 
 
         public ZoneType zoneType;
@@ -35,7 +35,7 @@ namespace Interactivity.Components
         {
             if (IsColliderLayerInDetectionMask(other))
             {
-                onZoneEnter.Invoke();
+                onZoneEnter.Invoke(other);
             }
         }
 
@@ -43,7 +43,7 @@ namespace Interactivity.Components
         {
             if (IsColliderLayerInDetectionMask(other))
             {
-                onZoneExit.Invoke();
+                onZoneExit.Invoke(other);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Interactivity.Components
         {
             if (IsColliderLayerInDetectionMask(other))
             {
-                onZoneStay.Invoke();
+                onZoneStay.Invoke(other);
             }
         }
 
