@@ -119,6 +119,55 @@
               <e p="readme.txt" t="Include" />
             </e>
           </e>
+          <e p="UltEvents" t="Include">
+            <e p="Event Holders" t="Include">
+              <e p="CollisionEvents2D.cs" t="Include" />
+              <e p="CollisionEvents3D.cs" t="Include" />
+              <e p="DelayedUltEventHolder.cs" t="Include" />
+              <e p="LifeCycleEvents.cs" t="Include" />
+              <e p="TriggerEvents2D.cs" t="Include" />
+              <e p="TriggerEvents3D.cs" t="Include" />
+              <e p="UltEventHolder.cs" t="Include" />
+              <e p="UpdateEvents.cs" t="Include" />
+            </e>
+            <e p="Events" t="Include">
+              <e p="PersistentArgument.cs" t="Include" />
+              <e p="PersistentCall.cs" t="Include" />
+              <e p="UltEvent0.cs" t="Include" />
+              <e p="UltEvent1.cs" t="Include" />
+              <e p="UltEvent2.cs" t="Include" />
+              <e p="UltEvent3.cs" t="Include" />
+              <e p="UltEvent4.cs" t="Include" />
+              <e p="UltEventBase.cs" t="Include" />
+            </e>
+            <e p="Inspector" t="Include">
+              <e p="BoolPref.cs" t="Include" />
+              <e p="Clipboard.cs" t="Include" />
+              <e p="DrawerState.cs" t="Include" />
+              <e p="MethodSelectionMenu.cs" t="Include" />
+              <e p="ObjectPicker.cs" t="Include" />
+              <e p="PersistentArgumentDrawer.cs" t="Include" />
+              <e p="PersistentCallDrawer.cs" t="Include" />
+              <e p="Serialization.cs" t="Include" />
+              <e p="SerializedPropertyContextMenu.cs" t="Include" />
+              <e p="This folder is not called 'Editor'.txt" t="Include" />
+              <e p="UltEventDrawer.cs" t="Include" />
+            </e>
+            <e p="Misc" t="Include">
+              <e p="ArrayCache.cs" t="Include" />
+              <e p="AssemblyInfo.cs" t="Include" />
+              <e p="Benchmarks" t="Include">
+                <e p="EventBenchmark.cs" t="Include" />
+                <e p="EventBenchmarkBase.cs" t="Include" />
+                <e p="UltEventBenchmark.cs" t="Include" />
+                <e p="UnityEventBenchmark.cs" t="Include" />
+              </e>
+              <e p="Names.cs" t="Include" />
+              <e p="UltEventUtils.cs" t="Include" />
+            </e>
+            <e p="readme.txt" t="Include" />
+            <e p="UltEvents.asmdef" t="Include" />
+          </e>
         </e>
         <e p="QuickOutline" t="Include">
           <e p="readme.txt" t="Include" />
@@ -145,6 +194,7 @@
           <e p="Interactivity" t="Include">
             <e p="Components" t="Include">
               <e p="Gameplay" t="Include">
+                <e p="ColorSwapper.cs" t="Include" />
                 <e p="DoorController.cs" t="Include" />
                 <e p="Teleporter.cs" t="Include" />
               </e>
@@ -289,6 +339,7 @@
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="UltEvents.csproj" t="IncludeRecursive" />
     </e>
   </component>
 </project>

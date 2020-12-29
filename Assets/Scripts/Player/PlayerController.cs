@@ -141,7 +141,7 @@ namespace Player
                 if (WeaponShop.isShopOpen && _weaponController)
                 {
                     if (_weaponController.closeShopEvent)
-                        _weaponController.closeShopEvent.OnInvokeEvent();
+                        _weaponController.closeShopEvent.OnInvokeEvent(gameObject);
                     return;
                 }
 
@@ -155,7 +155,6 @@ namespace Player
         /// <param name="isCrouching">Input check</param>
         private void OnCrouchAlterPlayerHeight(bool isCrouching)
         {
-            var position = transform.position;
             if (isCrouching)
             {
                 _collisionBody.height = 1f;

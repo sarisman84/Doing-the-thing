@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpeningDuration: 0.5
-  doorOpenPosition: {x: 0, y: 0, z: 1.5734863}
+  doorOpenPosition: {x: 0, y: 0, z: 1.6079063}
 --- !u!1 &7609692113978624631
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,45 +241,21 @@ MonoBehaviour:
     - {fileID: 7609692113060173342}
     useCustomArg: 1
     defaultUnityEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    entityUnityEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7609692113060173340}
-          m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-            Assembly-CSharp
-          m_MethodName: OpenDoor
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+      _PersistentCalls: []
+    instanceUnityEvent:
+      _PersistentCalls:
+      - _Target: {fileID: 7609692113060173340}
+        _MethodName: OpenDoor
+        _PersistentArguments: []
   - eventListener: {fileID: 11400000, guid: 565c0091bb93080408a7cb737fe4aa73, type: 2}
     entityComparison:
     - {fileID: 7609692113060173342}
     useCustomArg: 1
     defaultUnityEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    entityUnityEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7609692113060173340}
-          m_TargetAssemblyTypeName: Interactivity.Components.Gameplay.DoorController,
-            Assembly-CSharp
-          m_MethodName: CloseDoor
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+      _PersistentCalls: []
+    instanceUnityEvent:
+      _PersistentCalls:
+      - _Target: {fileID: 7609692113060173340}
+        _MethodName: CloseDoor
+        _PersistentArguments: []
   eventEditType: 0

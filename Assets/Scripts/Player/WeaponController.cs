@@ -5,6 +5,7 @@ using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
+using Interactivity.Events;
 using Player.Weapons;
 using UI;
 using UnityEngine;
@@ -24,8 +25,8 @@ namespace Player
         [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
 
-        public CustomEvent closeShopEvent;
-        public CustomEvent weaponSelectEvent;
+        public InstanceEvent closeShopEvent;
+        public InstanceEvent weaponSelectEvent;
 
 
         public void Start()
@@ -99,7 +100,7 @@ namespace Player
             {
                 //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
                 if (weaponSelectEvent)
-                    weaponSelectEvent.OnInvokeEvent();
+                    weaponSelectEvent.OnInvokeEvent(gameObject);
             }
 
             if (player.CameraController.CameraLocked) return;

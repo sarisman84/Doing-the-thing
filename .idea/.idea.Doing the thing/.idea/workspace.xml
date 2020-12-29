@@ -23,46 +23,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Area Trigger.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Area Trigger.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Teleport Point.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Teleport Point.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton01.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton01.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton02.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton02.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton03.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton03.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/DisablePlatform.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/DisablePlatform.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnablePlatform.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnablePlatform.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnableTeleporter.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnableTeleporter.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Teleporter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter2.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter2.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Ui/Individual_CloseShop.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Ui/Individual_CloseShop.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Ui/Individual_OpenShop.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Ui/Individual_OpenShop.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ColorSwapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ColorSwapper.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/UnityEventsPropertyDrawer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/UnityEventsPropertyDrawer.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Double Door Variant.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Double Door Variant.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton01.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton01.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton02.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton02.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton03.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Condition/EnableTeleporter_InteractiveButton03.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnableTeleporter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/EnableTeleporter.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/DoorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/DoorController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/EventListener.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/EventListener.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,8 +101,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/05/1477f7c5/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/aa/f4855ae5/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/61/170dcd42/InvokableCallList.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/67055F1B-E365-4E2A-9872-54D5437EE5B8/d2/1097987b/SerializedProperty.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/be/b7a3c7fb/MethodInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/24/45c6bfc9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/76/2f5a6e0d/IntPtr.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/12/93eae498/PersistentCall.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63D737E1-C011-441A-8570-C920DB3597F0/7f/ccdeb646/NativeInputSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/40/4f073c9e/Renderer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -135,17 +129,20 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/ConditionEvent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Teleporter.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/EventListener.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Color Swapper.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ColorSwapper.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/DoorController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -160,7 +157,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34807536" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.2981163" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -264,7 +261,12 @@
       <workItem from="1608201720572" duration="8757000" />
       <workItem from="1608312389320" duration="10299000" />
       <workItem from="1608371474715" duration="17797000" />
-      <workItem from="1608485740826" duration="6224000" />
+      <workItem from="1608485740826" duration="11197000" />
+      <workItem from="1608572076394" duration="9097000" />
+      <workItem from="1608646786291" duration="5073000" />
+      <workItem from="1608738816659" duration="2757000" />
+      <workItem from="1609230373372" duration="3886000" />
+      <workItem from="1609272503956" duration="471000" />
     </task>
     <servers />
   </component>
@@ -288,5 +290,12 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#UnityEditor.SerializedProperty" memberName="propertyType" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

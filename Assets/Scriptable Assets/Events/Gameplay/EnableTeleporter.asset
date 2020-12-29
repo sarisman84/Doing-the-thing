@@ -12,13 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ffd393231f64602b957d296736c02e1, type: 3}
   m_Name: EnableTeleporter
   m_EditorClassIdentifier: 
-  triggerOnce: 0
+  triggerOnce: 1
   invertCondition: 0
   conditionType: 0
   targetEvents:
-  - {fileID: 11400000, guid: ece45e73dc06ab14ab367f9e3c28fae1, type: 2}
-  - {fileID: 11400000, guid: f9e2208213bba894f88934944c9a3659, type: 2}
-  - {fileID: 11400000, guid: ed12324c672edb4408607b4dade335df, type: 2}
-  callEventWhileConditionsAreFalse: 0
-  whileConditionsAreFalse: {fileID: 0}
-  showDebugLogs: 0
+  - {fileID: 11400000, guid: 9e70efbd7d81495438a1ba0c79a09bf8, type: 2}
+  - {fileID: 11400000, guid: db9564f4a48ce11439998147de5d098b, type: 2}

@@ -33,49 +33,30 @@ namespace Editor
             bool isNotNull = property.FindPropertyRelative("eventListener").objectReferenceValue != null;
             bool isInstanceEvent = property.FindPropertyRelative("eventListener").objectReferenceValue is InstanceEvent;
             bool useList = property.FindPropertyRelative("useCustomArg").boolValue;
-
-            if (isNotNull && isInstanceEvent)
+            if (!isNotNull) return height;
+            if (isInstanceEvent)
             {
                 height += FieldHeight;
                 if (useList)
                 {
                     height += FieldHeight * (property.FindPropertyRelative("entityComparison").arraySize + 1);
-                    height += GetUnityEventHeight(property.FindPropertyRelative("entityUnityEvent"));
+                    height += GetUnityEventHeight(property.FindPropertyRelative("instanceUnityEvent"));
                 }
 
                 else
-                    height += GetUnityEventHeight(property.FindPropertyRelative("defaultUnityEvent"));
+                {
+                    height += GetUnityEventHeight(property.FindPropertyRelative("instanceUnityEvent"));
+                }
             }
             else
             {
-                height += GetUnityEventHeight(property.FindPropertyRelative("defaultUnityEvent")) - 60f;
+                height += GetUnityEventHeight(property.FindPropertyRelative("defaultUnityEvent"));
             }
 
 
             return height;
         }
 
-        // private float ElementHeightCallback(int index)
-        // {
-        //     float height = EditorGUIUtility.singleLineHeight * 1.15f;
-        //     SerializedProperty property = _list.serializedProperty.GetArrayElementAtIndex(index);
-        //     SerializedProperty unityResponse = property.FindPropertyRelative("eventListener");
-        //     SerializedProperty call = property
-        //         .FindPropertyRelative("entityUnityEvent");
-        //     SerializedProperty normalCall = property.FindPropertyRelative("defaultUnityEvent");
-        //     SerializedProperty entityComparison = property.FindPropertyRelative("entityComparison");
-        //     SerializedProperty useCustomArgs = property.FindPropertyRelative("useCustomArg");
-        //
-        //     if (unityResponse.objectReferenceValue != null && unityResponse.objectReferenceValue is InstanceEvent &&
-        //         useCustomArgs.boolValue)
-        //         height = FieldHeight * 2f +
-        //                  (FieldHeight * entityComparison.arraySize + 1) * 4.75f +
-        //                  GetUnityEventHeight(call) * 2f;
-        //     else if (unityResponse.objectReferenceValue != null)
-        //         height = (FieldHeight * 2f) + GetUnityEventHeight(normalCall) * (index != 0 ? 2f : 1);
-        //
-        //     return height;
-        // }
 
         private void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
         {
@@ -114,7 +95,7 @@ namespace Editor
         private const string ComparisonList = "entityComparison";
         private const string CompareEntities = "useCustomArg";
         private const string UnityEvent = "defaultUnityEvent";
-        private const string EntityEvent = "entityUnityEvent";
+        private const string InstanceEvent = "instanceUnityEvent";
         private const string EventListener = "eventListener";
 
         private Rect _previousPosition;
@@ -141,8 +122,8 @@ namespace Editor
 
             _serializedObject = property.serializedObject;
             _foundProperties = new Dictionary<string, SerializedProperty>();
-            FindProperties(_foundProperties, property, ComparisonList, CompareEntities, UnityEvent, EntityEvent,
-                EventListener);
+            FindProperties(_foundProperties, property, ComparisonList, CompareEntities, UnityEvent,
+                InstanceEvent, EventListener);
 
             if (!_currentLists.ContainsKey(property.displayName))
             {
@@ -160,20 +141,6 @@ namespace Editor
             EditorGUI.EndProperty();
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return IsInstanceEvent
-                ? _foundProperties[CompareEntities].boolValue
-                    ? base.GetPropertyHeight(_foundProperties[EventListener], new GUIContent()) +
-                      base.GetPropertyHeight(_foundProperties[CompareEntities], new GUIContent()) +
-                      base.GetPropertyHeight(_foundProperties[ComparisonList], new GUIContent()) +
-                      base.GetPropertyHeight(_foundProperties[EntityEvent], new GUIContent())
-                    : base.GetPropertyHeight(_foundProperties[EventListener], new GUIContent()) +
-                      base.GetPropertyHeight(_foundProperties[CompareEntities], new GUIContent()) +
-                      base.GetPropertyHeight(_foundProperties[UnityEvent], new GUIContent())
-                : base.GetPropertyHeight(_foundProperties[EventListener], new GUIContent()) +
-                  base.GetPropertyHeight(_foundProperties[UnityEvent], new GUIContent());
-        }
 
         public enum ElementType
         {
@@ -182,7 +149,7 @@ namespace Editor
             List
         }
 
-        private void NextElementPosition(ref Rect position, ElementType type)
+        private void NextElementPosition(ref Rect position, ElementType type, string element = "")
         {
             switch (type)
             {
@@ -194,9 +161,7 @@ namespace Editor
                 case ElementType.UnityEvent:
                     position.Set(_previousPosition.x, _previousPosition.y + _previousPosition.height + 5f,
                         _previousPosition.width,
-                        GetUnityEventHeight(IsInstanceEvent
-                            ? _foundProperties[EntityEvent]
-                            : _foundProperties[UnityEvent]));
+                        GetUnityEventHeight(_foundProperties[element]) / 2f);
                     break;
                 case ElementType.List:
                     position.Set(_previousPosition.x, _previousPosition.y + _previousPosition.height + 5f,
@@ -230,10 +195,11 @@ namespace Editor
 
         public static float GetUnityEventHeight(SerializedProperty property)
         {
-            int arraySize = property.FindPropertyRelative("m_PersistentCalls")
-                .FindPropertyRelative("m_Calls").arraySize;
+            if (property == null) return 0;
+            int arraySize = property.FindPropertyRelative("_PersistentCalls").arraySize;
+            arraySize = Mathf.Clamp(arraySize, 1, arraySize);
             return
-                (FieldHeight + 80f) + (47f * (arraySize == 0 ? arraySize + 1 : arraySize)) + 20f;
+                (FieldHeight + 20f) + (40 * arraySize) + 40f;
         }
 
         public static float FieldHeight => EditorGUIUtility.singleLineHeight * 1.15f;
@@ -274,65 +240,22 @@ namespace Editor
                     _currentLists[property.displayName].DoList(position);
                 }
 
-                NextElementPosition(ref position, ElementType.UnityEvent);
-                EditorGUI.PropertyField(position, foundProperties[EntityEvent],
-                    new GUIContent(foundProperties[EntityEvent].displayName));
+                NextElementPosition(ref position, ElementType.UnityEvent, InstanceEvent);
+                EditorGUI.PropertyField(position, foundProperties[InstanceEvent],
+                    new GUIContent(foundProperties[InstanceEvent].displayName));
                 return;
             }
 
-            NextElementPosition(ref position, ElementType.UnityEvent);
+            NextElementPosition(ref position, ElementType.UnityEvent, UnityEvent);
             EditorGUI.PropertyField(position, foundProperties[UnityEvent],
                 new GUIContent(foundProperties[UnityEvent].displayName));
-
             _serializedObject.ApplyModifiedProperties();
-
-
-            //  SerializedProperty eventListener = property.FindPropertyRelative("eventListener");
-            // gameObjectArg = property.FindPropertyRelative("entityComparison");
-            //
-            // SerializedProperty defaultUnityEvent = property.FindPropertyRelative("defaultUnityEvent");
-            // SerializedProperty entityUnityEvent = property.FindPropertyRelative("entityUnityEvent");
-            //
-            // SerializedProperty useCustomArg = property.FindPropertyRelative("useCustomArg");
-            //
-            // position.Set(position.position.x, position.position.y, position.width, 20);
-            // EditorGUI.PropertyField(position, eventListener, new GUIContent(eventListener.displayName));
-            // position.Set(position.position.x, position.position.y + 25, position.width, position.height);
-            // if (eventListener.objectReferenceValue is InstanceEvent)
-            // {
-            //     float ogXPos = position.position.x;
-            //     float ogWidth = position.width;
-            //
-            //     position.Set(position.position.x, position.position.y, ogWidth,
-            //         position.height);
-            //     useCustomArg.boolValue = EditorGUI.Toggle(position,
-            //         useCustomArg.boolValue, GUIStyles.helpButtonStyle);
-            //     position.Set(position.position.x + 25, position.y, position.width, position.height);
-            //     EditorGUI.LabelField(position, useCustomArg.boolValue ? "Disable comparison" : "Compare gameObjects");
-            //     position.Set(ogXPos, position.position.y + EditorGUIUtility.singleLineHeight * 1.25f,
-            //         ogWidth,
-            //         position.height);
-            //     if (useCustomArg.boolValue)
-            //         DrawList(ref position, gameObjectArg);
-            //     position.Set(ogXPos,
-            //         useCustomArg.boolValue ? position.position.y + 75 : position.position.y + 25, ogWidth,
-            //         position.height);
-            //     EditorGUI.PropertyField(position, entityUnityEvent, new GUIContent(entityUnityEvent.displayName));
-            //     return;
-            // }
-            //
-            // if (eventListener.objectReferenceValue != null)
-            //     EditorGUI.PropertyField(position, defaultUnityEvent, new GUIContent(defaultUnityEvent.displayName));
-            //
-            // property.serializedObject.ApplyModifiedProperties();
         }
 
 
         private void DrawHeaderCallback(Rect rect)
         {
-            GUI.tooltip =
-                "Toggle this if you want to compare the detected entity from the listener with another gameObject. This will make sure that the event is only called when both entities are the same.";
-            EditorGUI.LabelField(rect, new GUIContent("Objects to compare"));
+            EditorGUI.LabelField(rect, new GUIContent("Objects to Compare"));
         }
 
         private void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)

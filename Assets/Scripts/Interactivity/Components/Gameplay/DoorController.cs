@@ -24,14 +24,14 @@ namespace Interactivity.Components.Gameplay
             _doorClosedPosition = transform.position;
         }
 
-        public void OpenDoor(GameObject entity)
+        public void OpenDoor()
         {
             //Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
             //if (gameObject.GetInstanceID() == entity.GetInstanceID())
                 transform.DOMove(DoorOpenPosition, doorOpeningDuration);
         }
 
-        public void CloseDoor(GameObject entity)
+        public void CloseDoor()
         {
             //Debug.Log($"Incoming entity: {entity} -> {gameObject.GetInstanceID()}");
             //if (gameObject.GetInstanceID() == entity.GetInstanceID())

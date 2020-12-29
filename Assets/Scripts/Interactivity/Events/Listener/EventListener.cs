@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Player;
+using Player.Weapons;
+using UltEvents;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -35,33 +39,12 @@ namespace Interactivity.Events.Listener
                         switch (type)
                         {
                             case EventEdit.Listen:
-                                instanceEvent.Subscribe<Func<GameObject, bool>>((entity) =>
-                                {
-                                    bool areEqual = false;
-                                    foreach (GameObject targetEntity in eventDefinition.entityComparison)
-                                    {
-                                        areEqual = targetEntity.GetInstanceID() ==
-                                                   entity.GetInstanceID();
-                                        if (areEqual)
-                                            eventDefinition.InvokeEvent(entity);
-                                    }
-
-                                    return areEqual;
-                                });
+                                instanceEvent.Subscribe<Action<GameObject>>(id =>
+                                    InstanceEvent.InstanceCheck(id, eventDefinition, instanceEvent));
                                 break;
                             case EventEdit.Remove:
-                                instanceEvent.Unsubcribe<Func<GameObject, bool>>((entity) =>
-                                {
-                                    bool areEqual = false;
-                                    foreach (GameObject targetEntity in eventDefinition.entityComparison)
-                                    {
-                                        areEqual = targetEntity.GetInstanceID() ==
-                                                   entity.GetInstanceID();
-                                        if (areEqual)
-                                            eventDefinition.InvokeEvent(entity);
-                                    }
-                                    return areEqual;
-                                });
+                                instanceEvent.Unsubcribe<Action<GameObject>>(id =>
+                                    InstanceEvent.InstanceCheck(id, eventDefinition, instanceEvent));
                                 break;
                         }
 
@@ -79,6 +62,7 @@ namespace Interactivity.Events.Listener
 
                         break;
                 }
+                
             }
         }
     }
@@ -89,18 +73,17 @@ namespace Interactivity.Events.Listener
         public CustomEvent eventListener;
         public GameObject[] entityComparison;
         public bool useCustomArg = false;
-        public UnityEvent defaultUnityEvent;
-        public UnityEvent<GameObject> entityUnityEvent;
-
+        
+        public UltEvent defaultUnityEvent;
+        public UltEvent instanceUnityEvent;
 
         public void InvokeEvent(object arg = null)
         {
             switch (arg)
             {
                 case GameObject gameObject:
-                    entityUnityEvent?.Invoke(gameObject);
+                    instanceUnityEvent?.Invoke();
                     break;
-
                 default:
                     defaultUnityEvent?.Invoke();
                     break;

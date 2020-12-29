@@ -54,13 +54,13 @@ namespace UI
         }
 
 
-        public void OpenShop(List<Weapon> library)
+        public void OpenShop(WeaponController library)
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
 
             gameObject.SetActive(true);
-            UpdateShop(library);
+            UpdateShop(library.weaponLibrary);
 
             isShopOpen = true;
         }
