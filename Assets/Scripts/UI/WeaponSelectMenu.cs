@@ -56,6 +56,11 @@ namespace UI
             IsAlreadyActive = false;
         }
 
+        public void OpenMenu(WeaponController controller)
+        {
+            OpenMenu(controller.SelectWeapon, controller.weaponLibrary);
+        }
+
         public void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
         {
             if (IsAlreadyActive)

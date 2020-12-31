@@ -40,6 +40,11 @@ namespace Interactivity.Events
             InstanceDelegate?.Invoke(gameObject);
         }
 
+        public void OnInvokeEvent(Collider collider)
+        {
+            OnInvokeEvent(collider.gameObject);
+        }
+
         public override void Unsubcribe<TDel>(TDel method)
         {
             InstanceDelegate -= id => method.DynamicInvoke(id);
@@ -54,21 +59,44 @@ namespace Interactivity.Events
         public static void InstanceCheck(GameObject entity, EventDefinition eventDefinition,
             InstanceEvent instanceEvent)
         {
+            if (!eventDefinition.useCustomArg)
+            {
+                eventDefinition.InvokeEvent(entity);
+                return;
+            }
+
+            var interactable = eventDefinition.Owner.GetComponent<IInteractable>();
+            if (eventDefinition.useInteractor && interactable != null)
+            {
+                if (TryInvokeMethod(entity, eventDefinition, instanceEvent,
+                    interactable.LatestInteractor.gameObject)) return;
+            }
+
+
             foreach (GameObject targetEntity in eventDefinition.entityComparison)
             {
-                if (!instanceEvent.instanceStatusDictionary.ContainsKey(targetEntity.GetInstanceID()))
-                    instanceEvent.instanceStatusDictionary.Add(targetEntity.GetInstanceID(), false);
-
-                var areEqual = targetEntity.GetInstanceID() == entity.GetInstanceID();
-                if (areEqual)
-                {
-                    instanceEvent.instanceStatusDictionary[targetEntity.GetInstanceID()] = true;
-                    eventDefinition.InvokeEvent(entity);
-                    if (!instanceEvent.triggerOnce)
-                        instanceEvent.instanceStatusDictionary[targetEntity.GetInstanceID()] = false;
-                    break;
-                }
+                if (TryInvokeMethod(entity, eventDefinition, instanceEvent, targetEntity)) break;
             }
+        }
+
+        private static bool TryInvokeMethod(GameObject entity, EventDefinition eventDefinition,
+            InstanceEvent instanceEvent,
+            GameObject targetEntity)
+        {
+            if (!instanceEvent.instanceStatusDictionary.ContainsKey(targetEntity.GetInstanceID()))
+                instanceEvent.instanceStatusDictionary.Add(targetEntity.GetInstanceID(), false);
+
+            var areEqual = targetEntity.GetInstanceID() == entity.GetInstanceID();
+            if (areEqual)
+            {
+                instanceEvent.instanceStatusDictionary[targetEntity.GetInstanceID()] = true;
+                eventDefinition.InvokeEvent(entity);
+                if (!instanceEvent.triggerOnce)
+                    instanceEvent.instanceStatusDictionary[targetEntity.GetInstanceID()] = false;
+                return true;
+            }
+
+            return false;
         }
 
         public static void InstanceCheck<TDel>(GameObject entity, InstanceEvent eventInfo, TDel method)

@@ -26,9 +26,9 @@ namespace Interactivity
 
     public interface IInteractable : IUnity
     {
+        Collider LatestInteractor { get; }
         void OnInteract(Collider collider);
         InteractionInput InputType { get; }
-     
     }
 
     public interface IDetectable : IUnity
@@ -36,10 +36,8 @@ namespace Interactivity
         void OnAreaEnter(Collider col);
         void OnAreaStay(Collider collider);
         void OnAreaExit(Collider collider);
-        
     }
 
-  
 
     public interface IUnity
     {

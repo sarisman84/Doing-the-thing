@@ -33,6 +33,7 @@ namespace Interactivity.Events.Listener
         {
             foreach (EventDefinition eventDefinition in events)
             {
+                eventDefinition.Owner = gameObject;
                 switch (eventDefinition.eventListener)
                 {
                     case InstanceEvent instanceEvent:
@@ -65,6 +66,17 @@ namespace Interactivity.Events.Listener
                 
             }
         }
+        
+        
+        #if UNITY_EDITOR
+        public void OnValidate()
+        {
+            foreach (var eventDefinition in events)
+            {
+                eventDefinition.Owner = gameObject;
+            }
+        }
+#endif
     }
 
     [Serializable]
@@ -73,21 +85,18 @@ namespace Interactivity.Events.Listener
         public CustomEvent eventListener;
         public GameObject[] entityComparison;
         public bool useCustomArg = false;
+        public bool useInteractor = false;
         
         public UltEvent defaultUnityEvent;
         public UltEvent instanceUnityEvent;
+        
+        public GameObject Owner { get; set; }
 
+       
         public void InvokeEvent(object arg = null)
         {
-            switch (arg)
-            {
-                case GameObject gameObject:
-                    instanceUnityEvent?.Invoke();
-                    break;
-                default:
-                    defaultUnityEvent?.Invoke();
-                    break;
-            }
+            defaultUnityEvent?.Invoke();
+            instanceUnityEvent?.Invoke();
         }
     }
 }

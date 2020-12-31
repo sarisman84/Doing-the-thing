@@ -16,13 +16,14 @@ namespace Interactivity.Components
         public InteractionInput InputType => interactionInputType;
 
 
-
-
         public InteractionInput interactionInputType = InteractionInput.Hold;
+
+        public Collider LatestInteractor { get; private set; }
 
         public virtual void OnInteract(Collider collider)
         {
             onInteractCallback?.Invoke(collider);
+            LatestInteractor = collider;
         }
     }
 }
