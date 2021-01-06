@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ffd393231f64602b957d296736c02e1, type: 3}
-  m_Name: Group_Teleporter_EnableTeleporter
+  m_Name: Group_EnableElevator
   m_EditorClassIdentifier: 
-  triggerOnce: 1
+  triggerOnce: 0
   invertCondition: 0
   conditionType: 0
   targetEvents:
-  - {fileID: 11400000, guid: 9e70efbd7d81495438a1ba0c79a09bf8, type: 2}
-  - {fileID: 11400000, guid: db9564f4a48ce11439998147de5d098b, type: 2}
+  - {fileID: 11400000, guid: 411e93ed6c5d7034b977f5ae7333a31a, type: 2}
+  - {fileID: 11400000, guid: 2361ddaaf3d7e5d4fa30cabfd3f9338b, type: 2}
+  showDebugMessages: 0

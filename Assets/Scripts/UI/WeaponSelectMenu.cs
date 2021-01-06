@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
+using Interactivity.Events;
 using Player;
 using Player.Weapons;
 using UnityEngine;
@@ -15,9 +16,15 @@ namespace UI
         private const string OpenWeaponSelection = "UI_WeaponSelectMenu";
         private List<WeaponSlot> _weaponSlots;
 
+        private static InstanceEvent _toggleWeaponSelectMenuEvent;
+        public PlayerController playerController;
+
 
         private void Awake()
         {
+            InstanceEvent.CreateEvent<Action<Action<int>, List<Weapon>>>(ref _toggleWeaponSelectMenuEvent,
+                playerController.gameObject, OpenMenu);
+
             _weaponSlots = transform.GetComponentsInChildren<WeaponSlot>().ToList();
             _weaponSlots.ApplyAction(s => s.gameObject.SetActive(false));
         }
@@ -100,6 +107,11 @@ namespace UI
 
 
             return index;
+        }
+
+        public static void Open(GameObject o, Action<int> selectWeapon, List<Weapon> weaponLibrary)
+        {
+            _toggleWeaponSelectMenuEvent?.OnInvokeEvent(o,selectWeapon, weaponLibrary);
         }
     }
 }

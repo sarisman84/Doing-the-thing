@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1716380370467639681}
   - component: {fileID: 2060993275717552954}
   - component: {fileID: 2060993275717552952}
-  - component: {fileID: 2040079877}
   - component: {fileID: 2040079878}
   m_Layer: 13
   m_Name: Vendor
@@ -66,53 +65,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineThickness: 5
   outlineColor: {r: 0, g: 0.9088969, b: 1, a: 1}
---- !u!114 &2040079877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060993275717552955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff63a567b8a4c7f9fe4190e0d40a824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-  - eventListener: {fileID: 11400000, guid: 2c1fa12d4746dd94aa14c7a2c859f28a, type: 2}
-    entityComparison:
-    - {fileID: 0}
-    useCustomArg: 1
-    useInteractor: 0
-    defaultUnityEvent:
-      _PersistentCalls: []
-    instanceUnityEvent:
-      _PersistentCalls:
-      - _Target: {fileID: 0}
-        _MethodName: OpenShop
-        _PersistentArguments:
-        - _Type: 13
-          _Int: 0
-          _String: Player.WeaponController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-          _X: 0
-          _Y: 0
-          _Z: 0
-          _W: 0
-          _Object: {fileID: 0}
-  - eventListener: {fileID: 11400000, guid: ec5aa99842e0f214da23b265478fbe83, type: 2}
-    entityComparison:
-    - {fileID: 0}
-    useCustomArg: 1
-    useInteractor: 0
-    defaultUnityEvent:
-      _PersistentCalls: []
-    instanceUnityEvent:
-      _PersistentCalls:
-      - _Target: {fileID: 0}
-        _MethodName: _CloseShop
-        _PersistentArguments: []
-  eventEditType: 0
 --- !u!114 &2040079878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,21 +78,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInteractCallback:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 2c1fa12d4746dd94aa14c7a2c859f28a, type: 2}
-        m_TargetAssemblyTypeName: Interactivity.Events.InstanceEvent, Assembly-CSharp
-        m_MethodName: OnInvokeEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _PersistentCalls:
+    - _Target: {fileID: 0}
+      _MethodName: UI.WeaponShop, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null.Open
+      _PersistentArguments:
+      - _Type: 14
+        _Int: 0
+        _String: UnityEngine.Collider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   interactionInputType: 1
+  onHoverEnterCallback:
+    _PersistentCalls:
+    - _Target: {fileID: 2060993275717552952}
+      _MethodName: SetOutlineActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  onHoverStayCallback:
+    _PersistentCalls: []
+  onHoverExitCallback:
+    _PersistentCalls:
+    - _Target: {fileID: 2060993275717552952}
+      _MethodName: SetOutlineActive
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!1 &5348396000220529603
 GameObject:
   m_ObjectHideFlags: 0

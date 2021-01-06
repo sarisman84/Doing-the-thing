@@ -184,6 +184,7 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="Effects" t="Include">
+            <e p="Animation_ButtonPress.cs" t="Include" />
             <e p="VentorTitleRotator.cs" t="Include" />
           </e>
           <e p="Extensions" t="Include">
@@ -197,6 +198,8 @@
               <e p="Gameplay" t="Include">
                 <e p="ColorSwapper.cs" t="Include" />
                 <e p="DoorController.cs" t="Include" />
+                <e p="EnemySpawnerData.cs" t="Include" />
+                <e p="ItemCreator.cs" t="Include" />
                 <e p="Teleporter.cs" t="Include" />
               </e>
               <e p="General" t="Include">
@@ -246,6 +249,7 @@
           <e p="Player" t="Include">
             <e p="CameraController.cs" t="Include" />
             <e p="CurrencyHandler.cs" t="Include" />
+            <e p="CurrencyManager.cs" t="Include" />
             <e p="InputListener.cs" t="Include" />
             <e p="InteractionController.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />

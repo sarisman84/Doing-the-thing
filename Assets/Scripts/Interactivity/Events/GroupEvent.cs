@@ -20,6 +20,9 @@ namespace Interactivity.Events
         public ConditionType conditionType;
         public List<CustomEvent> targetEvents = new List<CustomEvent>();
 
+#if UNITY_EDITOR
+        public bool showDebugMessages;
+#endif
 
         protected override void OnEnable()
         {
@@ -84,11 +87,24 @@ namespace Interactivity.Events
 
             foreach (CustomEvent eEvent in targetEvents)
             {
+                individualResults[resultIndex] = false;
                 switch (eEvent)
                 {
                     case InstanceEvent instanceEvent:
                         individualResults[resultIndex] = instanceEvent.AreAllInstancesBeingCalled();
-                        Debug.Log($"Group check ({instanceEvent.name}); {individualResults[resultIndex]}");
+#if UNITY_EDITOR
+                        if (showDebugMessages)
+                        {
+                            int index = 0;
+                            instanceEvent.CurrentStatus.ApplyAction(b =>
+                            {
+                                Debug.Log(
+                                    $"Current state of {instanceEvent.name}'s child state [{index}] is {(b ? "being called" : "not being called")}");
+                                index++;
+                            });
+                        }
+
+#endif
                         break;
                     default:
                         individualResults[resultIndex] = eEvent.IsBeingCalled;
@@ -97,7 +113,7 @@ namespace Interactivity.Events
 
                 //Increment index by 1 and make sure it stays within bounds.
                 resultIndex++;
-                resultIndex = Mathf.Clamp(resultIndex, 0, targetEvents.Count);
+                resultIndex = Mathf.Clamp(resultIndex, 0, individualResults.Length - 1);
             }
 
             return type == ConditionType.All ? individualResults.All(r => r) : individualResults.Any(r => r);

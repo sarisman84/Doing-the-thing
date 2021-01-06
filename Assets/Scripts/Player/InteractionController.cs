@@ -23,16 +23,13 @@ namespace Player
         private PlayerController _player;
         private WeaponController _weaponController;
         private float _lastInteractionDistance = 0;
-        
-       
 
-      
-
-      
 
         public bool showPickupRange = false;
         private Collider _col;
         private CameraController _cameraController;
+        private Ray _ray;
+        private IInteractable _interactable;
 
 #if UNITY_EDITOR
         [EnableIf("showPickupRange")] [SerializeField]
@@ -62,9 +59,6 @@ namespace Player
             {
                 Weapon weapon = _weaponController != null ? _weaponController.currentWeapon : null;
                 if (OnTriggerDetection(t, weapon)) continue;
-
-                
-
                 t.gameObject.SetActive(false);
             }
         }
@@ -72,24 +66,34 @@ namespace Player
         private void DetectEntityFromRaycast(float rayLength)
         {
             RaycastHit closestHit;
-            Ray ray = new Ray(transform.position,
+            _ray = new Ray(transform.position,
                 _cameraController == null ? transform.forward : _cameraController.PlayerCamera.forward);
-            if (Physics.Raycast(ray, out closestHit, rayLength, interactionFilter))
+            if (Physics.Raycast(_ray, out closestHit, rayLength, interactionFilter))
             {
-                if (closestHit.collider == null) return;
-                IInteractable interactable = closestHit.collider.GetComponent<IInteractable>();
+                if (closestHit.collider == null)
+                    return;
 
-                if (interactable != null)
-                    switch (interactable.InputType)
+                _interactable = closestHit.collider.GetComponent<IInteractable>();
+
+                if (_interactable != null)
+                {
+                    switch (_interactable.InputType)
                     {
                         case InteractionInput.Hold:
-                            if (InputListener.GetKey(Interact)) interactable.OnInteract(_col);
+                            if (InputListener.GetKey(Interact)) _interactable.OnInteract(_col);
                             break;
                         case InteractionInput.Press:
-                            if (InputListener.GetKeyDown(Interact)) interactable.OnInteract(_col);
+                            if (InputListener.GetKeyDown(Interact)) _interactable.OnInteract(_col);
                             break;
                     }
+
+                    _interactable.OnHoverEnter(_col);
+                    _interactable.OnHoverStay(_col);
+                    return;
+                }
             }
+
+            _interactable?.OnHoverExit(_col);
         }
 
 
@@ -127,7 +131,7 @@ namespace Player
                         if (pickup && args != null)
                         {
                             bool result = pickup.OnPickup((Weapon) args);
-                           
+
 
                             return !result;
                         }
@@ -135,7 +139,7 @@ namespace Player
                         return true;
 
                     case IDetectable interactable:
-                        
+
                         var position = interactable.transform.position;
                         ProximityCheck(position, () => interactable.OnAreaEnter(_col),
                             () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
@@ -145,7 +149,7 @@ namespace Player
                     default:
                         if (entity.CompareTag("Currency"))
                         {
-                            EventManager.TriggerEvent(CurrencyHandler.EarnCurrency, 1);
+                            CurrencyHandler.EarnCurrency(gameObject, 1);
                             return false;
                         }
 
@@ -163,10 +167,11 @@ namespace Player
         {
             if (!showPickupRange) return;
             Gizmos.color = detectionColor - new Color(0, 0, 0, 0.5f);
-            Gizmos.DrawSphere(transform.position, detectionRange);
-
-            Gizmos.color = interactionColor - new Color(0, 0, 0, 0.5f);
-            Gizmos.DrawSphere(transform.position, interactionRange);
+            var position = transform.position;
+            Gizmos.DrawSphere(position, detectionRange);
+            Gizmos.color = interactionColor;
+            Gizmos.DrawWireSphere(position, interactionRange);
+            Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction * interactionRange);
         }
 
 #endif

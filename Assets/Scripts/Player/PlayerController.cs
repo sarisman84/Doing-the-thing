@@ -138,10 +138,9 @@ namespace Player
 
             if (InputListener.GetKeyDown(Escape))
             {
-                if (WeaponShop.isShopOpen && _weaponController)
+                if (WeaponShop.isShopOpen)
                 {
-                    if (_weaponController.closeShopEvent)
-                        _weaponController.closeShopEvent.OnInvokeEvent(gameObject);
+                    WeaponShop.Close(gameObject);
                     return;
                 }
 
@@ -176,7 +175,7 @@ namespace Player
         {
             List<Collider> foundObjects = Physics
                 .OverlapBox(TopPositionOfCollider, sealingCheckSize, transform.rotation, movementCheckLayer).ToList();
-            return foundObjects.FindAll(c => c != this._collisionBody).Count == 0;
+            return foundObjects.FindAll(c => c != _collisionBody).Count == 0;
         }
 
         private void FixedUpdate()

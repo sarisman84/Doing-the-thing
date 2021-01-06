@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Interactivity.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
+using Object = UnityEngine.Object;
 
 namespace Player.Weapons
 {
@@ -14,45 +16,46 @@ namespace Player.Weapons
         public TMP_Text ammoCounter;
         public Image weaponIcon;
         public TMP_Text currencyCounter;
-        private const string UpdateCurrency = "UI/HUD/UpdateCurrency";
-        private const string UpdateWeaponIcon = "UI/HUD/UpdateWeaponIcon";
-        private const string UpdateAmmoCounter = "UI/HUD/UpdateAmmoCounter";
+        public PlayerController playerController;
+
+        private static InstanceEvent _ammoUIUpdateEvent;
+        private static InstanceEvent _currencyUIUpdateEvent;
+        private static InstanceEvent _weaponIconUIUpdateEvent;
+
+        public static void UpdateWeaponAmmoUI(GameObject owner, Weapon weapon)
+        {
+            _ammoUIUpdateEvent?.OnInvokeEvent(owner, weapon);
+        }
+
+        public static void UpdateWeaponAmmoUI(Collider owner, Weapon weapon)
+        {
+            _ammoUIUpdateEvent?.OnInvokeEvent(owner.gameObject, weapon);
+        }
+
+        public static void UpdateWeaponIconUI(GameObject owner, Sprite currentWeaponIcon)
+        {
+            _weaponIconUIUpdateEvent?.OnInvokeEvent(owner, currentWeaponIcon);
+        }
+
+        public static void UpdateCurrencyUI(GameObject owner, int currency)
+        {
+            _currencyUIUpdateEvent?.OnInvokeEvent(owner, currency);
+        }
 
 
         private void Awake()
         {
             currencyCounter.text = "";
-        }
 
 
-        public static void UpdateCurrencyUI(int amm)
-        {
-            EventManager.TriggerEvent(UpdateCurrency, amm);
+            InstanceEvent.CreateEvent<Action<Sprite>>(ref _weaponIconUIUpdateEvent, playerController.gameObject,
+                SetWeaponIcon);
+            InstanceEvent.CreateEvent<Action<Weapon>>(ref _ammoUIUpdateEvent, playerController.gameObject,
+                _UpdateAmmoCounter);
+            InstanceEvent.CreateEvent<Action<int>>(ref _currencyUIUpdateEvent, playerController.gameObject,
+                _UpdateCurrency);
         }
 
-        public static void UpdateAmmoUI(Weapon curWeapon)
-        {
-            EventManager.TriggerEvent(UpdateAmmoCounter, curWeapon);
-        }
-
-        public static void UpdateWeaponIconUI(Sprite value)
-        {
-            EventManager.TriggerEvent(UpdateWeaponIcon, value);
-        }
-
-        private void OnEnable()
-        {
-            EventManager.AddListener<Action<int>>(UpdateCurrency, _UpdateCurrency);
-            EventManager.AddListener<Action<Weapon>>(UpdateAmmoCounter, _UpdateAmmoCounter);
-            EventManager.AddListener<Action<Sprite>>(UpdateWeaponIcon, SetWeaponIcon);
-        }
-
-        private void OnDisable()
-        {
-            EventManager.RemoveListener<Action<int>>(UpdateCurrency, _UpdateCurrency);
-            EventManager.RemoveListener<Action<Weapon>>(UpdateAmmoCounter, _UpdateAmmoCounter);
-            EventManager.RemoveListener<Action<Sprite>>(UpdateWeaponIcon, SetWeaponIcon);
-        }
 
         public float CurrencyCounter
         {
@@ -77,6 +80,7 @@ namespace Player.Weapons
                 ammoCounter.text = "";
                 return;
             }
+
             ammoCounter.text = $"{weapon.maxAmmoCount}/{weapon.currentAmmoCount}";
         }
 

@@ -28,6 +28,9 @@ namespace Interactivity
     {
         Collider LatestInteractor { get; }
         void OnInteract(Collider collider);
+        void OnHoverEnter(Collider collider);
+        void OnHoverStay(Collider collider);
+        void OnHoverExit(Collider collider);
         InteractionInput InputType { get; }
     }
 

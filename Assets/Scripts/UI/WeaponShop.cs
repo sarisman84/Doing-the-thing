@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Extensions;
+using Interactivity.Events;
 using Player;
 using Player.Weapons;
 using TMPro;
@@ -13,7 +14,6 @@ namespace UI
 {
     public class WeaponShop : MonoBehaviour
     {
-        public const string CloseShop = "UI/Game/Shop/CloseShop";
         public static bool isShopOpen;
 
 
@@ -23,13 +23,37 @@ namespace UI
         public TMP_Text description;
         public new TMP_Text name;
         public TMP_Text priceCounter;
-        
+        public PlayerController playerController;
+
+
+        private static InstanceEvent _openShopEvent;
+        private static InstanceEvent _closeShopEvent;
+
 
         Dictionary<Guid, GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
 
 
+        public static void Open(Collider caller)
+        {
+            Open(caller.gameObject, caller.GetComponent<WeaponController>());
+        }
+
+        public static void Open(GameObject caller, WeaponController controller)
+        {
+            _openShopEvent?.OnInvokeEvent(caller, controller.weaponLibrary);
+        }
+
+        public static void Close(GameObject caller)
+        {
+            _closeShopEvent?.OnInvokeEvent(caller);
+        }
+
         private void Awake()
         {
+            InstanceEvent.CreateEvent<Action<List<Weapon>>>(ref _openShopEvent, playerController.gameObject, OpenShop);
+            InstanceEvent.CreateEvent<Action>(ref _closeShopEvent, playerController.gameObject, CloseShop);
+
+
             foreach (var var in WeaponManager.globalWeaponLibrary)
             {
                 ShopButton button = Instantiate(Resources.Load<ShopButton>("UI/Shop Slot"), buttonHolder);
@@ -50,17 +74,16 @@ namespace UI
 
             gameObject.SetActive(false);
             _weaponModels.ApplyAction(w => w.Value.SetActive(false));
-            
         }
 
 
-        public void OpenShop(WeaponController library)
+        public void OpenShop(List<Weapon> library)
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
 
             gameObject.SetActive(true);
-            UpdateShop(library.weaponLibrary);
+            UpdateShop(library);
 
             isShopOpen = true;
         }
@@ -73,6 +96,7 @@ namespace UI
                 s.gameObject.SetActive(false);
                 if (index < library.Count && s.ID == library[index].ID)
                 {
+                    Debug.Log($"{library[index].name} already exists in player's inventory.");
                     index++;
                     return;
                 }
@@ -81,7 +105,7 @@ namespace UI
             });
         }
 
-        public void _CloseShop()
+        public void CloseShop()
         {
             EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);

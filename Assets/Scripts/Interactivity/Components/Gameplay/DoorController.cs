@@ -13,10 +13,7 @@ namespace Interactivity.Components.Gameplay
         public Vector3 doorOpenPosition;
 
 
-        public Vector3 DoorOpenPosition
-        {
-            get { return doorOpenPosition + transform.position; }
-        }
+        public Vector3 DoorOpenPosition => doorOpenPosition + _doorClosedPosition;
 
 
         private void Awake()

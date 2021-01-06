@@ -104,7 +104,6 @@ namespace Player.Weapons
 
         public void OnWeaponPrimaryFire(WeaponController controller)
         {
-            WeaponController _controller = controller;
             owner = controller.GetComponent<Collider>();
             _localCounter += Time.deltaTime;
             _localCounter = Mathf.Clamp(_localCounter, 0, fireRate);
@@ -120,7 +119,7 @@ namespace Player.Weapons
                 (_localAmmoCount > 0 || maxAmmoCount == -1))
             {
                 fireEvent.Invoke(this, weaponRay);
-                HeadsUpDisplay.UpdateAmmoUI(this);
+                HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
                 _localCounter = 0;
                 if (maxAmmoCount != -1)
                     _localAmmoCount--;
@@ -133,7 +132,7 @@ namespace Player.Weapons
             if (_localAmmoCount >= maxAmmoCount) return false;
             _localAmmoCount += maxAmmoCount;
             _localAmmoCount = Mathf.Clamp(_localAmmoCount, 0, maxAmmoCount);
-            HeadsUpDisplay.UpdateAmmoUI(this);
+            HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
             return true;
         }
     }
@@ -186,7 +185,8 @@ namespace Player.Weapons
             projectile.Physics.useGravity = false;
             projectile.Physics.constraints = RigidbodyConstraints.FreezeRotation;
             projectile.Physics.AddForce(trajectoryInformation.direction * 1000f, ForceMode.Force);
-            projectile.FetchInformation(weapon.damage, 5f, (transform, radius, damage) => Explosion(weapon, transform, radius));
+            projectile.FetchInformation(weapon.damage, 5f,
+                (transform, radius, damage) => Explosion(weapon, transform, radius));
             projectile.SetProjectileModel(weapon.name);
         }
 
@@ -220,7 +220,7 @@ namespace Player.Weapons
                 IDamageable entity = t.GetComponent<IDamageable>();
                 if (entity != null)
                 {
-                    entity.TakeDamage(weapon.owner,weapon.damage);
+                    entity.TakeDamage(weapon.owner, weapon.damage);
                 }
             });
         }

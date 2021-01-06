@@ -21,12 +21,9 @@ namespace Player
     public class WeaponController : MonoBehaviour
     {
         [HideInInspector] public Weapon currentWeapon;
-        [HideInInspector] public List<Weapon> weaponLibrary;
+        public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
-
-        public InstanceEvent closeShopEvent;
-        public InstanceEvent weaponSelectEvent;
 
 
         public void Start()
@@ -82,8 +79,8 @@ namespace Player
                 // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
                 // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
 
-                HeadsUpDisplay.UpdateWeaponIconUI(currentWeapon.icon);
-                HeadsUpDisplay.UpdateAmmoUI(currentWeapon);
+                HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
+                HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
             }
         }
 
@@ -99,8 +96,7 @@ namespace Player
             if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
             {
                 //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
-                if (weaponSelectEvent)
-                    weaponSelectEvent.OnInvokeEvent(gameObject);
+                WeaponSelectMenu.Open(gameObject, SelectWeapon, weaponLibrary);
             }
 
             if (player.CameraController.CameraLocked) return;
@@ -114,8 +110,8 @@ namespace Player
         bool OnWeaponPurchace(string weapon)
         {
             Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
-            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < newWeapon.price) return false;
-            EventManager.TriggerEvent(CurrencyHandler.PayCurrency, newWeapon.price);
+            if (CurrencyHandler.GetCurrency(gameObject) < newWeapon.price) return false;
+            CurrencyHandler.PayCurrency(gameObject, newWeapon.price);
             AddWeaponToLibrary(newWeapon);
             SelectWeapon(weaponLibrary.Count - 1);
             return true;

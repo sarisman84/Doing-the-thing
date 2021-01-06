@@ -52,7 +52,7 @@ namespace Editor
         private void OnSceneGUI()
         {
             if (_platform)
-                DrawLinesBetweenWaypoints(_platform.transform, _platform.waypointList);
+                DrawLinesBetweenWaypoints(_platform.transform, ref _platform.waypointList);
         }
 
         private void CreateWaypoint(MovingPlatform _target)
@@ -66,8 +66,9 @@ namespace Editor
                   Vector3.forward);
         }
 
-        private void DrawLinesBetweenWaypoints(Transform transform, List<Vector3> targetWaypointList)
+        private void DrawLinesBetweenWaypoints(Transform transform, ref List<Vector3> targetWaypointList)
         {
+            if (targetWaypointList == null) targetWaypointList = new List<Vector3>();
             Color originalColor = Color.blue;
             for (int i = 0; i < targetWaypointList.Count; i++)
             {
