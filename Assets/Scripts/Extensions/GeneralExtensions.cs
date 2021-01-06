@@ -28,6 +28,26 @@ namespace Extensions
             return newArray;
         }
 
+        public static IEnumerable<int> GetIndexes<T>(this IEnumerable<T> list)
+        {
+            int[] result = new int[list.Count()];
+
+            for (int index = 0; index < result.Length; index++)
+            {
+                result[index] = index;
+            }
+
+            return result;
+        }
+
+        public static Transform AddPosition(this Transform transform, Vector3 desiredValue)
+        {
+            Vector3 position = transform.position;
+            position += desiredValue;
+            transform.position = position;
+            return transform;
+        }
+
 
         public static void ChangeSize<T>(this Collider collider, T value)
         {

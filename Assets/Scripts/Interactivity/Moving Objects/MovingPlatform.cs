@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
@@ -12,124 +13,174 @@ namespace Interactivity.Moving_Objects
     {
         public enum LoopMode
         {
-            ResetTeleport,
-            NormalReset,
-            ReverseReset
+            OnLoopEndETeleportToStart,
+            OnLoopEndTargetStart,
+            OnLoopEndReverse,
+            NoLoop
         }
 
-        private Quaternion GetNextLookDirection =>
-            rotateTowardsDirection
-                ? Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(
-                    (waypointList[_currentWaypoint] -
-                     waypointList[_previousWaypoint])), 0.25f)
-                : Quaternion.identity;
 
-        private float GetNextDistance => Vector3.Distance(waypointList[_currentWaypoint], transform.position);
+        private Quaternion GetNextLookDirection(bool ignoreYAxis = true)
+        {
+            Vector3 lookDirection = (waypointList[_currentWaypoint] - waypointList[_previousWaypoint]).normalized;
+            if (ignoreYAxis)
+            {
+                lookDirection.y = 0;
+            }
+
+            return Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookDirection), 0.25f);
+        }
+
 
         private Vector3 GetNextPosition
         {
             get
             {
-                var position = transform.position;
-                delta = waypointList.Count != 0
-                    ? (waypointList[_currentWaypoint] - position).normalized * platformSpeed
-                    : Vector3.forward * platformSpeed;
+                var position = waypointList.Count == 0 || waypointList == null
+                    ? Vector3.zero
+                    : waypointList[_currentWaypoint];
                 return position;
             }
         }
 
+
         public Vector3 entityCheckSizeOffset = Vector3.zero;
         public Vector3 entityCheckOffset = Vector3.zero;
         public LayerMask detectionMask;
-        private Vector3 TopPosition => transform.position + transform.up * transform.localScale.y;
-
-        public List<Collider> foundObjects;
-        [Space] public float platformSpeed = 2;
-
         public List<Vector3> waypointList;
-        public LoopMode loopMode = LoopMode.NormalReset;
-        public bool rotateTowardsDirection = true;
-        public bool activateOnAwake;
-        public bool hasToCompleteItsPath;
-        public bool IsActive { get; set; } = true;
+        public bool rotateTowardsDirection, rotateTowardsHorizontalDirection;
 
-        private int _currentWaypoint, _previousWaypoint;
-        private bool _reversing;
+        private Vector3 TopPosition => transform.position + transform.up * transform.localScale.y;
+        private List<Collider> _foundObjects = new List<Collider>();
+        [SerializeField] private int _currentWaypoint, _previousWaypoint;
+        private Coroutine _platformMovementCoroutine, _entityGrabCoroutine;
+        private Vector3 _delta;
+        private bool _isMovingFlag;
 
-        void Awake()
+
+        public void MoveToWaypoint(float platformSpeed, float startupDelay, int waypoint)
         {
-            IsActive = activateOnAwake;
-            _currentWaypoint = 0;
+            if (_platformMovementCoroutine != null)
+                StopCoroutine(_platformMovementCoroutine);
+
+            _platformMovementCoroutine =
+                StartCoroutine(MoveToWaypoints(platformSpeed, startupDelay, 0, LoopMode.NoLoop, waypoint));
         }
 
-        // Update is called once per frame
-
-        private Vector3 delta;
-
-        private bool _hasToCompleteItsPath;
-
-        void Update()
+        public void Move(LoopMode loopMode, float startupDelay, float intermissionDelay, float platformSpeed)
         {
-            _hasToCompleteItsPath = !transform.position.IsInTheVicinityOf(waypointList[0], 0.1f) &&
-                                   !transform.position.IsInTheVicinityOf(waypointList[waypointList.Count - 1], 0.1f) &&
-                                   hasToCompleteItsPath;
-            if (IsActive || _hasToCompleteItsPath)
-                MovePlatform();
+            if (_platformMovementCoroutine != null)
+                StopCoroutine(_platformMovementCoroutine);
+
+            _platformMovementCoroutine = StartCoroutine(MoveToWaypoints(platformSpeed, startupDelay, intermissionDelay,
+                loopMode, (int[]) waypointList.GetIndexes()));
         }
 
-        private void MovePlatform()
+        private IEnumerator MoveToWaypoints(float platformSpeed, float onStartupDelay = 0, float onReachDelay = 0,
+            LoopMode loopMode = LoopMode.NoLoop, params int[] waypoints)
         {
-            foundObjects = FindEntities();
-            var position = GetNextPosition;
+            yield return new WaitForSeconds(onStartupDelay);
+            _isMovingFlag = true;
+            if (_entityGrabCoroutine != null)
+                StopCoroutine(_entityGrabCoroutine);
+            _entityGrabCoroutine = StartCoroutine(CarryEntities());
+            bool[] reachedDestinationFlags = new bool[waypoints.Length];
+            int flagIndex = 0;
 
-            if (loopMode == LoopMode.ReverseReset && _currentWaypoint == waypointList.Count - 1)
+            //Local method to increment the flag index.
+            int IncrementFlagIndex(bool[] bools, int i, LoopMode mode)
             {
-                _reversing = true;
-            }
-            else if (_currentWaypoint == 0)
-            {
-                _reversing = false;
-            }
-
-            TrySetNextPosition();
-
-            switch (loopMode)
-            {
-                case LoopMode.ResetTeleport:
-                case LoopMode.NormalReset:
-                case LoopMode.ReverseReset:
-                    if (_currentWaypoint == 0 && loopMode == LoopMode.ResetTeleport)
+                if (bools[i])
+                {
+                    switch (mode)
                     {
-                        position = waypointList[_currentWaypoint];
-                    }
-                    else
-                    {
-                        position += delta * Time.deltaTime;
-                    }
+                        case LoopMode.OnLoopEndETeleportToStart:
+                        case LoopMode.OnLoopEndTargetStart:
+                            i++;
+                            if (i >= bools.Length - 1)
+                            {
+                                i = 0;
+                                if (mode == LoopMode.OnLoopEndETeleportToStart)
+                                    transform.position = waypointList[i];
+                            }
 
-                    break;
+                            break;
+
+
+                        case LoopMode.OnLoopEndReverse:
+                            bool isOutSideOfList = i >= bools.Length - 1 && i > 0;
+                            i = isOutSideOfList ? i - 1 : i + 1;
+                            break;
+                        case LoopMode.NoLoop:
+                            i = Mathf.Clamp(i, 0, bools.Length - 1);
+                            break;
+                    }
+                }
+
+                return i;
             }
 
-            if (rotateTowardsDirection)
+
+            while (reachedDestinationFlags.Any(d => !d))
             {
-                transform.rotation = GetNextLookDirection;
-            }
+               
+                if (waypoints[flagIndex] >= waypointList.Count)
+                {
+                    Debug.LogWarning($"Waypoint[{waypoints[flagIndex]}] is out of range. Skipping waypoint");
+                    reachedDestinationFlags[flagIndex] = loopMode == LoopMode.NoLoop;
+                    flagIndex = IncrementFlagIndex(reachedDestinationFlags, flagIndex, loopMode);
+                    continue;
+                }
 
-            transform.position = position;
+
+                _currentWaypoint = waypoints[flagIndex];
+                _foundObjects = FindEntities();
+
+                if (transform.position.IsInTheVicinityOf(waypointList[_currentWaypoint], 0.1f))
+                {
+                    _previousWaypoint = _currentWaypoint;
+                    reachedDestinationFlags[flagIndex] = loopMode == LoopMode.NoLoop;
+                    flagIndex = IncrementFlagIndex(reachedDestinationFlags, flagIndex, loopMode);
+                    yield return new WaitForSeconds(onReachDelay);
+                    continue;
+                }
+
+                _delta = waypointList.Count != 0
+                    ? (GetNextPosition - transform.position).normalized
+                    : Vector3.forward;
+
+
+                transform.AddPosition(_delta * (platformSpeed * Time.deltaTime));
+                if (rotateTowardsDirection || rotateTowardsHorizontalDirection)
+                    transform.rotation = Quaternion.Lerp(transform.rotation,
+                        GetNextLookDirection(rotateTowardsHorizontalDirection), 0.25f);
+
+                yield return new WaitForEndOfFrame();
+                _isMovingFlag = false;
+            }
         }
 
-        private void TrySetNextPosition(float minDistance = 0.1f)
+        private IEnumerator CarryEntities()
         {
-            if (transform.position.IsInTheVicinityOf(waypointList[_currentWaypoint], minDistance))
+            while (_isMovingFlag)
             {
-                _previousWaypoint = _currentWaypoint;
-                _currentWaypoint = _currentWaypoint + 1 >= waypointList.Count
-                    ? _reversing ? _currentWaypoint - 1 : 0
-                    : _reversing
-                        ? _currentWaypoint - 1
-                        : _currentWaypoint + 1;
+                if (_foundObjects.Exists(c => c.CompareTag("Player")))
+                {
+                    EventManager.TriggerEvent(PlayerController.MoveEntityEvent, _delta * Time.fixedDeltaTime);
+                }
+
+                _foundObjects.ApplyAction(c =>
+                {
+                    c.transform.position += _delta * Time.fixedDeltaTime;
+                    if (!c.CompareTag("Player"))
+                        c.transform.rotation = Quaternion.LookRotation((c.transform.right - _delta).normalized);
+                });
+                yield return new WaitForFixedUpdate();
             }
+
+            yield return null;
         }
+
 
         private List<Collider> FindEntities()
         {
@@ -139,24 +190,9 @@ namespace Interactivity.Moving_Objects
                 .ToList();
         }
 
-        private void FixedUpdate()
-        {
-            // if (foundObjects.Exists(c => c.CompareTag("Player")))
-            // {
-            //     EventManager.TriggerEvent(PlayerController.MoveEntityEvent, delta * Time.fixedDeltaTime);
-            // }
-            if (IsActive || _hasToCompleteItsPath)
-                foundObjects.ApplyAction(c =>
-                {
-                    c.transform.position += delta * Time.fixedDeltaTime;
-                    if (!c.CompareTag("Player"))
-                        c.transform.rotation = Quaternion.LookRotation((c.transform.right - delta).normalized);
-                });
-        }
-
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = foundObjects.Exists(c => c != null) ? Color.green : Color.red;
+            Gizmos.color = _foundObjects.Exists(c => c != null) ? Color.green : Color.red;
             Gizmos.DrawCube(TopPosition + entityCheckOffset, (transform.localScale + entityCheckSizeOffset));
         }
     }
