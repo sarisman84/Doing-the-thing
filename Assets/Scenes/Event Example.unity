@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 02db79ad3cf5355489836f6370ea1058, type: 2}
+--- !u!1 &21133238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 21133240}
+  - component: {fileID: 21133239}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &21133239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21133238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb533b5542c45faa3e50d7ac3b30da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customEvent: {fileID: 11400000, guid: 01bad08e062a5a24db1d4e674c0cf361, type: 2}
+  someOtherObject: {fileID: 11400000, guid: ccf5f663cd8cd3845b263d1a30791416, type: 2}
+--- !u!4 &21133240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21133238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &88778924
 Mesh:
   m_ObjectHideFlags: 0
@@ -807,7 +852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952511340617183714, guid: 130fad3c8f7ab8941ac2a2bf1866fdc3, type: 3}
       propertyPath: m_Size.y
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2952511340617183714, guid: 130fad3c8f7ab8941ac2a2bf1866fdc3, type: 3}
       propertyPath: m_Center.y
@@ -974,7 +1019,7 @@ PrefabInstance:
       objectReference: {fileID: 709942384}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[1]._Int
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574015, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_Name
@@ -1257,9 +1302,25 @@ MonoBehaviour:
     defaultUnityEvent:
       _PersistentCalls:
       - _Target: {fileID: 2141586357}
-        _MethodName: set_IsActive
+        _MethodName: MoveToWaypoint
         _PersistentArguments:
-        - _Type: 1
+        - _Type: 5
+          _Int: 0
+          _String: 
+          _X: 3
+          _Y: 0
+          _Z: 0
+          _W: 0
+          _Object: {fileID: 0}
+        - _Type: 5
+          _Int: 0
+          _String: 
+          _X: 0
+          _Y: 0
+          _Z: 0
+          _W: 0
+          _Object: {fileID: 0}
+        - _Type: 3
           _Int: 1
           _String: 
           _X: 0
@@ -1290,9 +1351,25 @@ MonoBehaviour:
     instanceUnityEvent:
       _PersistentCalls:
       - _Target: {fileID: 2141586357}
-        _MethodName: set_IsActive
+        _MethodName: MoveToWaypoint
         _PersistentArguments:
-        - _Type: 1
+        - _Type: 5
+          _Int: 0
+          _String: 
+          _X: 3
+          _Y: 0
+          _Z: 0
+          _W: 0
+          _Object: {fileID: 0}
+        - _Type: 5
+          _Int: 0
+          _String: 
+          _X: 1
+          _Y: 0
+          _Z: 0
+          _W: 0
+          _Object: {fileID: 0}
+        - _Type: 3
           _Int: 0
           _String: 
           _X: 0
@@ -7815,7 +7892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1566917171
 Transform:
   m_ObjectHideFlags: 0
@@ -9905,6 +9982,14 @@ PrefabInstance:
     - target: {fileID: 6021007340349136944, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: m_Name
       value: Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 6021007340349136944, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6021007340349136950, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
+      propertyPath: rotateTowardsDirection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021007340349136951, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: m_LocalPosition.x

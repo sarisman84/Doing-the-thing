@@ -18,15 +18,16 @@ namespace Interactivity.Events
 
         public bool invertCondition;
         public ConditionType conditionType;
+        [Expose]
         public List<CustomEvent> targetEvents = new List<CustomEvent>();
 
 #if UNITY_EDITOR
         public bool showDebugMessages;
+        [SerializeField] private bool triggerOnce;
 #endif
 
-        protected override void OnEnable()
+        protected void OnEnable()
         {
-            base.OnEnable();
             targetEvents.ApplyAction(SubscribeMethod);
         }
 
@@ -64,7 +65,7 @@ namespace Interactivity.Events
             }
         }
 
-        public override void OnInvokeEvent()
+        public void OnInvokeEvent()
         {
             if (invertCondition && !AreConditionsMet(conditionType))
             {
@@ -78,6 +79,8 @@ namespace Interactivity.Events
             if (!triggerOnce)
                 IsBeingCalled = false;
         }
+
+        public bool IsBeingCalled { get; set; }
 
         private bool AreConditionsMet(ConditionType type)
         {
@@ -107,7 +110,7 @@ namespace Interactivity.Events
 #endif
                         break;
                     default:
-                        individualResults[resultIndex] = eEvent.IsBeingCalled;
+                        individualResults[resultIndex] = eEvent.eventBehaivour.IsMet();
                         break;
                 }
 

@@ -3,10 +3,12 @@ using System.Reflection;
 using System.Threading;
 using Extensions;
 using Interactivity.Components;
+using Interactivity.Events.Conditions;
 using JetBrains.Annotations;
 using Player;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility.Attributes;
 using Object = UnityEngine.Object;
 
 namespace Interactivity.Events
@@ -16,48 +18,54 @@ namespace Interactivity.Events
 
     public delegate object ObjectEvent<in T>(params T[] args);
 
-    [CreateAssetMenu(fileName = "New Event Asset", menuName = "Event/Default Event", order = 0)]
+    [CreateAssetMenu(fileName = "New Event Asset", menuName = "Event/New Event", order = 0)]
     public class CustomEvent : ScriptableObject
     {
-        public bool triggerOnce = false;
-        public bool IsBeingCalled { get; protected set; }
+        [Expose] public CustomEventBehaivour eventBehaivour;
         protected event ObjectEvent<object> GameEvent;
 
-        protected virtual void OnEnable()
-        {
-            IsBeingCalled = false;
-        }
 
-        public virtual void OnInvokeEvent()
+        public virtual void OnInvokeEvent(GameObject gameObject = null)
         {
-            if (!IsBeingCalled)
+            if (eventBehaivour != null && eventBehaivour.IsMet(gameObject))
+                GameEvent?.Invoke(gameObject);
+            else
+            {
                 GameEvent?.Invoke();
-            IsBeingCalled = true;
-
-            if (!triggerOnce)
-                IsBeingCalled = false;
+            }
         }
 
-        public virtual void OnInvokeEnter(WeaponController controller)
-        {
-            if (!IsBeingCalled)
-                GameEvent?.Invoke(controller);
-            IsBeingCalled = true;
 
-            if (!triggerOnce)
-                IsBeingCalled = false;
+        public virtual void Subscribe<TDel>(TDel method, params object[] args) where TDel : Delegate
+        {
+            //args[]
+            if (eventBehaivour != null)
+            {
+                GameEvent += (localArgs) =>
+                {
+                    object[] newArgs = new object[localArgs.Length + args.Length];
+                    Array.Copy(localArgs, newArgs, localArgs.Length);
+                    Array.Copy(args, 0, newArgs, localArgs.Length, args.Length);
+                    return eventBehaivour.SubscribeCondition(method, newArgs);
+                };
+            }
+            else
+                GameEvent += method.DynamicInvoke;
         }
-        
 
-
-        public virtual void Subscribe<TDel>(TDel method) where TDel : Delegate
+        public virtual void Unsubcribe<TDel>(TDel method, params object[] args) where TDel : Delegate
         {
-            GameEvent += method.DynamicInvoke;
-        }
-
-        public virtual void Unsubcribe<TDel>(TDel method) where TDel : Delegate
-        {
-            GameEvent -= method.DynamicInvoke;
+            if (eventBehaivour != null)
+                // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
+                GameEvent -= (localArgs) =>
+                {
+                    object[] newArgs = new object[localArgs.Length + args.Length];
+                    Array.Copy(localArgs, newArgs, localArgs.Length);
+                    Array.Copy(args, 0, newArgs, localArgs.Length, args.Length);
+                    return eventBehaivour.SubscribeCondition(method, newArgs);
+                };
+            else
+                GameEvent -= method.DynamicInvoke;
         }
     }
 }

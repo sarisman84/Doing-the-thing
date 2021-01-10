@@ -5,6 +5,7 @@ using Player.Weapons;
 using UltEvents;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility.Attributes;
 
 namespace Interactivity.Events.Listener
 {
@@ -63,12 +64,11 @@ namespace Interactivity.Events.Listener
 
                         break;
                 }
-                
             }
         }
-        
-        
-        #if UNITY_EDITOR
+
+
+#if UNITY_EDITOR
         public void OnValidate()
         {
             foreach (var eventDefinition in events)
@@ -86,13 +86,13 @@ namespace Interactivity.Events.Listener
         public GameObject[] entityComparison;
         public bool useCustomArg = false;
         public bool useInteractor = false;
-        
+
         public UltEvent defaultUnityEvent;
         public UltEvent instanceUnityEvent;
-        
+
         public GameObject Owner { get; set; }
 
-       
+
         public void InvokeEvent(object arg = null)
         {
             defaultUnityEvent?.Invoke();

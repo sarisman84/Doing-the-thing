@@ -21,6 +21,8 @@ namespace Interactivity.Events
         public readonly Dictionary<int, bool> instanceStatusDictionary =
             new Dictionary<int, bool>();
 
+        [SerializeField] private bool triggerOnce;
+
         public List<bool> CurrentStatus => instanceStatusDictionary.Values.ToList();
 
 
@@ -71,12 +73,12 @@ namespace Interactivity.Events
         }
 
 
-        public override void Unsubcribe<TDel>(TDel method)
+        public  void Unsubcribe<TDel>(TDel method) where TDel: Delegate
         {
             InstanceDelegate -= (id, args) => method.DynamicInvoke(id);
         }
 
-        public override void Subscribe<TDel>(TDel method)
+        public  void Subscribe<TDel>(TDel method) where TDel: Delegate
         {
             InstanceDelegate += (id, args) => method.DynamicInvoke(id);
         }

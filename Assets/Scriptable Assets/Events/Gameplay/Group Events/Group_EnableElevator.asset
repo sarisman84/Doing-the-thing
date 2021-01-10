@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ffd393231f64602b957d296736c02e1, type: 3}
   m_Name: Group_EnableElevator
   m_EditorClassIdentifier: 
-  triggerOnce: 0
+  eventBehaivour: {fileID: 11400000, guid: 1f8539b47156fad47b1f326bc3a7af69, type: 2}
   invertCondition: 0
   conditionType: 0
   targetEvents:
   - {fileID: 11400000, guid: 411e93ed6c5d7034b977f5ae7333a31a, type: 2}
   - {fileID: 11400000, guid: 2361ddaaf3d7e5d4fa30cabfd3f9338b, type: 2}
   showDebugMessages: 0
+  triggerOnce: 1

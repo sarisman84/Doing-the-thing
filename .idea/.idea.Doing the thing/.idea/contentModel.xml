@@ -22,6 +22,7 @@
             <e p="CustomEventDrawer.cs" t="Include" />
             <e p="EventListPropertyDrawer.cs" t="Include" />
             <e p="FancyListPropertyDrawer.cs" t="Include" />
+            <e p="ScriptableExposerDrawer.cs" t="Include" />
           </e>
           <e p="SpriteProcessor.cs" t="Include" />
           <e p="Test.cs" t="Include" />
@@ -221,16 +222,16 @@
             <e p="EnemyBehaivourManager.cs" t="Include" />
             <e p="EnemySpawner.cs" t="Include" />
             <e p="Events" t="Include">
-              <e p="CountingEvent.cs" t="Include" />
+              <e p="Conditions" t="Include">
+                <e p="CustomEventBehaivour.cs" t="Include" />
+                <e p="InstanceEventBehaivour.cs" t="Include" />
+              </e>
               <e p="CustomEvent.cs" t="Include" />
-              <e p="DamageEvent.cs" t="Include" />
-              <e p="DebugTest.cs" t="Include" />
               <e p="GroupEvent.cs" t="Include" />
               <e p="InstanceEvent.cs" t="Include" />
               <e p="Listener" t="Include">
                 <e p="EventListener.cs" t="Include" />
               </e>
-              <e p="TimeEvent.cs" t="Include" />
             </e>
             <e p="InterfaceLibrary.cs" t="Include" />
             <e p="Moving Objects" t="Include">
@@ -275,11 +276,15 @@
             <e p="Attributes" t="Include">
               <e p="EnableIfAttribute.cs" t="Include" />
               <e p="EventListAttribute.cs" t="Include" />
+              <e p="ExposeAttribute.cs" t="Include" />
               <e p="FancyListAttribute.cs" t="Include" />
             </e>
             <e p="Events" t="Include">
               <e p="CustomEvent.cs" t="Include" />
               <e p="EventManager.cs" t="Include" />
+            </e>
+            <e p="TestScripts" t="Include">
+              <e p="TestComponent.cs" t="Include" />
             </e>
           </e>
         </e>
