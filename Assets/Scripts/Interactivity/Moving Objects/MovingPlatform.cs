@@ -49,6 +49,10 @@ namespace Interactivity.Moving_Objects
         public LayerMask detectionMask;
         public List<Vector3> waypointList;
         public bool rotateTowardsDirection, rotateTowardsHorizontalDirection;
+        public bool runAtAwake;
+
+        public bool showDebugMessages;
+
 
         private Vector3 TopPosition => transform.position + transform.up * transform.localScale.y;
         private List<Collider> _foundObjects = new List<Collider>();
@@ -57,6 +61,11 @@ namespace Interactivity.Moving_Objects
         private Vector3 _delta;
         private bool _isMovingFlag;
 
+        private void Awake()
+        {
+            if (runAtAwake)
+                Move(LoopMode.OnLoopEndTargetStart, 0, 0, 2f);
+        }
 
         public void MoveToWaypoint(float platformSpeed, float startupDelay, int waypoint)
         {
@@ -79,11 +88,24 @@ namespace Interactivity.Moving_Objects
         private IEnumerator MoveToWaypoints(float platformSpeed, float onStartupDelay = 0, float onReachDelay = 0,
             LoopMode loopMode = LoopMode.NoLoop, params int[] waypoints)
         {
+            if (showDebugMessages)
+            {
+                Debug.Log(
+                    $"Initializing Platform Movement: Waypoint indexes Count vs Actual Count: {waypoints.Length}/{waypointList.Count} - Loop Mode: {loopMode}",
+                    gameObject);
+                for (int i = 0; i < waypoints.Length; i++)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    Debug.Log($"Registered Index: {waypoints[i]}");
+                }
+            }
+
+
             yield return new WaitForSeconds(onStartupDelay);
             _isMovingFlag = true;
             if (_entityGrabCoroutine != null)
                 StopCoroutine(_entityGrabCoroutine);
-            _entityGrabCoroutine = StartCoroutine(CarryEntities());
+            _entityGrabCoroutine = StartCoroutine(CarryEntities(platformSpeed));
             bool[] reachedDestinationFlags = new bool[waypoints.Length];
             int flagIndex = 0;
 
@@ -92,26 +114,30 @@ namespace Interactivity.Moving_Objects
             {
                 if (bools[i])
                 {
+                    i++;
                     switch (mode)
                     {
                         case LoopMode.OnLoopEndETeleportToStart:
                         case LoopMode.OnLoopEndTargetStart:
-                            i++;
-                            if (i >= bools.Length - 1)
+                            if (i > bools.Length - 1)
                             {
                                 i = 0;
                                 if (mode == LoopMode.OnLoopEndETeleportToStart)
                                     transform.position = waypointList[i];
                             }
 
+                            bools[i] = false;
                             break;
 
 
                         case LoopMode.OnLoopEndReverse:
                             bool isOutSideOfList = i >= bools.Length - 1 && i > 0;
                             i = isOutSideOfList ? i - 1 : i + 1;
+                            bools[i] = false;
                             break;
+
                         case LoopMode.NoLoop:
+
                             i = Mathf.Clamp(i, 0, bools.Length - 1);
                             break;
                     }
@@ -123,7 +149,6 @@ namespace Interactivity.Moving_Objects
 
             while (reachedDestinationFlags.Any(d => !d))
             {
-               
                 if (waypoints[flagIndex] >= waypointList.Count)
                 {
                     Debug.LogWarning($"Waypoint[{waypoints[flagIndex]}] is out of range. Skipping waypoint");
@@ -139,7 +164,9 @@ namespace Interactivity.Moving_Objects
                 if (transform.position.IsInTheVicinityOf(waypointList[_currentWaypoint], 0.1f))
                 {
                     _previousWaypoint = _currentWaypoint;
-                    reachedDestinationFlags[flagIndex] = loopMode == LoopMode.NoLoop;
+
+                    reachedDestinationFlags[flagIndex] = true;
+
                     flagIndex = IncrementFlagIndex(reachedDestinationFlags, flagIndex, loopMode);
                     yield return new WaitForSeconds(onReachDelay);
                     continue;
@@ -156,22 +183,25 @@ namespace Interactivity.Moving_Objects
                         GetNextLookDirection(rotateTowardsHorizontalDirection), 0.25f);
 
                 yield return new WaitForEndOfFrame();
-                _isMovingFlag = false;
             }
+
+            _isMovingFlag = false;
+            StopCoroutine(_entityGrabCoroutine);
         }
 
-        private IEnumerator CarryEntities()
+        private IEnumerator CarryEntities(float platformSpeed)
         {
             while (_isMovingFlag)
             {
                 if (_foundObjects.Exists(c => c.CompareTag("Player")))
                 {
-                    EventManager.TriggerEvent(PlayerController.MoveEntityEvent, _delta * Time.fixedDeltaTime);
+                    PlayerController.Move(_foundObjects.Find(c => c.CompareTag("Player")),
+                        _delta * (platformSpeed * Time.fixedDeltaTime));
                 }
 
                 _foundObjects.ApplyAction(c =>
                 {
-                    c.transform.position += _delta * Time.fixedDeltaTime;
+                    c.transform.position += _delta * (platformSpeed * Time.fixedDeltaTime);
                     if (!c.CompareTag("Player"))
                         c.transform.rotation = Quaternion.LookRotation((c.transform.right - _delta).normalized);
                 });

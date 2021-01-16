@@ -28,24 +28,18 @@ namespace Editor.PropertyDrawers
 
         //0.95f,0.62f
         //Color.HSVToRGB(0, 0.95f, 0.42f);
-        public Color BackgroundColor =>
-            EditorGUIUtility.isProSkin
-                ? GUI.backgroundColor - new Color(0.8f, 0.8f, 0.8f, 0f)
-                : Color.HSVToRGB(0, 0.95f, 0.82f);
+        // public Color BackgroundColor =>
+        //     EditorGUIUtility.isProSkin
+        //         ? GUI.backgroundColor - new Color(0.8f, 0.8f, 0.8f, 0f)
+        //         : Color.HSVToRGB(0, 0.95f, 0.82f);
 
         public override void OnGUI(Rect position, SerializedProperty property,
             GUIContent label)
         {
-            EditorGUI.BeginChangeCheck();
             //EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector);
 
             ExposeScriptableObject(property, position, ref _so);
-
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                property.serializedObject.ApplyModifiedProperties();
-            }
+           
         }
 
 
@@ -56,7 +50,8 @@ namespace Editor.PropertyDrawers
 
         private bool IsCorrectType(SerializedProperty element, Type secondValue)
         {
-            if (element.objectReferenceValue == null ||  element.propertyType != SerializedPropertyType.ObjectReference)
+            if (element.objectReferenceValue == default ||
+                element.propertyType != SerializedPropertyType.ObjectReference)
                 return false;
 
             return element.objectReferenceValue.GetType().IsSubclassOf(secondValue) ||
@@ -70,10 +65,12 @@ namespace Editor.PropertyDrawers
 
             r.height = EditorGUI.GetPropertyHeight(property, property.isExpanded);
             EditorGUI.PropertyField(r, property, property.isExpanded);
-            b = EditorGUI.Toggle(
-                new Rect(r.x + (EditorStyles.inspectorDefaultMargins.padding.horizontal + r.width / 2f) / 1.5f, r.y,
-                    r.width / 4f,
-                    r.height), b);
+
+            if (property.objectReferenceValue != null)
+                b = EditorGUI.Toggle(
+                    new Rect(r.x + (EditorStyles.inspectorDefaultMargins.padding.horizontal + r.width / 2f) / 1.5f, r.y,
+                        r.width / 4f,
+                        r.height), b);
 
 
             if (!IsCorrectType(property, typeof(ScriptableObject)))
@@ -90,6 +87,7 @@ namespace Editor.PropertyDrawers
             {
                 return;
             }
+
             r.y += r.height;
             GUI.Box(
                 new Rect(r.x + OffsetByIndentLevel(_boxSizeOffset), r.y, r.width - OffsetByIndentLevel(_boxSizeOffset),
@@ -122,22 +120,23 @@ namespace Editor.PropertyDrawers
 
                 if (arrayP != null && it.propertyPath.Contains(arrayP.propertyPath))
                 {
-                    disableFirstElement = false;
                     continue;
                 }
 
-                if (it.propertyType == SerializedPropertyType.Generic)
+                if (it.propertyType == SerializedPropertyType.Generic && it.isArray)
                 {
-                    // DrawReorderableList(disableFirstElement, ref r, it);
+                    //DrawReorderableList(disableFirstElement, ref r, it);
                     arrayP = it;
                 }
 
 
                 DrawSingleElement(disableFirstElement, ref r, it);
                 disableFirstElement = false;
+                it.serializedObject.ApplyModifiedProperties();
             }
 
             EditorGUI.indentLevel = ogIndentLevel;
+            property.serializedObject.ApplyModifiedProperties();
         }
 
         private static float OffsetByIndentLevel(float offset)
@@ -230,7 +229,7 @@ namespace Editor.PropertyDrawers
 
             if (CalculatePropertyHeight(property, _so, out var propertyHeight)) return propertyHeight;
 
-            return base.GetPropertyHeight(property, label);
+            return base.GetPropertyHeight(property, label) + 5f;
         }
 
         private bool CalculatePropertyHeight(SerializedProperty property, SerializedObject so, out float propertyHeight,

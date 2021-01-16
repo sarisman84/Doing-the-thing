@@ -8,14 +8,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
 using Object = UnityEngine.Object;
 
 namespace UI
 {
     public class WeaponShop : MonoBehaviour
     {
-        public static bool isShopOpen;
-
+        private bool _isShopOpen = false;
 
         public Transform weaponRenderer;
         public Transform buttonHolder;
@@ -26,32 +26,45 @@ namespace UI
         public PlayerController playerController;
 
 
-        private static InstanceEvent _openShopEvent;
-        private static InstanceEvent _closeShopEvent;
+        private static CustomEvent _openShopEvent;
+        private static CustomEvent _closeShopEvent;
+        private static CustomEvent _getShopEvent;
 
 
         Dictionary<Guid, GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
-
 
         public static void Open(Collider caller)
         {
             Open(caller.gameObject, caller.GetComponent<WeaponController>());
         }
-
         public static void Open(GameObject caller, WeaponController controller)
         {
-            _openShopEvent?.OnInvokeEvent(caller, controller.weaponLibrary);
+            if (_openShopEvent != null)
+                _openShopEvent.OnInvokeEvent(caller, controller.weaponLibrary);
         }
 
         public static void Close(GameObject caller)
         {
-            _closeShopEvent?.OnInvokeEvent(caller);
+            if (_closeShopEvent != null)
+                _closeShopEvent.OnInvokeEvent(caller);
+        }
+
+        public static bool IsActive(GameObject caller)
+        {
+            if (_getShopEvent != null)
+                return (bool) _getShopEvent.OnInvokeEvent(caller, null);
+            return false;
         }
 
         private void Awake()
         {
-            InstanceEvent.CreateEvent<Action<List<Weapon>>>(ref _openShopEvent, playerController.gameObject, OpenShop);
-            InstanceEvent.CreateEvent<Action>(ref _closeShopEvent, playerController.gameObject, CloseShop);
+            _openShopEvent =
+                CustomEvent.CreateEvent<Action<List<Weapon>>>(ref _openShopEvent, OpenShop,
+                    playerController.gameObject);
+            _closeShopEvent =
+                CustomEvent.CreateEvent<Action>(ref _closeShopEvent, CloseShop, playerController.gameObject);
+            _getShopEvent =
+                CustomEvent.CreateEvent<Func<bool>>(ref _getShopEvent, IsShopActive, playerController.gameObject);
 
 
             foreach (var var in WeaponManager.globalWeaponLibrary)
@@ -85,7 +98,12 @@ namespace UI
             gameObject.SetActive(true);
             UpdateShop(library);
 
-            isShopOpen = true;
+            _isShopOpen = true;
+        }
+
+        public bool IsShopActive()
+        {
+            return _isShopOpen;
         }
 
         private void UpdateShop(List<Weapon> library)
@@ -111,7 +129,7 @@ namespace UI
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
             gameObject.SetActive(false);
 
-            isShopOpen = false;
+            _isShopOpen = false;
         }
 
         private void BuyItem(Weapon weapon)

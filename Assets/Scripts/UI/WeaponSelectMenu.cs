@@ -2,49 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
-using Interactivity.Events;
 using Player;
 using Player.Weapons;
 using UnityEngine;
 using Utility;
-using Object = UnityEngine.Object;
+using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace UI
 {
     public class WeaponSelectMenu : MonoBehaviour
     {
-        private const string OpenWeaponSelection = "UI_WeaponSelectMenu";
         private List<WeaponSlot> _weaponSlots;
 
-        private static InstanceEvent _toggleWeaponSelectMenuEvent;
+        private static CustomEvent _toggleWeaponSelectMenuEvent;
+        private static CustomEvent _forceCloseWeaponSelectEvent;
+        private static CustomEvent _getWeaponSelectMenuEvent;
         public PlayerController playerController;
 
 
         private void Awake()
         {
-            InstanceEvent.CreateEvent<Action<Action<int>, List<Weapon>>>(ref _toggleWeaponSelectMenuEvent,
-                playerController.gameObject, OpenMenu);
+            _toggleWeaponSelectMenuEvent = CustomEvent.CreateEvent<Action<Action<int>, List<Weapon>>>(
+                ref _toggleWeaponSelectMenuEvent,
+                OpenMenu, playerController.gameObject);
+            _forceCloseWeaponSelectEvent = CustomEvent.CreateEvent<Action>(ref _forceCloseWeaponSelectEvent, CloseMenu,
+                playerController.gameObject);
+            _getWeaponSelectMenuEvent = CustomEvent.CreateEvent<Func<bool>>(ref _getWeaponSelectMenuEvent, IsMenuActive,
+                playerController.gameObject);
+
 
             _weaponSlots = transform.GetComponentsInChildren<WeaponSlot>().ToList();
             _weaponSlots.ApplyAction(s => s.gameObject.SetActive(false));
         }
 
+        private bool IsMenuActive()
+        {
+            return IsAlreadyActive;
+        }
+
         private void OnEnable()
         {
-            EventManager.AddListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
+            // _toggleWeaponSelectMenuEvent.Subscribe<Action<Action<int>, List<Weapon>>>(OpenMenu,
+            //     playerController.gameObject);
         }
 
         private void OnDisable()
         {
-            EventManager.RemoveListener<Action<Action<int>, List<Weapon>>>(OpenWeaponSelection, OpenMenu);
+            _toggleWeaponSelectMenuEvent.Unsubcribe<Action<Action<int>, List<Weapon>>>(OpenMenu,
+                playerController.gameObject);
+
+            _forceCloseWeaponSelectEvent.Unsubcribe<Action>(CloseMenu, playerController.gameObject);
         }
 
-        private bool IsAlreadyActive { get; set; } = false;
+        private bool IsAlreadyActive { get; set; }
 
-        public static void Access(List<Weapon> weapons, Action<int> selectWeapon)
-        {
-            EventManager.TriggerEvent(OpenWeaponSelection, selectWeapon, weapons);
-        }
 
         public void CloseMenu()
         {
@@ -61,11 +72,6 @@ namespace UI
             gameObject.SetActive(false);
             EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
             IsAlreadyActive = false;
-        }
-
-        public void OpenMenu(WeaponController controller)
-        {
-            OpenMenu(controller.SelectWeapon, controller.weaponLibrary);
         }
 
         public void OpenMenu(Action<int> selectWeapon, List<Weapon> weaponLibrary)
@@ -111,7 +117,21 @@ namespace UI
 
         public static void Open(GameObject o, Action<int> selectWeapon, List<Weapon> weaponLibrary)
         {
-            _toggleWeaponSelectMenuEvent?.OnInvokeEvent(o,selectWeapon, weaponLibrary);
+            if (_toggleWeaponSelectMenuEvent != null)
+                _toggleWeaponSelectMenuEvent.OnInvokeEvent(o, selectWeapon, weaponLibrary);
+        }
+
+        public static void Close(GameObject player)
+        {
+            if (_forceCloseWeaponSelectEvent != null)
+                _forceCloseWeaponSelectEvent.OnInvokeEvent(player);
+        }
+
+        public static bool IsActive(GameObject player)
+        {
+            if (_getWeaponSelectMenuEvent != null)
+                return (bool) _getWeaponSelectMenuEvent.OnInvokeEvent(player, null);
+            return false;
         }
     }
 }

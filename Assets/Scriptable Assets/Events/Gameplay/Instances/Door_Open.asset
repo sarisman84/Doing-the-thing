@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f049f21e7fe34af486fe4d6e6298f683, type: 3}
-  m_Name: Platform_EnablePlatform
+  m_Script: {fileID: 11500000, guid: 6e28531cba8241f1baa9e34315e4d62e, type: 3}
+  m_Name: Door_Open
   m_EditorClassIdentifier: 
-  eventBehaivour: {fileID: 11400000, guid: 1f8539b47156fad47b1f326bc3a7af69, type: 2}
+  isEventGlobal: 0
   showDebugMessages: 0
-  triggerOnce: 0

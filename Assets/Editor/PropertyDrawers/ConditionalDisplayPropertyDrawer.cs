@@ -14,8 +14,9 @@ namespace Editor
     {
         private EnableIfAttribute _enableIfAttribute;
         private Dictionary<SerializedPropertyType, List<SerializedProperty>> _foundSerializedProperties;
-
+        private Class conditionalType;
         private List<object> _variables;
+        bool _canDisplay = false;
 
         public override void OnGUI(Rect position, SerializedProperty property,
             GUIContent label)
@@ -80,6 +81,8 @@ namespace Editor
                             _variables.Add(op);
                             break;
                         }
+                        else if (enumVal is Class classVal)
+                            conditionalType = classVal;
 
                         _variables.Add(Convert.ToInt32(enumVal));
                         break;
@@ -91,7 +94,6 @@ namespace Editor
                 }
             });
 
-            bool canDisplay = false;
 
             //Create a list of lists that contain the results.
             List<List<bool>> result = new List<List<bool>>();
@@ -216,7 +218,14 @@ namespace Editor
             //If there is only one list of results, do a single check.
             if (result.Count == 1)
             {
-                canDisplay = result[0].All(r => r);
+                if (conditionalType == Class.Base)
+                {
+                    //Debug.Log($"{property.propertyPath}: {!property.propertyPath.Contains("/")}");
+                    // _canDisplay = !property.propertyPath.Contains("/");
+                }
+
+                _canDisplay = result[0].All(r => r) 
+                              /*|| (conditionalType == Class.Base && !property.propertyPath.Contains("/"))*/;
             }
             else
             {
@@ -232,10 +241,10 @@ namespace Editor
                     switch (operators[nextOperator])
                     {
                         case Operator.And:
-                            canDisplay = r1 && r2;
+                            _canDisplay = r1 && r2;
                             break;
                         case Operator.Or:
-                            canDisplay = r1 || r2;
+                            _canDisplay = r1 || r2;
                             break;
                     }
 
@@ -245,45 +254,29 @@ namespace Editor
                 }
             }
 
+
             //Disable/Enable the field depending on the result of the above evaluations
 
 
-            EditorGUI.BeginDisabledGroup(!canDisplay);
+            if (_canDisplay)
+            {
+                EditorGUI.BeginChangeCheck();
+                EditorGUI.PropertyField(position, property, label, property.isExpanded);
 
-
-            EditorGUI.PropertyField(position, property, label, true);
-            property.serializedObject.ApplyModifiedProperties();
-
-
-            EditorGUI.EndDisabledGroup();
+                if (EditorGUI.EndChangeCheck())
+                    property.serializedObject.ApplyModifiedProperties();
+            }
         }
 
         //Scale the field height depending whenever the property itself is expanded.
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            float height = base.GetPropertyHeight(property, label);
-            if (property.isExpanded)
-                height = SetHeight(property, height);
+            float height = 0;
 
-
-            height += 10f;
-            return height;
-        }
-
-        private float SetHeight(SerializedProperty property, float height)
-        {
-            foreach (SerializedProperty p in property)
+            if (_canDisplay)
             {
-                if (p.isExpanded && p.hasVisibleChildren)
-                {
-                    SerializedProperty foundProp = p.Copy();
-                    height = SetHeight(foundProp, height);
-                }
-
-
-                height += base.GetPropertyHeight(p, new GUIContent(p.displayName));
+                height = base.GetPropertyHeight(property, label);
             }
-
 
             return height;
         }

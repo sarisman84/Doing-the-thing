@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
 using static Player.InputListener.KeyCode;
+using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
 {
@@ -68,6 +69,8 @@ namespace Player
         public bool IsCrouching => _isCrouching;
         public Vector3 LatestRespawnPos { get; set; }
 
+        private static CustomEvent _movePlayerEvent;
+
         #endregion
 
 
@@ -93,6 +96,7 @@ namespace Player
 
         private void Awake()
         {
+            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(ref _movePlayerEvent, MovePlayer, gameObject);
             //Assigns the player as a priority target for any enemy.
             EnemyBehaivourManager.AssignNewTarget(transform);
 
@@ -138,10 +142,14 @@ namespace Player
 
             if (InputListener.GetKeyDown(Escape))
             {
-                if (WeaponShop.isShopOpen)
+                if (WeaponShop.IsActive(gameObject))
                 {
                     WeaponShop.Close(gameObject);
-                    return;
+                }
+
+                if (WeaponSelectMenu.IsActive(gameObject))
+                {
+                    WeaponSelectMenu.Close(gameObject);
                 }
 
                 PauseMenu.TogglePause();
@@ -249,20 +257,24 @@ namespace Player
 
         private void AddListenersToEventManager()
         {
-            EventManager.AddListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
+            EventManager.AddListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
 
         private void RemoveListenersFromEventManager()
         {
-            EventManager.RemoveListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
+            EventManager.RemoveListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
 
-        private Vector3 MovePlayer(Vector3 velocity)
+        private void MovePlayer(Vector3 velocity)
         {
-            _physics.MovePosition(transform.position + velocity);
-            return _physics.velocity;
+            _physics.MovePosition(Vector3.Slerp(transform.position, transform.position + velocity, 1));
+        }
+
+        public static void Move(Collider player, Vector3 velocity)
+        {
+            _movePlayerEvent.OnInvokeEvent(player.gameObject, velocity);
         }
 
 

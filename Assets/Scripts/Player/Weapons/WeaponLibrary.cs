@@ -28,16 +28,18 @@ namespace Player.Weapons
             globalWeaponLibrary.Add("Test_Pistol",
                 new Weapon(WeaponBehaviorLibrary.NormalFire, 500, 0.1f, 10, "Test_Pistol",
                     "A testing weapon that is a baseline for other weapons", 1000));
+            
             globalWeaponLibrary.Add("Eliott's Seal Generator",
                 new Weapon(WeaponBehaviorLibrary.PolymorphRounds, 2500, 0.01f, 0, "Eliott's Seal Generator",
                     "Transforms enemies into harmless seals!", 500));
+            
             globalWeaponLibrary.Add("Rocket Launcher",
                 new Weapon(WeaponBehaviorLibrary.ProjectileFire, 50, 1f, 500, "Rocket Launcher",
                     "Used to nagotiate terms with enemies. Highly effective.", 500));
 
             globalWeaponLibrary.Add("Rocket Glove",
                 new Weapon(WeaponBehaviorLibrary.MeleePunch, -1, 0.4f, 20, "Rocket Glove",
-                    "A glove so powerfull, it makes frans drool for more.", 1));
+                    "A glove so powerful, it makes frans drool for more.", 1));
 
             globalWeaponLibrary.Add("Starter Weapon",
                 new Weapon(WeaponBehaviorLibrary.NormalFire, 200, 0.25f, 2, "Starter Weapon",

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Interactivity.Moving_Objects;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace Editor
 {
@@ -77,7 +78,7 @@ namespace Editor
                 if (i == 0 || i == targetWaypointList.Count - 1)
                 {
                     Handles.color = Color.yellow;
-                    Handles.SphereHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 1.5f,
+                    Handles.CubeHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 0.75f,
                         EventType.Repaint);
                 }
                 else
@@ -100,7 +101,13 @@ namespace Editor
                         targetWaypointList[i] = transform.position;
                 }
 
-                if (i + 1 >= targetWaypointList.Count) break;
+                if (i + 1 >= targetWaypointList.Count)
+                {
+                    Handles.color = Color.yellow;
+                    Vector3 newWaypointB = targetWaypointList[0];
+                    Handles.DrawDottedLine(waypointA, newWaypointB, 4f);
+                    break;
+                }
 
                 Vector3 waypointB = targetWaypointList[i + 1];
 

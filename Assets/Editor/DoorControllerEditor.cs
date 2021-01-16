@@ -33,8 +33,9 @@ namespace Editor
 
             // if (_selfRef.doorOpenPosition == Vector3.zero)
             //     _selfRef.doorOpenPosition += _selfRef.transform.forward;
-            _selfRef.doorOpenPosition =
-                Handles.PositionHandle(_selfRef.DoorOpenPosition + position, Quaternion.identity) - position;
+            if (!Application.isPlaying)
+                _selfRef.doorOpenPosition =
+                    Handles.PositionHandle(_selfRef.DoorOpenPosition + position, Quaternion.identity) - position;
 
 
             Handles.color = Color.red - new Color(0, 0, 0, 0.7f);

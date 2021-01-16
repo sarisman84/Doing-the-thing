@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Extensions;
 using Interactivity.Events;
+using UltEvents;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,9 +15,9 @@ namespace Interactivity.Components
 
     public class DetectionArea : MonoBehaviour
     {
-        public UnityEvent<Collider> onZoneEnter;
-        public UnityEvent<Collider> onZoneExit;
-        public UnityEvent<Collider> onZoneStay;
+        public UltEvent<Collider> onZoneEnter;
+        public UltEvent<Collider> onZoneExit;
+        public UltEvent<Collider> onZoneStay;
 
 
         public ZoneType zoneType;

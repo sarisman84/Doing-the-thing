@@ -13,7 +13,8 @@ namespace Interactivity.Components
 {
     public class InteractableEntity : MonoBehaviour, IInteractable
     {
-        public UltEvent<Collider> onInteractCallback;
+        public UltEvent<GameObject> onAwakeCallback;
+        public UltEvent<GameObject,Collider> onInteractCallback;
         
         private bool _hoverEnterFlag = false;
         private bool _hoverExitFlag = false;
@@ -21,14 +22,19 @@ namespace Interactivity.Components
         public InteractionInput InputType => interactionInputType;
         public InteractionInput interactionInputType = InteractionInput.Hold;
         
-        public UltEvent<Collider> onHoverEnterCallback;
-        public UltEvent<Collider> onHoverStayCallback;
-        public UltEvent<Collider> onHoverExitCallback;
+        public UltEvent<GameObject,Collider> onHoverEnterCallback;
+        public UltEvent<GameObject,Collider> onHoverStayCallback;
+        public UltEvent<GameObject,Collider> onHoverExitCallback;
         public Collider LatestInteractor { get; private set; }
+
+        private void Awake()
+        {
+            onAwakeCallback?.Invoke(gameObject);
+        }
 
         public virtual void OnInteract(Collider collider)
         {
-            onInteractCallback?.Invoke(collider);
+            onInteractCallback?.Invoke(gameObject,collider);
             LatestInteractor = collider;
         }
 
@@ -37,14 +43,14 @@ namespace Interactivity.Components
             if (!_hoverEnterFlag)
             {
                 _hoverEnterFlag = true;
-                onHoverEnterCallback?.Invoke(collider);
+                onHoverEnterCallback?.Invoke(gameObject,collider);
                 _hoverExitFlag = false;
             }
         }
 
         public void OnHoverStay(Collider collider)
         {
-            onHoverStayCallback?.Invoke(collider);
+            onHoverStayCallback?.Invoke(gameObject,collider);
         }
 
         public void OnHoverExit(Collider collider)
@@ -52,7 +58,7 @@ namespace Interactivity.Components
             if (!_hoverExitFlag)
             {
                 _hoverExitFlag = true;
-                onHoverExitCallback?.Invoke(collider);
+                onHoverExitCallback?.Invoke(gameObject,collider);
                 _hoverEnterFlag = false;
             }
         }

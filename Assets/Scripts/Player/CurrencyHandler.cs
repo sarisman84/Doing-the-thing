@@ -3,21 +3,25 @@ using Interactivity.Events;
 using Player.Weapons;
 using UnityEngine;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
 {
     public class CurrencyHandler : MonoBehaviour
     {
-        private static InstanceEvent _getCurrencyEvent;
-        private static InstanceEvent _payCurrencyEvent;
-        private static InstanceEvent _earnCurrencyEvent;
+        private static CustomEvent _getCurrencyEvent;
+        private static CustomEvent _payCurrencyEvent;
+        private static CustomEvent _earnCurrencyEvent;
         public PlayerController playerController;
 
         private void Awake()
         {
-            InstanceEvent.CreateEvent<Func<int>>(ref _getCurrencyEvent, playerController.gameObject, () => Currency);
-            InstanceEvent.CreateEvent<Action<int>>(ref _payCurrencyEvent, playerController.gameObject, Pay);
-            InstanceEvent.CreateEvent<Action<int>>(ref _earnCurrencyEvent, playerController.gameObject, Earn);
+            _getCurrencyEvent =
+                CustomEvent.CreateEvent<Func<int>>(ref _getCurrencyEvent, () => Currency, playerController.gameObject);
+            _payCurrencyEvent =
+                CustomEvent.CreateEvent<Action<int>>(ref _payCurrencyEvent, Pay, playerController.gameObject);
+            _earnCurrencyEvent =
+                CustomEvent.CreateEvent<Action<int>>(ref _earnCurrencyEvent, Earn, playerController.gameObject);
         }
 
 
@@ -25,17 +29,21 @@ namespace Player
 
         public static int GetCurrency(GameObject owner)
         {
-            return (int) _getCurrencyEvent?.OnInvokeEventAndGetResult(owner);
+            if (_getCurrencyEvent != null)
+                return (int) _getCurrencyEvent.OnInvokeEvent(owner, null);
+            return default;
         }
 
         public static void PayCurrency(GameObject o, int newWeaponPrice)
         {
-            _payCurrencyEvent?.OnInvokeEvent(o, newWeaponPrice);
+            if (_payCurrencyEvent != null)
+                _payCurrencyEvent.OnInvokeEvent(o, newWeaponPrice);
         }
 
         public static void EarnCurrency(GameObject o, int value)
         {
-            _earnCurrencyEvent?.OnInvokeEvent(o, value);
+            if (_earnCurrencyEvent != null)
+                _earnCurrencyEvent.OnInvokeEvent(o, value);
         }
 
 

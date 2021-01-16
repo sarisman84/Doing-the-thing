@@ -20,6 +20,7 @@
           <e p="PropertyDrawers" t="Include">
             <e p="ConditionalDisplayPropertyDrawer.cs" t="Include" />
             <e p="CustomEventDrawer.cs" t="Include" />
+            <e p="EventListenerEditor.cs" t="Include" />
             <e p="EventListPropertyDrawer.cs" t="Include" />
             <e p="FancyListPropertyDrawer.cs" t="Include" />
             <e p="ScriptableExposerDrawer.cs" t="Include" />
@@ -222,15 +223,9 @@
             <e p="EnemyBehaivourManager.cs" t="Include" />
             <e p="EnemySpawner.cs" t="Include" />
             <e p="Events" t="Include">
-              <e p="Conditions" t="Include">
-                <e p="CustomEventBehaivour.cs" t="Include" />
-                <e p="InstanceEventBehaivour.cs" t="Include" />
-              </e>
               <e p="CustomEvent.cs" t="Include" />
-              <e p="GroupEvent.cs" t="Include" />
-              <e p="InstanceEvent.cs" t="Include" />
               <e p="Listener" t="Include">
-                <e p="EventListener.cs" t="Include" />
+                <e p="NewEventListener.cs" t="Include" />
               </e>
             </e>
             <e p="InterfaceLibrary.cs" t="Include" />

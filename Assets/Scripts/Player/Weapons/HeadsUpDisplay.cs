@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
 using Object = UnityEngine.Object;
 
 namespace Player.Weapons
@@ -18,9 +19,9 @@ namespace Player.Weapons
         public TMP_Text currencyCounter;
         public PlayerController playerController;
 
-        private static InstanceEvent _ammoUIUpdateEvent;
-        private static InstanceEvent _currencyUIUpdateEvent;
-        private static InstanceEvent _weaponIconUIUpdateEvent;
+        private static CustomEvent _ammoUIUpdateEvent;
+        private static CustomEvent _currencyUIUpdateEvent;
+        private static CustomEvent _weaponIconUIUpdateEvent;
 
         public static void UpdateWeaponAmmoUI(GameObject owner, Weapon weapon)
         {
@@ -48,12 +49,13 @@ namespace Player.Weapons
             currencyCounter.text = "";
 
 
-            InstanceEvent.CreateEvent<Action<Sprite>>(ref _weaponIconUIUpdateEvent, playerController.gameObject,
-                SetWeaponIcon);
-            InstanceEvent.CreateEvent<Action<Weapon>>(ref _ammoUIUpdateEvent, playerController.gameObject,
-                _UpdateAmmoCounter);
-            InstanceEvent.CreateEvent<Action<int>>(ref _currencyUIUpdateEvent, playerController.gameObject,
-                _UpdateCurrency);
+            _weaponIconUIUpdateEvent =
+                CustomEvent.CreateEvent<Action<Sprite>>(ref _weaponIconUIUpdateEvent, SetWeaponIcon,
+                    playerController.gameObject);
+            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(ref _ammoUIUpdateEvent, _UpdateAmmoCounter,
+                playerController.gameObject);
+            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(ref _currencyUIUpdateEvent, _UpdateCurrency,
+                playerController.gameObject);
         }
 
 

@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 7609692113978624624}
   - component: {fileID: 7609692113978624627}
   - component: {fileID: 7609692113978624626}
-  - component: {fileID: 698967021}
+  - component: {fileID: 1321201798089334387}
   m_Layer: 17
   m_Name: Door
   m_TagString: Untagged
@@ -158,38 +158,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onZoneEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 4195757ce8958e14d96bbf93be9afcde, type: 2}
-        m_TargetAssemblyTypeName: Interactivity.Events.InstanceEvent, Assembly-CSharp
-        m_MethodName: OnInvokeEvent
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 7609692113060173342}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _PersistentCalls:
+    - _Target: {fileID: 11400000, guid: 0a73a32f306b1a34b992aeff09c35cc3, type: 2}
+      _MethodName: OnInvokeEvent
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 7609692113060173342}
   onZoneExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 565c0091bb93080408a7cb737fe4aa73, type: 2}
-        m_TargetAssemblyTypeName: Interactivity.Events.InstanceEvent, Assembly-CSharp
-        m_MethodName: OnInvokeEvent
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 7609692113060173342}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _PersistentCalls:
+    - _Target: {fileID: 11400000, guid: 851b46ccdcbe8e643b62e565537d9533, type: 2}
+      _MethodName: OnInvokeEvent
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 7609692113060173342}
   onZoneStay:
-    m_PersistentCalls:
-      m_Calls: []
+    _PersistentCalls: []
   zoneType: 1
   detectionMask:
     serializedVersion: 2
@@ -223,7 +220,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.71, y: 3.25, z: 5.42}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &698967021
+--- !u!114 &1321201798089334387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,30 +229,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7609692113978624631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff63a567b8a4c7f9fe4190e0d40a824, type: 3}
+  m_Script: {fileID: 11500000, guid: 712447b48a4049c1885691297392d53d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   events:
-  - eventListener: {fileID: 11400000, guid: 4195757ce8958e14d96bbf93be9afcde, type: 2}
-    entityComparison:
+  - eventToListenTo: {fileID: 11400000, guid: 0a73a32f306b1a34b992aeff09c35cc3, type: 2}
+    conditions:
     - {fileID: 7609692113060173342}
-    useCustomArg: 1
-    defaultUnityEvent:
-      _PersistentCalls: []
-    instanceUnityEvent:
+    responseToEvent:
       _PersistentCalls:
       - _Target: {fileID: 7609692113060173340}
         _MethodName: OpenDoor
         _PersistentArguments: []
-  - eventListener: {fileID: 11400000, guid: 565c0091bb93080408a7cb737fe4aa73, type: 2}
-    entityComparison:
+  - eventToListenTo: {fileID: 11400000, guid: 851b46ccdcbe8e643b62e565537d9533, type: 2}
+    conditions:
     - {fileID: 7609692113060173342}
-    useCustomArg: 1
-    defaultUnityEvent:
-      _PersistentCalls: []
-    instanceUnityEvent:
+    responseToEvent:
       _PersistentCalls:
       - _Target: {fileID: 7609692113060173340}
         _MethodName: CloseDoor
         _PersistentArguments: []
-  eventEditType: 0

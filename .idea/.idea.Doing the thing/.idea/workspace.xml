@@ -23,38 +23,92 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Event.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Event.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Instance.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Instance.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/CustomEventBehaivour.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/CustomEventBehaivour.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceEventBehaivour.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceEventBehaivour.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/ExposeAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/ExposeAttribute.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Music.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Music/Rick_Astley_Never_Gonna_Give_You_Up (2).mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Music/Rick_Astley_Never_Gonna_Give_You_Up (2).mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Enemy Data.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Enemy Data/Test.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Enemy Data/Test.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_Close.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_Close.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_Open.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_Open.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_Move.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_Move.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_Stop.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_Stop.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/SoundPlayer.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/SoundPlayer.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DoorControllerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DoorControllerEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ConditionalDisplayPropertyDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ConditionalDisplayPropertyDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/CustomEventDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/CustomEventDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door with Button.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door with Button.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_EnableElevator.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_EnableElevator.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CountingEvent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CountingEvent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_EnableElevator.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_EnableElevator.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_Teleporter_EnableTeleporter.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Group Events/Group_Teleporter_EnableTeleporter.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableElevator.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableElevator.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableTeleporterWhenButtonIsPressed 2.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableTeleporterWhenButtonIsPressed 2.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableTeleporterWhenButtonIsPressed.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Condition/EnableTeleporterWhenButtonIsPressed.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_CloseDoorEvent.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_CloseDoorEvent.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_OpenDoorEvent.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Door_OpenDoorEvent.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_DisablePlatform.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_DisablePlatform.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_EnablePlatform.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Platform_EnablePlatform.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Event.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Event.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Instance.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Testing Instance.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/Individual_CloseShop.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/Individual_CloseShop.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/Individual_OpenShop.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/Individual_OpenShop.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/ToggleWeaponSelect.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Events/Gameplay/Instances/Ui/ToggleWeaponSelect.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Test.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Test.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/InteractableEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/InteractableEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/CustomEventBehaivour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/CustomEventBehaivour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceEventBehaivour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceEventBehaivour.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/DamageEvent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/DamageEvent.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/DebugTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/DebugTest.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/TimeEvent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/TimeEvent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/EnableIfAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/EnableIfAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,15 +131,19 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/EnableIfAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ItemCreator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Effects/Animation_ButtonPress.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/38/5310e057/Dictionary`2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/38/5310e057/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.3/Runtime/Helpers/CinemachineInputProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0EBEB27C-A6DF-45BB-AEEC-500DC98FF733/35/11410d07/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4756199C-F52A-4F14-B33C-DCC5659F782E/d3/d8b137e8/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/CustomContrainedSize.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/a0/be1423af/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/27/6c6ad3d7/RuntimeTypeHandle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63DD8BF9-8CFA-4BA9-85AF-735EF1A56BA9/e2/41310f8c/Func`7.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/65/647ebfa5/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/da/6739f929/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/4a/858f3d21/RuntimeType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63DD8BF9-8CFA-4BA9-85AF-735EF1A56BA9/e0/844a6f6f/Boolean.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/ad/5e3a8fe4/WaitForSeconds.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/dd/0d2feae9/UnityEvent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63DD8BF9-8CFA-4BA9-85AF-735EF1A56BA9/c3/78cdd8d7/Action.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" root0="FORCE_HIGHLIGHTING" />
@@ -95,9 +153,12 @@
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Unity/Hub/Editor/2020.1.6f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/DoorController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Teleporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2500DD07-8A54-4A69-B6C9-23861AF6CD15/47/ca04fd4b/GUITargetAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/65/bbbb3a71/UnityEvent`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/12/ddb83f4c/Component.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/eb/2775860d/Type.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/eb/2775860d/Type.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.1/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/22/cfea3892/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/MTree/Editor/MtreeBezierInspector.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.3/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/88/ec333412/MonoMethodInfo.cs" root0="FORCE_HIGHLIGHTING" />
@@ -123,8 +184,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/be/b7a3c7fb/MethodInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/96/93715ffd/MonoMethod.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/24/45c6bfc9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/76/2f5a6e0d/IntPtr.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/76/2f5a6e0d/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/32/fc1e07b0/MethodBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/55B53144-350B-41AC-9CB1-AD2CCF020513/c0/a1629dcf/UModeler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/12/93eae498/PersistentCall.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63D737E1-C011-441A-8570-C920DB3597F0/7f/ccdeb646/NativeInputSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/40/4f073c9e/Renderer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -133,7 +195,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/c6/5ec63530/MulticastDelegate.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Unity/Hub/Editor/2020.1.6f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/38/921f2961/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/0b/d1677a14/Delegate.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/0b/d1677a14/Delegate.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/67055F1B-E365-4E2A-9872-54D5437EE5B8/29/bb98f3bd/AssetPostprocessor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Unity/Hub/Editor/2020.1.6f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/UIBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/1b/148abea8/Component.cs" root0="SKIP_HIGHLIGHTING" />
@@ -154,50 +216,57 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/ConditionEvent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Teleporter.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/EventListener.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Color Swapper.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ColorSwapper.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/CustomEditorUtilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/Utilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/EditorUtilities.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/CustomEventDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Effects/Animation_ButtonPress.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/BoxSpawner.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/InteractableEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ItemCreator.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/EnemySpawnerData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemySpawner.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/DoorController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/DoorControllerEditor.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/ExposeAttribute.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEventConditions.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomCondition.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/CustomCondition.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceCondition.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/InstanceEventBehaivour.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/EventCallerCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/InputExtension/InputReferenceExtension.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/TestComponent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Utility/Attributes/EnableIfAttribute.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/InstanceEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ConditionalDisplayPropertyDrawer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/IsEventBeingCalled.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/InteractableEntity.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/Condition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/GroupCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/ConstrainCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/CustomEventDrawer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/DoorControllerEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -239,10 +308,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="11652">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="11652" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -334,7 +403,14 @@
       <workItem from="1610035615724" duration="3241000" />
       <workItem from="1610102031493" duration="13250000" />
       <workItem from="1610211142199" duration="7096000" />
-      <workItem from="1610282996811" duration="11428000" />
+      <workItem from="1610282996811" duration="12484000" />
+      <workItem from="1610389541597" duration="621000" />
+      <workItem from="1610459541008" duration="16110000" />
+      <workItem from="1610545776464" duration="4588000" />
+      <workItem from="1610568417619" duration="2506000" />
+      <workItem from="1610628807769" duration="14668000" />
+      <workItem from="1610720477562" duration="13539000" />
+      <workItem from="1610804807027" duration="22073000" />
     </task>
     <servers />
   </component>
@@ -360,6 +436,23 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs</url>
+          <line>195</line>
+          <properties documentPath="C:\Users\epicd\Documents\Unity Projects\Doing the thing\Assets\Scripts\Interactivity\Moving Objects\MovingPlatform.cs" initialLine="195" containingFunctionPresentation="method 'CarryEntities'">
+            <startOffsets>
+              <option value="7058" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7112" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#UnityEditor.SerializedProperty" memberName="propertyType" />

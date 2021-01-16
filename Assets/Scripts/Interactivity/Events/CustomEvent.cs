@@ -1,71 +1,87 @@
 ﻿using System;
-using System.Reflection;
-using System.Threading;
-using Extensions;
-using Interactivity.Components;
-using Interactivity.Events.Conditions;
-using JetBrains.Annotations;
-using Player;
 using UnityEngine;
-using UnityEngine.Events;
-using Utility.Attributes;
-using Object = UnityEngine.Object;
 
 namespace Interactivity.Events
 {
-    public delegate void EmptyEvent();
-
-
-    public delegate object ObjectEvent<in T>(params T[] args);
+    public delegate object ObjectEvent<in T>(GameObject gameObject = null, params T[] args);
 
     [CreateAssetMenu(fileName = "New Event Asset", menuName = "Event/New Event", order = 0)]
     public class CustomEvent : ScriptableObject
     {
-        [Expose] public CustomEventBehaivour eventBehaivour;
         protected event ObjectEvent<object> GameEvent;
+        public bool isEventGlobal;
+        public bool showDebugMessages;
 
 
-        public virtual void OnInvokeEvent(GameObject gameObject = null)
+        public void OnInvokeEvent(GameObject gameObject)
         {
-            if (eventBehaivour != null && eventBehaivour.IsMet(gameObject))
-                GameEvent?.Invoke(gameObject);
-            else
+            OnInvokeEvent(gameObject, null);
+        }
+
+        public object OnInvokeEvent(GameObject gameObject, params object[] args)
+        {
+            if (isEventGlobal)
             {
-                GameEvent?.Invoke();
+                return GameEvent?.Invoke(gameObject, args);
             }
+
+            return GameEvent?.Invoke(gameObject, args);
         }
 
 
-        public virtual void Subscribe<TDel>(TDel method, params object[] args) where TDel : Delegate
+        public void Subscribe<TDel>(TDel method, GameObject instanceCondition = null)
+            where TDel : Delegate
         {
-            //args[]
-            if (eventBehaivour != null)
-            {
-                GameEvent += (localArgs) =>
-                {
-                    object[] newArgs = new object[localArgs.Length + args.Length];
-                    Array.Copy(localArgs, newArgs, localArgs.Length);
-                    Array.Copy(args, 0, newArgs, localArgs.Length, args.Length);
-                    return eventBehaivour.SubscribeCondition(method, newArgs);
-                };
-            }
-            else
-                GameEvent += method.DynamicInvoke;
+            GameEvent += (gameObject, args) => OnGameEvent(method, gameObject, instanceCondition, args);
         }
 
-        public virtual void Unsubcribe<TDel>(TDel method, params object[] args) where TDel : Delegate
+        private object OnGameEvent<TDel>(TDel method, GameObject gameObject, GameObject instanceGameObject,
+            object[] args) where TDel : Delegate
         {
-            if (eventBehaivour != null)
-                // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
-                GameEvent -= (localArgs) =>
-                {
-                    object[] newArgs = new object[localArgs.Length + args.Length];
-                    Array.Copy(localArgs, newArgs, localArgs.Length);
-                    Array.Copy(args, 0, newArgs, localArgs.Length, args.Length);
-                    return eventBehaivour.SubscribeCondition(method, newArgs);
-                };
-            else
-                GameEvent -= method.DynamicInvoke;
+            if (!isEventGlobal && (instanceGameObject != null || gameObject != null))
+            {
+                return TryInvokeMethod(gameObject, instanceGameObject, method, args);
+            }
+
+            return method.DynamicInvoke(args);
+        }
+
+        public void Unsubcribe<TDel>(TDel method, GameObject instanceCondition = null)
+            where TDel : Delegate
+        {
+            // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
+            GameEvent -= (gameObject, args) => OnGameEvent(method, gameObject, instanceCondition, args);
+        }
+
+
+        protected object TryInvokeMethod<TDel>(GameObject entity, GameObject targetEntity, TDel method,
+            object[] args)
+            where TDel : Delegate
+        {
+            object results = default;
+            if (entity == null)
+            {
+                return method.DynamicInvoke(args);
+            }
+
+            var areEqual = targetEntity.GetInstanceID() == entity.GetInstanceID();
+            if (areEqual)
+            {
+                if (showDebugMessages)
+                    Debug.Log($"Calling event to object: {targetEntity.name}");
+                results = method.DynamicInvoke(args);
+            }
+
+            return results;
+        }
+
+        public static CustomEvent CreateEvent<TDel>(ref CustomEvent customEvent, TDel method,
+            GameObject instanceCondition = null)
+            where TDel : Delegate
+        {
+            customEvent = customEvent ? customEvent : CreateInstance<CustomEvent>();
+            customEvent.Subscribe(method, instanceCondition);
+            return customEvent;
         }
     }
 }
