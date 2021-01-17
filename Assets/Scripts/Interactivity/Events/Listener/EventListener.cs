@@ -7,7 +7,7 @@ using Utility.Attributes;
 
 namespace Interactivity.Events.Listener
 {
-    public class NewEventListener : MonoBehaviour
+    public class EventListener : MonoBehaviour
     {
         public List<Event> events;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Interactivity.Events;
 using Interactivity.Events.Listener;
+using TPUModelerEditor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -9,11 +10,26 @@ using Event = Interactivity.Events.Listener.Event;
 
 namespace Editor.PropertyDrawers
 {
-    [CustomEditor(typeof(NewEventListener))]
+    [CustomEditor(typeof(EventListener))]
     public class EventListenerEditor : UnityEditor.Editor
     {
+        private string _helpMessageTitle = "Using Event Listener 101:";
+
+        private string _helpEventCreate =
+            "To create an event, go to the Project window in Unity, right click and select: Create > Event > New Event then give said event a name. (Use the convention of (Object_Action). Example: Door_Open).";
+
+        private string _helpUseEvent =
+            "Once you create an event, you can use the event asset inside a Unity Event. Drag the event into the Unity Object Slot and select OnInvokeEvent. For normal, default Unity Events, select the one with the GameObject as an option. For custom Unity Events, select either the collider or the gameObject.";
+
+        private string _helpListenToEvent =
+            "To use this component, add an event listener by pressing the + button on the events list. This should create an element with a 'Event to Listen to', 'Response To Event()' and a 'Condition List'. Note that the Condition List appears when the event in 'Event To Listen to' is not a global event. To Remove an event listener, select the desired event listener to remove and the press the - on the list. This should remove the select element and automatically select the previous element in the list (if there is any).";
+
+
+        private bool eventCreateToggle;
+        private bool eventUseageToggle;
+        private bool listenerToEventToggle;
         private SerializedProperty _eventList;
-        private SerializedProperty firstItem;
+        private SerializedProperty _firstItem;
         private ReorderableList _list;
         public static Dictionary<SerializedObject, int> ReorderableListCount = new Dictionary<SerializedObject, int>();
 
@@ -47,11 +63,42 @@ namespace Editor.PropertyDrawers
 
         public override void OnInspectorGUI()
         {
+            HelpBox(_helpMessageTitle, MessageType.None);
+
+            if (GUILayout.Button(new GUIContent("How to create an event?")))
+            {
+                eventCreateToggle = !eventCreateToggle;
+            }
+
+            if (eventCreateToggle)
+                HelpBox(_helpEventCreate, MessageType.Info);
+
+            if (GUILayout.Button(new GUIContent("How to use an event?")))
+            {
+                eventUseageToggle = !eventUseageToggle;
+            }
+
+            if (eventUseageToggle)
+                HelpBox(_helpUseEvent, MessageType.Info);
+
+            if (GUILayout.Button(new GUIContent("How to use the event listener?")))
+            {
+                listenerToEventToggle = !listenerToEventToggle;
+            }
+
+            if (listenerToEventToggle)
+                HelpBox(_helpListenToEvent, MessageType.Info);
+
             EditorGUI.BeginChangeCheck();
             _list.DoLayoutList();
             ReorderableListCount[serializedObject] = _list.count;
             if (EditorGUI.EndChangeCheck())
                 serializedObject.ApplyModifiedProperties();
+        }
+
+        private void HelpBox(string message, MessageType type)
+        {
+            EditorGUILayout.HelpBox(message, type);
         }
     }
 
@@ -61,20 +108,22 @@ namespace Editor.PropertyDrawers
     {
         private Dictionary<string, ReorderableList> _reorderableLists = new Dictionary<string, ReorderableList>();
         private float _spacing = 5f;
-        float totalHeight = 0;
+        private float _totalHeight = 0;
+        private float _extraHeight;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SerializedProperty eventToListenTo, conditions, responseToEvent;
             Rect r = position;
-
+            _extraHeight = 0;
             eventToListenTo = property.FindPropertyRelative("eventToListenTo");
             conditions = property.FindPropertyRelative("conditions");
             responseToEvent = property.FindPropertyRelative("responseToEvent");
 
+
             EditorGUI.BeginChangeCheck();
 
-            GUI.Box(new Rect(position.x, position.y, position.width, totalHeight), GUIContent.none);
+            GUI.Box(new Rect(position.x, position.y, position.width, _totalHeight + _extraHeight), GUIContent.none);
             EditorGUI.indentLevel++;
             DrawPropertyField(ref r, eventToListenTo);
             if (eventToListenTo.objectReferenceValue != null &&
@@ -93,6 +142,7 @@ namespace Editor.PropertyDrawers
             EditorGUI.indentLevel--;
         }
 
+
         private void DrawReorderableList(ref Rect rect, SerializedProperty property)
         {
             if (!_reorderableLists.ContainsKey(property.propertyPath))
@@ -107,19 +157,22 @@ namespace Editor.PropertyDrawers
 
             SerializedProperty it = GetFirstSerializedProperty(property);
             it.Next(true);
-            rect.height = SingleListHeight(property, it) + 25f;
+            rect.height = SingleListHeight(property, it) + 15f;
             _reorderableLists[property.propertyPath].DoList(rect);
             rect.y += rect.height + _spacing;
         }
 
         private static float SingleListHeight(SerializedProperty property, SerializedProperty it)
         {
+            int size = property.isArray && property.propertyType == SerializedPropertyType.Generic ? property.arraySize : 0;
+            if (property.isArray && property.propertyType == SerializedPropertyType.Generic)
+                Debug.Log(property.arraySize);
             return (EditorGUI.GetPropertyHeight(it, it.isExpanded) + (EditorGUIUtility.singleLineHeight * 1.15f) + (
                        EventListenerEditor.ReorderableListCount.ContainsKey(property.serializedObject) &&
                        EventListenerEditor.ReorderableListCount[property.serializedObject] > 1
                            ? 20f
                            : 0)) *
-                   Mathf.Min(1f, it.Copy().CountRemaining());
+                   Mathf.Min(1f, size + 1);
         }
 
         private float ElementHeightCallback(int index, SerializedProperty property)
@@ -151,9 +204,10 @@ namespace Editor.PropertyDrawers
                 r.y += r.height + _spacing;
         }
 
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            totalHeight = 0;
+            _totalHeight = 0;
             var it = GetFirstSerializedProperty(property);
             SerializedProperty arrayP = default;
             it.Next(true);
@@ -169,12 +223,12 @@ namespace Editor.PropertyDrawers
                     arrayP = it;
                 }
 
-                totalHeight +=  (SingleListHeight(property, it) + 25f);
+                _totalHeight += (SingleListHeight(property, it) + 25f);
             }
 
-            totalHeight -= 120f;
+            _totalHeight -= 120f;
 
-            return base.GetPropertyHeight(property, label) + totalHeight;
+            return base.GetPropertyHeight(property, label) + _totalHeight + _extraHeight;
         }
 
         private static SerializedProperty GetFirstSerializedProperty(SerializedProperty property)

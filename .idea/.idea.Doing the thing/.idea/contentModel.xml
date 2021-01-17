@@ -225,7 +225,7 @@
             <e p="Events" t="Include">
               <e p="CustomEvent.cs" t="Include" />
               <e p="Listener" t="Include">
-                <e p="NewEventListener.cs" t="Include" />
+                <e p="EventListener.cs" t="Include" />
               </e>
             </e>
             <e p="InterfaceLibrary.cs" t="Include" />
