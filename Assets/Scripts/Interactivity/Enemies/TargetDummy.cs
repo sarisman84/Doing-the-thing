@@ -11,13 +11,14 @@ namespace Interactivity.Enemies
         protected override void Awake()
         {
             base.Awake();
+            damageableEntity.maxHealth = -1;
+            damageableEntity.onDamageTakenEvent.AddListener(TakeDamage);
             originalColor = modelRenderer.material.color;
         }
 
-        public override void TakeDamage(float damage)
+        public void TakeDamage(int currentHealth)
         {
             modelRenderer.sharedMaterial.color = Color.red;
-            
         }
 
         protected override void Update()
@@ -25,6 +26,8 @@ namespace Interactivity.Enemies
             modelRenderer.material.color = Color.Lerp(modelRenderer.material.color, originalColor, 0.01f);
         }
 
-        
+        public override void Transform(GameObject newModel)
+        {
+        }
     }
 }

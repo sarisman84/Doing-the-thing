@@ -1,4 +1,5 @@
 ﻿using System;
+using Interactivity.Components;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,67 +8,76 @@ using Utility;
 namespace Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(DetectionArea))]
+    [UnityEditor.CustomEditor(typeof(DetectionArea))]
     public class DetectionAreaEditor : UnityEditor.Editor
     {
-        private DetectionArea _area;
+        private SerializedProperty _onZoneEnter, _onZoneExit, _onZoneStay;
+        private SerializedProperty _triggerType;
+        private SerializedProperty _zoneColor, _zoneType, _detectionMask;
+
+        private SerializedProperty _onZoneEnterCustom, _onZoneExitCustom, _onZoneStayCustom;
 
         private void OnEnable()
         {
-      
+            _zoneType = serializedObject.FindProperty("zoneType");
+            _triggerType = serializedObject.FindProperty("triggerType");
+            _zoneColor = serializedObject.FindProperty("zoneColor");
+            _detectionMask = serializedObject.FindProperty("detectionMask");
+
+            _onZoneEnter = serializedObject.FindProperty("onZoneEnter");
+
+
+            _onZoneExit = serializedObject.FindProperty("onZoneExit");
+
+
+            _onZoneStay = serializedObject.FindProperty("onZoneStay");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            SerializedProperty triggerType = serializedObject.FindProperty("triggerType");
-        
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("zoneType"));
-            EditorGUILayout.PropertyField(triggerType);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("zoneColor"));
+
+            EditorGUILayout.PropertyField(_zoneType);
+            EditorGUILayout.PropertyField(_triggerType);
+            EditorGUILayout.PropertyField(_zoneColor);
             EditorGUILayout.Space();
-            SerializedProperty layer = serializedObject.FindProperty("detectionMask");
-            EditorGUILayout.PropertyField(layer);
+            EditorGUILayout.PropertyField(_detectionMask);
 
 
-
-         
-            
-            
             EditorGUILayout.Space();
-            switch (triggerType.enumValueIndex)
+            switch ((DetectionArea.ZoneTriggerType)_triggerType.enumValueIndex)
             {
-                case 0:
-                    SerializedProperty onEnterEvent = serializedObject.FindProperty("onZoneEnter");
-                    EditorGUILayout.PropertyField(onEnterEvent, new GUIContent("On Entering the Zone"));
+                case DetectionArea.ZoneTriggerType.OnEnter:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
                     break;
-                case 1:
-                    SerializedProperty onExitEvent = serializedObject.FindProperty("onZoneExit");
-                    EditorGUILayout.PropertyField(onExitEvent, new GUIContent("On Exiting the Zone"));
+                case DetectionArea.ZoneTriggerType.OnExit:
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
                     break;
-                case 2:
-                    SerializedProperty onStayEvent = serializedObject.FindProperty("onZoneExit");
-                    EditorGUILayout.PropertyField(onStayEvent, new GUIContent("On Staying in the Zone"));
+                case DetectionArea.ZoneTriggerType.OnStay:
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
                     break;
-                
-                default:
-                    Debug.Log(triggerType.enumValueIndex.ToString());
+                case DetectionArea.ZoneTriggerType.OnEnterOrStay:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.OnStayOrExit:
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.OnExitOrEnter:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
+                    break;
+                case DetectionArea.ZoneTriggerType.All:
+                    EditorGUILayout.PropertyField(_onZoneEnter, new GUIContent("On Entering the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneStay, new GUIContent("While Staying in the Zone"));
+                    EditorGUILayout.PropertyField(_onZoneExit, new GUIContent("On Exiting the Zone"));
                     break;
             }
 
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DrawHandles()
-        {
-            if (_area.collider is SphereCollider sphereCollider)
-            {
-                Handles.color = Color.white;
-                var transform = sphereCollider.transform;
-                Handles.DotHandleCap(0, transform.position, transform.rotation,1f, EventType.Repaint);
-            }
         }
     }
 }

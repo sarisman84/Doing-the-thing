@@ -1,4 +1,5 @@
-﻿using Interactivity.Pickup;
+﻿using System;
+using Interactivity.Pickup;
 using UnityEngine;
 
 namespace Interactivity.Destructable_Objects
@@ -7,13 +8,11 @@ namespace Interactivity.Destructable_Objects
     {
         public string ammoType = "Pickup";
         public int amountOfAmmo = 1;
-        
-        
-        public override void TakeDamage(float damage)
+
+
+        protected override void OnDeathEvent()
         {
-            OnDeath();
             BasePickup.SpawnAmmo(transform, ammoType, amountOfAmmo);
-            
         }
     }
 }

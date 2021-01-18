@@ -14,7 +14,7 @@ namespace Player.Weapons
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void OnGameStart()
         {
-            new GameObject("Projectile").ApplyAction(g =>
+            new GameObject("Projectile").Execute(g =>
             {
                 g.AddComponent<Rigidbody>();
                 g.AddComponent<SphereCollider>();
@@ -64,7 +64,7 @@ namespace Player.Weapons
             }
             else
             {
-                GameObject obj = Object.Instantiate(Resources.Load<GameObject>($"Projectiles/{model}"),
+                GameObject obj = Object.Instantiate(Resources.Load<GameObject>($"Projectiles/{model}_Projectile"),
                     GameObject.transform);
                 _knownModels.Add(model, obj);
             }

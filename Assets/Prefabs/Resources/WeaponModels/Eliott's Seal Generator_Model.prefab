@@ -40,12 +40,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6070638544507608689}
   m_Layer: 8
-  m_Name: Eliott's Seal Generator
+  m_Name: Eliott's Seal Generator_Model
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6070638544507608689
 Transform:
   m_ObjectHideFlags: 0

@@ -28,23 +28,30 @@ namespace Player.Weapons
             globalWeaponLibrary.Add("Test_Pistol",
                 new Weapon(WeaponBehaviorLibrary.NormalFire, 500, 0.1f, 10, "Test_Pistol",
                     "A testing weapon that is a baseline for other weapons", 1000));
+            
             globalWeaponLibrary.Add("Eliott's Seal Generator",
                 new Weapon(WeaponBehaviorLibrary.PolymorphRounds, 2500, 0.01f, 0, "Eliott's Seal Generator",
                     "Transforms enemies into harmless seals!", 500));
+            
             globalWeaponLibrary.Add("Rocket Launcher",
                 new Weapon(WeaponBehaviorLibrary.ProjectileFire, 50, 1f, 500, "Rocket Launcher",
                     "Used to nagotiate terms with enemies. Highly effective.", 500));
 
             globalWeaponLibrary.Add("Rocket Glove",
                 new Weapon(WeaponBehaviorLibrary.MeleePunch, -1, 0.4f, 20, "Rocket Glove",
-                    "A glove so powerfull, it makes frans drool for more.", 1));
+                    "A glove so powerful, it makes frans drool for more.", 1));
+
+            globalWeaponLibrary.Add("Starter Weapon",
+                new Weapon(WeaponBehaviorLibrary.NormalFire, 200, 0.25f, 2, "Starter Weapon",
+                    "The starting weapon for the player [Unobtainable]", Int32.MaxValue));
         }
     }
 
     [Serializable]
     public class Weapon
     {
-        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage, string weaponName,
+        public Weapon(Action<Weapon, Ray> fireEvent, int maxAmmo, float fireRate, float damage,
+            string weaponName,
             string weaponDescription, int shopPrice)
         {
             this.fireEvent = fireEvent;
@@ -57,7 +64,7 @@ namespace Player.Weapons
 
             this.damage = damage;
 
-            model = Object.Instantiate(Resources.Load<GameObject>($"WeaponModels/{weaponName}_Model"));
+            model = Resources.Load<GameObject>($"WeaponModels/{weaponName}_Model");
             model.SetActive(false);
             icon = Resources.Load<Sprite>($"WeaponIcons/{weaponName}_Icon");
 
@@ -80,6 +87,7 @@ namespace Player.Weapons
         public string description;
         public int price;
 
+        public Collider owner;
         public string name;
         public GameObject model;
         public Sprite icon;
@@ -98,11 +106,11 @@ namespace Player.Weapons
 
         public void OnWeaponPrimaryFire(WeaponController controller)
         {
-            _controller = _controller ?? controller;
+            owner = controller.GetComponent<Collider>();
             _localCounter += Time.deltaTime;
             _localCounter = Mathf.Clamp(_localCounter, 0, fireRate);
 
-            var transform = controller.player.playerCamera.transform;
+            var transform = controller.player.CameraController.PlayerCamera;
             var firePosition = transform.position;
             var fireDirection = transform.forward;
 
@@ -113,14 +121,12 @@ namespace Player.Weapons
                 (_localAmmoCount > 0 || maxAmmoCount == -1))
             {
                 fireEvent.Invoke(this, weaponRay);
-                _controller.hudManager.UpdateAmmoCounter(this);
+                HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
                 _localCounter = 0;
                 if (maxAmmoCount != -1)
                     _localAmmoCount--;
             }
         }
-
-        private WeaponController _controller;
 
 
         public bool AddAmmo(int i)
@@ -128,7 +134,7 @@ namespace Player.Weapons
             if (_localAmmoCount >= maxAmmoCount) return false;
             _localAmmoCount += maxAmmoCount;
             _localAmmoCount = Mathf.Clamp(_localAmmoCount, 0, maxAmmoCount);
-            _controller.hudManager.UpdateAmmoCounter(this);
+            HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
             return true;
         }
     }
@@ -140,18 +146,18 @@ namespace Player.Weapons
         {
             RaycastHit closestHit = Physics.RaycastAll(trajectoryInformation).GetClosestHit();
 
-            DamageEntity(closestHit.collider, weapon.damage);
+            DamageEntity(closestHit.collider, weapon);
 
             TracerRounds(weapon.model.transform, weapon.WeaponBarrel.transform, closestHit.point,
                 new Color(1, 0.56f, 0.25f, 1));
         }
 
-        private static void DamageEntity(Collider hit, float damage)
+        private static void DamageEntity(Collider hit, Weapon weapon)
         {
             if (hit)
             {
                 IDamageable damageable = hit.GetComponent<IDamageable>();
-                damageable?.TakeDamage(damage);
+                damageable?.TakeDamage(weapon.owner, weapon.damage);
             }
         }
 
@@ -181,11 +187,12 @@ namespace Player.Weapons
             projectile.Physics.useGravity = false;
             projectile.Physics.constraints = RigidbodyConstraints.FreezeRotation;
             projectile.Physics.AddForce(trajectoryInformation.direction * 1000f, ForceMode.Force);
-            projectile.FetchInformation(weapon.damage, 5f, Explosion);
-            projectile.SetProjectileModel("Fireball");
+            projectile.FetchInformation(weapon.damage, 5f,
+                (transform, radius, damage) => Explosion(weapon, transform, radius));
+            projectile.SetProjectileModel(weapon.name);
         }
 
-        private static void Explosion(Transform transform, float radius, float damage)
+        private static void Explosion(Weapon weapon, Transform transform, float radius)
         {
             List<Collider> foundObjects = Physics.OverlapSphere(transform.position, radius * 2f).ToList();
 
@@ -197,7 +204,7 @@ namespace Player.Weapons
             {
                 if (Vector3.Distance(transform.position, entity.transform.position) <= radius &&
                     !entity.GetComponent<PlayerController>())
-                    DamageEntity(entity, damage);
+                    DamageEntity(entity, weapon);
                 KnockbackEntity(entity, transform, radius);
             }
 
@@ -215,7 +222,7 @@ namespace Player.Weapons
                 IDamageable entity = t.GetComponent<IDamageable>();
                 if (entity != null)
                 {
-                    entity.TakeDamage(weapon.damage);
+                    entity.TakeDamage(weapon.owner, weapon.damage);
                 }
             });
         }

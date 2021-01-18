@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Player;
 using Player.Weapons;
+using UnityEditor;
 using UnityEngine;
 using static Extensions.GeneralExtensions.RadiusAxis;
 using Random = UnityEngine.Random;
@@ -14,6 +15,40 @@ namespace Extensions
 {
     public static class GeneralExtensions
     {
+        public static T[] RemoveElements<T>(this T[] array, int amount, Func<bool> ifCondition = null)
+        {
+            T[] newArray = array;
+            if (ifCondition != default)
+                if (ifCondition.Invoke())
+                {
+                    newArray = new T[array.Length - amount];
+                    Array.Copy(array, amount, newArray, 0, newArray.Length);
+                }
+
+            return newArray;
+        }
+
+        public static IEnumerable<int> GetIndexes<T>(this IEnumerable<T> list)
+        {
+            int[] result = new int[list.Count()];
+
+            for (int index = 0; index < result.Length; index++)
+            {
+                result[index] = index;
+            }
+
+            return result;
+        }
+
+        public static Transform AddPosition(this Transform transform, Vector3 desiredValue)
+        {
+            Vector3 position = transform.position;
+            position += desiredValue;
+            transform.position = position;
+            return transform;
+        }
+
+
         public static void ChangeSize<T>(this Collider collider, T value)
         {
             BoxCollider boxCol = collider.GetComponent<BoxCollider>();
@@ -63,6 +98,33 @@ namespace Extensions
             XZAxis,
             YZAxis,
             XYZAxis
+        }
+
+        public static IEnumerator GetDelayedRandomPositionInRange(this Vector3 vector3, float range, float delay,
+            out Vector3 result)
+        {
+            result = GetRandomPositionInRange(vector3, range);
+            return Delay(delay);
+        }
+
+        private static IEnumerator Delay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+
+
+        public static Vector3 GetRandomPositionInRange(this Vector3 vector3, float range, float delay,
+            ref float counter, ref Vector3 lastResult, RadiusAxis axis = XZAxis)
+        {
+            counter += Time.deltaTime;
+            counter = Mathf.Clamp(counter, 0, delay);
+            if (delay.Equals(counter))
+            {
+                lastResult = GetRandomPositionInRange(vector3, range, axis);
+                counter = 0;
+            }
+
+            return lastResult;
         }
 
         public static Vector3 GetRandomPositionInRange(this Vector3 vector3, float d,
@@ -129,27 +191,50 @@ namespace Extensions
             return applyAction;
         }
 
-        public static object ApplyFunction<TEvent>(this IEnumerable list, TEvent method) where TEvent : Delegate
+        public static SerializedProperty ApplyAction(this SerializedProperty value,
+            Action<SerializedProperty> propertyMethod)
         {
-            var applyAction = list;
-            List<object> results = new List<object>();
-            foreach (var variable in applyAction)
+            foreach (SerializedProperty p in value)
             {
-                results.Add(method.DynamicInvoke(variable));
+                propertyMethod.Invoke(p.Copy());
             }
 
-            return results;
-        }
-
-
-        public static T ApplyAction<T>(this T value, Action<T> method)
-        {
-            if (!value.Equals(null))
-            {
-                method.Invoke(value);
-            }
 
             return value;
+        }
+
+        public static List<bool> ApplyFunction<T>(this IEnumerable<T> list, Func<T, bool> method)
+        {
+            List<bool> result = new List<bool>();
+
+            foreach (var obj in list)
+            {
+                result.Add(method?.Invoke(obj) ?? false);
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<T> ApplyAction<T>(this IEnumerable<T> list, Action<T, int> method)
+        {
+            var applyAction = list.ToArray();
+            for (var index = 0; index < applyAction.Length; index++)
+            {
+                var variable = applyAction[index];
+                method.Invoke(variable, index);
+            }
+
+            return applyAction;
+        }
+
+        public static T Execute<T>(this T entity, Action<T> action)
+        {
+            if (entity != null)
+            {
+                action?.Invoke(entity);
+            }
+
+            return entity;
         }
 
 
@@ -252,5 +337,19 @@ namespace Extensions
 
             return result;
         }
+
+
+        public static bool IsInTheVicinityOf(this Vector3 ogPosition, Vector3 targetPos, float range = 1f)
+        {
+            return ogPosition.x >= targetPos.x - range
+                   && ogPosition.x <= targetPos.x + range
+                   && ogPosition.y >= targetPos.y - range &&
+                   ogPosition.y <= targetPos.y + range
+                   && ogPosition.z >= targetPos.z - range &&
+                   ogPosition.z <= targetPos.z + range;
+        }
+        
+        
+      
     }
 }

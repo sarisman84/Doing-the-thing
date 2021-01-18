@@ -10,7 +10,8 @@ namespace Interactivity.Pickup
 {
     public abstract class BasePickup : MonoBehaviour
     {
-        public abstract bool OnPickup(Weapon weapon);
+        
+        public abstract bool OnPickup(Weapon weapon = null);
         
         public static void SpawnCurrency(Transform owner, int minAmount, int maxAmount)
         {
