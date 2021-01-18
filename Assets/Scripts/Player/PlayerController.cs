@@ -6,6 +6,7 @@ using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
+using Interactivity.Components;
 using Interactivity.Pickup;
 using Player.Weapons;
 using UI;
@@ -13,15 +14,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
 using static Player.InputListener.KeyCode;
+using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
 {
+    [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody), typeof(DamageableEntity))]
     public class PlayerController : MonoBehaviour
     {
-        public const string CameraFallBehaivourEvent = "Player_SetFallingBehaivour";
-        public const string SetCursorActiveEvent = "Player_SetCursorActive";
-
-        public const string ConstantlyLookTowardsThePlayerEvent = "PlayerFall_LookAtPlayer";
         public const string MoveEntityEvent = "Player_MoveEntity";
 
 
@@ -34,21 +33,17 @@ namespace Player
         public float sprintMultiplier;
         public float crouchMultiplier;
 
-        //Camera sensitivity
-        [Range(50, 300f)] public float sensitivity = 200f;
+
         public float jumpForce;
+        public float fallMultipler = 2.5f;
+        public float lowJumpMultiplier = 2f;
 
         //Collision sizes and checks for the Ground and Stand methods.
         public Vector3 groundCheckSize = Vector3.one;
+        public float groundCheckDelay = .10f;
         public Vector3 sealingCheckSize = Vector3.one;
         public LayerMask movementCheckLayer;
 
-        //Public reference to a Cinemachine Camera that is used for the player.
-        public CinemachineFreeLook playerCamera;
-
-        //FOV information for both normal and sprint modes.
-        [Range(10f, 100f)] public float fieldOfView = 60f;
-        [Range(10f, 100f)] public float fieldOfViewWhileSprinting = 90f;
 
         //Pickup information
 
@@ -56,24 +51,29 @@ namespace Player
         //Local references to components and custom classes. 
         //Local variables that store information such as speed or input.
         private Rigidbody _physics;
+        private WeaponController _weaponController;
         private CapsuleCollider _collisionBody;
-        public FPCameraHandler fpcHandler;
+        public CameraController CameraController { get; private set; }
         private Vector2 _inputVector;
         private float _totalSpeed;
         private Vector3 _trueInputVector;
         private Vector2 _lookValue;
+        private float _groundCheckDelay;
 
-        private float _originalFOV;
-        private float _sprintFOV;
         private bool _isSprinting;
         private bool _isJumping;
         private bool _isCrouching;
         private bool _isInteracting;
 
+        public bool IsSprinting => _isSprinting;
+        public bool IsCrouching => _isCrouching;
+        public Vector3 LatestRespawnPos { get; set; }
+
+        private static CustomEvent _movePlayerEvent;
+
         #endregion
 
 
-        public bool CameraLocked { get; set; }
         public event Action ONUpdateCallback;
 
         private Vector3 BottonPositionOfCollider
@@ -90,29 +90,23 @@ namespace Player
             get
             {
                 var position = transform.position;
-                return new Vector3(position.x, position.y + (_collisionBody.bounds.size.y / 2f), position.z);
+                return new Vector3(position.x, position.y + (_collisionBody.bounds.size.y / 2f) - 0.25f, position.z);
             }
         }
 
         private void Awake()
         {
+            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(ref _movePlayerEvent, MovePlayer, gameObject);
             //Assigns the player as a priority target for any enemy.
             EnemyBehaivourManager.AssignNewTarget(transform);
 
             //Init
             _collisionBody = GetComponent<CapsuleCollider>();
             _physics = GetComponent<Rigidbody>();
-            fpcHandler = new FPCameraHandler();
-
-            //Saving values for FOV and Sprint FOV respectively.
-            _originalFOV = fieldOfView;
-            _sprintFOV = fieldOfViewWhileSprinting;
-
-            //Applies FOV to the camera's lens.
-            playerCamera.m_Lens.FieldOfView = _originalFOV;
+            CameraController = GetComponent<CameraController>();
 
 
-         
+            _weaponController = GetComponent<WeaponController>();
         }
 
 
@@ -123,25 +117,22 @@ namespace Player
             _lookValue = InputListener.GetMouseDelta();
             _isSprinting = InputListener.GetKey(Sprint);
             _isJumping = InputListener.GetKey(Jump);
-            _isCrouching = InputListener.GetKey(Crouch);
+            _isCrouching = InputListener.GetKey(Crouch) || !CanStand();
 
 
             //Calculate input values to reflect strafing in correlation to player direction.
             //Calculate and alter final speed values depending on whenever or not the player is using x input.
             _trueInputVector = transform.right * _inputVector.x + transform.forward * _inputVector.y;
             _totalSpeed = _isSprinting && !_isCrouching && CanStand() ? movementSpeed * sprintMultiplier :
-                _isCrouching || !CanStand() ? movementSpeed * crouchMultiplier : movementSpeed;
+                _isCrouching ? movementSpeed * crouchMultiplier : movementSpeed;
 
             //Calculate and alter cameraFOV depending on player's input.
-            float currentFOV = playerCamera.m_Lens.FieldOfView;
-            currentFOV = _isSprinting && !_isCrouching && CanStand()
-                ? Mathf.Lerp(currentFOV, _sprintFOV, 0.25f)
-                : Mathf.Lerp(currentFOV, _originalFOV, 0.25f);
-            playerCamera.m_Lens.FieldOfView = currentFOV;
+            // float currentFOV = CameraController.playerCamera.m_Lens.FieldOfView;
+            // currentFOV = _isSprinting && !_isCrouching && CanStand()
+            //     ? Mathf.Lerp(currentFOV, _sprintFOV, 0.25f)
+            //     : Mathf.Lerp(currentFOV, _originalFOV, 0.25f);
+            // CameraController.playerCamera.m_Lens.FieldOfView = currentFOV;
 
-            if (!CameraLocked)
-                //Call method that handles player rotation on mouse input.
-                fpcHandler.RotatePlayerHorizontally(transform, _lookValue, sensitivity);
 
             //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
@@ -151,7 +142,17 @@ namespace Player
 
             if (InputListener.GetKeyDown(Escape))
             {
-                EventManager.TriggerEvent(WeaponShop.CloseShop);
+                if (WeaponShop.IsActive(gameObject))
+                {
+                    WeaponShop.Close(gameObject);
+                }
+
+                if (WeaponSelectMenu.IsActive(gameObject))
+                {
+                    WeaponSelectMenu.Close(gameObject);
+                }
+
+                PauseMenu.TogglePause();
             }
         }
 
@@ -161,22 +162,17 @@ namespace Player
         /// <param name="isCrouching">Input check</param>
         private void OnCrouchAlterPlayerHeight(bool isCrouching)
         {
-            var position = transform.position;
             if (isCrouching)
             {
                 _collisionBody.height = 1f;
                 _collisionBody.center = new Vector3(0, -0.5f, 0);
-                playerCamera.m_Orbits[1].m_Height = -0.5f;
 
                 return;
             }
 
-            if (CanStand())
-            {
-                _collisionBody.center = Vector3.zero;
-                playerCamera.m_Orbits[1].m_Height = 0;
-                _collisionBody.height = 2f;
-            }
+
+            _collisionBody.center = Vector3.zero;
+            _collisionBody.height = 2f;
         }
 
         /// <summary>
@@ -187,19 +183,30 @@ namespace Player
         {
             List<Collider> foundObjects = Physics
                 .OverlapBox(TopPositionOfCollider, sealingCheckSize, transform.rotation, movementCheckLayer).ToList();
-            return foundObjects.FindAll(c => c != this._collisionBody).Count == 0;
+            return foundObjects.FindAll(c => c != _collisionBody).Count == 0;
         }
 
         private void FixedUpdate()
         {
+            //Applying input and its speed to the Rigidbody while keeping the gravity intact.
             var velocity = _physics.velocity;
             velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
             _physics.velocity = velocity;
 
-            //InteractWithEntities(currencyPickupRange, pickupMask);
+
+            //Better jump logic by Boards to Bits Games (https://www.youtube.com/watch?v=7KiK0Aqtmzc)
+            if (_physics.velocity.y < 0)
+            {
+                _physics.velocity += Vector3.up * (Physics.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime);
+            }
+            else if (_physics.velocity.y > 0 && !_isJumping)
+            {
+                _physics.velocity += Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
+            }
+
 
             if (_isJumping && IsGrounded() && !_isCrouching)
-                _physics.AddForce(Vector3.up * (jumpForce * 10), ForceMode.VelocityChange);
+                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
 
 
@@ -209,9 +216,14 @@ namespace Player
         /// <returns>Returns true if there is at least one gameObject bellow the player's feet.</returns>
         private bool IsGrounded()
         {
+            _groundCheckDelay = _groundCheckDelay.Equals(groundCheckDelay) ? 0 : _groundCheckDelay;
+            _groundCheckDelay += Time.deltaTime;
+            _groundCheckDelay = Mathf.Clamp(_groundCheckDelay, 0, groundCheckDelay);
             List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
                 transform.rotation, movementCheckLayer).ToList();
-            return foundObjects.FindAll(c => c != _collisionBody).Count != 0;
+            bool result = foundObjects.FindAll(c => c != _collisionBody).Count != 0;
+
+            return result && _groundCheckDelay.Equals(groundCheckDelay);
         }
 
 
@@ -225,13 +237,6 @@ namespace Player
             Gizmos.color = Color.red;
             if (!CanStand()) Gizmos.color = Color.green;
             Gizmos.DrawCube(TopPositionOfCollider, sealingCheckSize * 2f);
-        }
-
-
-        private void LateUpdate()
-        {
-            if (!CameraLocked)
-                fpcHandler.RotateCameraVertically(playerCamera.transform, _lookValue, sensitivity);
         }
 
 
@@ -252,38 +257,58 @@ namespace Player
 
         private void AddListenersToEventManager()
         {
-            EventManager.AddListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
-            EventManager.AddListener<Action<HealthComponent.CameraBehaivour>>(CameraFallBehaivourEvent,
-                value => HealthComponent.SetCameraBehaivour(playerCamera, transform, value));
-            EventManager.AddListener<Action>(ConstantlyLookTowardsThePlayerEvent,
-                () => HealthComponent.RotateCameraTowards(playerCamera, transform));
-            EventManager.AddListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
+            EventManager.AddListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
 
         private void RemoveListenersFromEventManager()
         {
-            EventManager.RemoveListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
-            EventManager.RemoveListener<Action<HealthComponent.CameraBehaivour>>(CameraFallBehaivourEvent,
-                value => HealthComponent.SetCameraBehaivour(playerCamera, transform, value));
-            EventManager.RemoveListener<Action>(ConstantlyLookTowardsThePlayerEvent,
-                () => HealthComponent.RotateCameraTowards(playerCamera, transform));
-            EventManager.RemoveListener<Func<Vector3, Vector3>>(MoveEntityEvent, MovePlayer);
+            EventManager.RemoveListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
         }
 
-        private void SetCameraAndCursorActive(bool value)
+
+        private void MovePlayer(Vector3 velocity)
         {
-            CameraLocked = value;
-            // fpcHandler.AlterCursorState(value);
-            EventManager.TriggerEvent(FPCameraHandler.ChangeCursorState, value);
-            EventManager.TriggerEvent(InputListener.SetPlayerLookInputActiveState, !value);
-            //EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, !value);
+            _physics.MovePosition(Vector3.Slerp(transform.position, transform.position + velocity, 1));
         }
 
-        private Vector3 MovePlayer(Vector3 velocity)
+        public static void Move(Collider player, Vector3 velocity)
         {
-            _physics.MovePosition(transform.position + velocity);
-            return _physics.velocity;
+            _movePlayerEvent.OnInvokeEvent(player.gameObject, velocity);
+        }
+
+
+        public void OnFall()
+        {
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent, CameraController.CameraBehaivour.Look);
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
+            _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
+            StartCoroutine(Respawn(4f, LatestRespawnPos));
+        }
+
+
+        IEnumerator Respawn(float respawnTime, Vector3 spawnPos)
+        {
+            float time = 0;
+            while (time < respawnTime)
+            {
+                yield return new WaitForEndOfFrame();
+                EventManager.TriggerEvent(CameraController.ConstantlyLookTowardsThePlayerEvent);
+                time += Time.deltaTime;
+            }
+
+            yield return null;
+            transform.position = spawnPos;
+            _physics.velocity = Vector3.zero;
+
+            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
+            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent,
+                CameraController.CameraBehaivour.Follow);
+            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
+
+
+            yield return null;
         }
     }
 }

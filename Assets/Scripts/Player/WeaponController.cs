@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using Extensions;
 using Extensions.InputExtension;
+using Interactivity;
+using Interactivity.Events;
 using Player.Weapons;
 using UI;
 using UnityEngine;
@@ -10,40 +13,61 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
+using Debug = System.Diagnostics.Debug;
 
 namespace Player
 {
     public class WeaponController : MonoBehaviour
     {
-        public Weapon currentWeapon;
-
-
-        public List<Weapon> weaponLibrary = new List<Weapon>();
-
-
+        [HideInInspector] public Weapon currentWeapon;
+        public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
         private WeaponVisualiser _weaponVisualiser;
-        public HudManager hudManager;
 
-        public void Awake()
+
+        public void Start()
         {
             player = GetComponent<PlayerController>();
 
+            weaponLibrary = new List<Weapon>();
 
-            _weaponVisualiser = player.playerCamera.transform.GetComponentInChildren<WeaponVisualiser>();
+            _weaponVisualiser =
+                Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
 
-            hudManager = new HudManager();
 
             player.ONUpdateCallback += LocalUpdate;
 
-
-            weaponLibrary.Add(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
-
-
-            EventManager.AddListener<Action<string>>("Player_BuyWeapon", OnWeaponPurchace);
+            AddWeaponToLibrary(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
 
 
             SelectWeapon(0);
+        }
+
+        private void OnEnable()
+        {
+            EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
+            {
+                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
+                {
+                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
+                    SelectWeapon(weaponLibrary.Count - 1);
+                }
+            });
+        }
+
+        private void OnDisable()
+        {
+            EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
+            {
+                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
+                {
+                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
+                    SelectWeapon(weaponLibrary.Count - 1);
+                }
+            });
         }
 
         public void SelectWeapon(int index)
@@ -52,25 +76,30 @@ namespace Player
             {
                 currentWeapon = weaponLibrary[index];
                 _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-                hudManager.SetWeaponIcon(currentWeapon.icon);
-                hudManager.UpdateAmmoCounter(currentWeapon);
+                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
+                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
+
+                HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
+                HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
             }
         }
 
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
-            weaponLibrary.Add(newWeapon);
+            if (!weaponLibrary.Contains(newWeapon))
+                weaponLibrary.Add(newWeapon);
         }
 
 
         void LocalUpdate()
         {
-            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect))
+            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
             {
-                WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
+                //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
+                WeaponSelectMenu.Open(gameObject, SelectWeapon, weaponLibrary);
             }
 
-            if (player.CameraLocked) return;
+            if (player.CameraController.CameraLocked) return;
 
             if (currentWeapon == null) return;
 
@@ -78,13 +107,14 @@ namespace Player
         }
 
 
-        void OnWeaponPurchace(string weapon)
+        bool OnWeaponPurchace(string weapon)
         {
             Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
-            if ((int) EventManager.TriggerEvent(CurrencyHandler.GetCurrency) < newWeapon.price) return;
-            EventManager.TriggerEvent(CurrencyHandler.PayCurrency, newWeapon.price);
+            if (CurrencyHandler.GetCurrency(gameObject) < newWeapon.price) return false;
+            CurrencyHandler.PayCurrency(gameObject, newWeapon.price);
             AddWeaponToLibrary(newWeapon);
             SelectWeapon(weaponLibrary.Count - 1);
+            return true;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Interactivity.Moving_Objects;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace Editor
 {
@@ -11,50 +12,64 @@ namespace Editor
     {
         public override void OnInspectorGUI()
         {
-            MovingPlatform _target = target as MovingPlatform;
+            MovingPlatform movingPlatform = target as MovingPlatform;
 
 
-            if (_target.waypointList.Count == 0)
+            if (!(movingPlatform is null) && movingPlatform.waypointList.Count == 0)
             {
-                CreateWaypoint(_target);
+                CreateWaypoint(movingPlatform);
             }
 
             base.OnInspectorGUI();
 
             if (GUILayout.Button("Add Waypoint"))
             {
-                CreateWaypoint(_target);
+                CreateWaypoint(movingPlatform);
             }
 
             if (GUILayout.Button("Remove Last Waypoint"))
             {
-                Vector3 waypoint = _target.waypointList[_target.waypointList.Count - 1];
-                _target.waypointList.Remove(waypoint);
+                if (!(movingPlatform is null))
+                {
+                    Vector3 waypoint = movingPlatform.waypointList[movingPlatform.waypointList.Count - 1];
+                    movingPlatform.waypointList.Remove(waypoint);
+                }
             }
         }
 
+        private MovingPlatform _platform;
+
         private void OnEnable()
         {
-            SceneView.duringSceneGui += OnSceneGUI;
+            _platform = ((MovingPlatform) target);
+            SceneView.duringSceneGui += sv => OnSceneGUI();
         }
 
         private void OnDisable()
         {
-            SceneView.duringSceneGui -= OnSceneGUI;
+            SceneView.duringSceneGui -= sv => OnSceneGUI();
         }
 
-        private void OnSceneGUI(SceneView sv)
+        private void OnSceneGUI()
         {
-            DrawLinesBetweenWaypoints(((MovingPlatform) target).waypointList);
+            if (_platform)
+                DrawLinesBetweenWaypoints(_platform.transform, ref _platform.waypointList);
         }
 
         private void CreateWaypoint(MovingPlatform _target)
         {
-            _target.waypointList.Add(_target.waypointList[_target.waypointList.Count - 1] + Vector3.forward);
+            if (_target == null) return;
+            if (_target.waypointList == null)
+                _target.waypointList = new List<Vector3>();
+            _target.waypointList.Add(_target.waypointList.Count == 0
+                ? _target.transform.position
+                : _target.waypointList[_target.waypointList.Count - 1] +
+                  Vector3.forward);
         }
 
-        private void DrawLinesBetweenWaypoints(List<Vector3> targetWaypointList)
+        private void DrawLinesBetweenWaypoints(Transform transform, ref List<Vector3> targetWaypointList)
         {
+            if (targetWaypointList == null) targetWaypointList = new List<Vector3>();
             Color originalColor = Color.blue;
             for (int i = 0; i < targetWaypointList.Count; i++)
             {
@@ -63,7 +78,7 @@ namespace Editor
                 if (i == 0 || i == targetWaypointList.Count - 1)
                 {
                     Handles.color = Color.yellow;
-                    Handles.SphereHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 2,
+                    Handles.CubeHandleCap(0, waypointA, LookTowardsFutureWaypoint(i, targetWaypointList), 0.75f,
                         EventType.Repaint);
                 }
                 else
@@ -73,10 +88,26 @@ namespace Editor
                         EventType.Repaint);
                 }
 
-                Handles.color = originalColor;
-                waypointA = Handles.PositionHandle(waypointA, Quaternion.identity);
-                targetWaypointList[i] = waypointA;
-                if (i + 1 >= targetWaypointList.Count) break;
+                if (i != 0)
+                {
+                    Handles.color = originalColor;
+                    waypointA = Handles.PositionHandle(waypointA, Quaternion.identity);
+                    targetWaypointList[i] = waypointA;
+                }
+                else
+                {
+                    Handles.color = originalColor;
+                    if (!Application.isPlaying)
+                        targetWaypointList[i] = transform.position;
+                }
+
+                if (i + 1 >= targetWaypointList.Count)
+                {
+                    Handles.color = Color.yellow;
+                    Vector3 newWaypointB = targetWaypointList[0];
+                    Handles.DrawDottedLine(waypointA, newWaypointB, 4f);
+                    break;
+                }
 
                 Vector3 waypointB = targetWaypointList[i + 1];
 

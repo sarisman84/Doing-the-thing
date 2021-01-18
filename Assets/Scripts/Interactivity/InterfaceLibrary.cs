@@ -1,26 +1,46 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine;
 
 namespace Interactivity
 {
-    public interface IDamageable: IUnity
+    public interface IDamageable : IUnity
     {
-        void TakeDamage(float damage);
+        void TakeDamage(Collider col, float damage);
+        void OnDeath(Collider col);
     }
 
 
-    public interface IPolymorphable: IUnity
+    public interface IPolymorphable : IUnity
     {
         void Transform(GameObject newModel);
 
         bool HasTransformed { get; }
     }
 
-    public interface IInteractable: IUnity
+    public enum InteractionInput
     {
-        void OnInteract(PlayerController controller);
-        void OnProximity();
+        Hold,
+        Press
     }
+
+    public interface IInteractable : IUnity
+    {
+        Collider LatestInteractor { get; }
+        void OnInteract(Collider collider);
+        void OnHoverEnter(Collider collider);
+        void OnHoverStay(Collider collider);
+        void OnHoverExit(Collider collider);
+        InteractionInput InputType { get; }
+    }
+
+    public interface IDetectable : IUnity
+    {
+        void OnAreaEnter(Collider col);
+        void OnAreaStay(Collider collider);
+        void OnAreaExit(Collider collider);
+    }
+
 
     public interface IUnity
     {

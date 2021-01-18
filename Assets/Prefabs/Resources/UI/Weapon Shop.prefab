@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 1982357137966309081}
   - component: {fileID: 1982357137966309086}
   - component: {fileID: 1982357137966309087}
+  - component: {fileID: 4086328494511551011}
   m_Layer: 5
   m_Name: Weapon Shop
   m_TagString: Player Shop
@@ -705,6 +706,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4086328494511551011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982357137966309084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f0415f539a454795ef2a74856ca6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponRenderer: {fileID: 0}
+  buttonHolder: {fileID: 1982357136807618622}
+  description: {fileID: 1982357137286220646}
+  name: {fileID: 6086685769519807903}
+  priceCounter: {fileID: 6612397334379438961}
 --- !u!1 &1982357138223272094
 GameObject:
   m_ObjectHideFlags: 0

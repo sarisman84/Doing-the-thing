@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using Interactivity.Pickup;
@@ -16,13 +17,16 @@ namespace Interactivity.Enemies
         private Mesh _originalMesh;
         private Material _originalMaterial;
         public int maxHealth = 100;
-
+        public float detectionRange = 20f;
         private float _currentHealth;
+        private float _randomPositionCounter;
+        private Vector3 _randomPosition;
+        Dictionary<int, GameObject> _transformationList = new Dictionary<int, GameObject>();
 
         protected override void Awake()
         {
             base.Awake();
-            _currentHealth = maxHealth;
+            damageableEntity.onDeathEvent.AddListener(OnDeath);
             _modelRenderer = GetComponent<MeshRenderer>();
             _modelFilter = GetComponent<MeshFilter>();
 
@@ -35,30 +39,28 @@ namespace Interactivity.Enemies
             _defaultSpeed = agent.speed;
         }
 
-        public override void TakeDamage(float damage)
-        {
-            _modelRenderer.sharedMaterial.color = Color.red;
-            _currentHealth -= damage;
-            if (_currentHealth <= 0)
-            {
-                OnDeath();
-
-                //Reset health
-                _currentHealth = maxHealth;
-            }
-        }
 
         protected override void Update()
         {
             if (!HasTransformed)
-                agent.destination = EnemyBehaivourManager.GetCurrentTargetPosition();
+            {
+                Vector3 target = EnemyBehaivourManager.GetCurrentTargetPosition();
+
+                if (Vector3.Distance(target, transform.position) < detectionRange)
+                    agent.destination = target;
+                else
+                {
+                    agent.destination =
+                        transform.position.GetRandomPositionInRange(4, 6f, ref _randomPositionCounter,
+                            ref _randomPosition);
+                }
+            }
+
             if (!agent.speed.Equals(_defaultSpeed))
                 agent.speed = _defaultSpeed;
             _modelRenderer.material.color = Color.Lerp(_modelRenderer.material.color, _originalColor, 0.01f);
         }
 
-
-        Dictionary<int, GameObject> _transformationList = new Dictionary<int, GameObject>();
 
         public override void Transform(GameObject newModel)
         {
@@ -97,13 +99,12 @@ namespace Interactivity.Enemies
             }
 
             yield return null;
-            TakeDamage(maxHealth);
+            damageableEntity.TakeDamage(GetComponent<Collider>(), maxHealth);
         }
 
 
-        protected override void OnDeath()
+        private void OnDeath()
         {
-            gameObject.SetActive(false);
             BasePickup.SpawnCurrency(transform, 2, 14);
             _modelRenderer.enabled = true;
             _transformationList.ApplyAction(t => t.Value.SetActive(false));
@@ -112,6 +113,12 @@ namespace Interactivity.Enemies
                 StopCoroutine(_delayedDeath);
                 _delayedDeath = null;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red - new Color(0, 0, 0, 0.75f);
+            Gizmos.DrawSphere(transform.position, detectionRange);
         }
     }
 }
