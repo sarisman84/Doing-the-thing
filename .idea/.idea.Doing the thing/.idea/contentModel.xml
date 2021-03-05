@@ -279,6 +279,7 @@
               <e p="EventManager.cs" t="Include" />
             </e>
             <e p="TestScripts" t="Include">
+              <e p="GroupMockup.cs" t="Include" />
               <e p="TestComponent.cs" t="Include" />
             </e>
           </e>

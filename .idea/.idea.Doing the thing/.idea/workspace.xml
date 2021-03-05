@@ -23,14 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/GroupMockup.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MTree/examples/Materials/Floor.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MTree/examples/Materials/Floor.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Default Color.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Default Color.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door with Button.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Gameplay/Door with Button.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/EventListener.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,8 +137,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/Color Swapper.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/Gameplay/ColorSwapper.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/CustomEditorUtilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/Utilities.cs" />
@@ -170,7 +167,6 @@
       <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ConditionalDisplayPropertyDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Conditions/IsEventBeingCalled.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectionArea.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/GroupEvent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/InteractableEntity.cs" />
@@ -181,7 +177,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/DoorControllerEditor.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/Listener/NewEventListener.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
@@ -189,6 +184,10 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/GroupMockup.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -334,6 +333,13 @@
       <workItem from="1610720477562" duration="13539000" />
       <workItem from="1610804807027" duration="23530000" />
       <workItem from="1610899248359" duration="4392000" />
+      <workItem from="1610977118386" duration="1852000" />
+      <workItem from="1611155349244" duration="5427000" />
+      <workItem from="1611249038727" duration="1605000" />
+      <workItem from="1611422182574" duration="102000" />
+      <workItem from="1611428663048" duration="1531000" />
+      <workItem from="1613223648684" duration="1323000" />
+      <workItem from="1613310616052" duration="674000" />
     </task>
     <servers />
   </component>
@@ -363,13 +369,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs</url>
-          <line>195</line>
+          <line>198</line>
           <properties documentPath="C:\Users\epicd\Documents\Unity Projects\Doing the thing\Assets\Scripts\Interactivity\Moving Objects\MovingPlatform.cs" initialLine="195" containingFunctionPresentation="method 'CarryEntities'">
             <startOffsets>
-              <option value="7058" />
+              <option value="7224" />
             </startOffsets>
             <endOffsets>
-              <option value="7112" />
+              <option value="7278" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="16" />

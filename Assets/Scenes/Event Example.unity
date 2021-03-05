@@ -2067,6 +2067,55 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &553116395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553116397}
+  - component: {fileID: 553116396}
+  m_Layer: 0
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &553116396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553116395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712590702dc91564d8b2371ca6a6f1ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEventGlobal: 0
+  eventsToListenTo:
+  - customEvent: {fileID: 0}
+    instanceConditions: []
+  - customEvent: {fileID: 0}
+    instanceConditions: []
+--- !u!4 &553116397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553116395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -24.59, y: 1.1500001, z: 10.14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &599823749
 Mesh:
   m_ObjectHideFlags: 0
@@ -11731,7 +11780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021007340349136950, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: waypointList.Array.data[0].z
-      value: 0
+      value: 0.39
       objectReference: {fileID: 0}
     - target: {fileID: 6021007340349136950, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: waypointList.Array.data[2].x
@@ -11751,7 +11800,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021007340349136950, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: waypointList.Array.data[1].x
-      value: 14.628916
+      value: 13.516808
       objectReference: {fileID: 0}
     - target: {fileID: 6021007340349136950, guid: d0561a47ae424bb44b31c0abb70a342b, type: 3}
       propertyPath: waypointList.Array.data[1].z
@@ -14717,6 +14766,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11fd93eefb8962d469e4f196376b6f77, type: 3}
+--- !u!114 &2040079876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2040079878, guid: 11fd93eefb8962d469e4f196376b6f77, type: 3}
+  m_PrefabInstance: {fileID: 2040079875}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc55e732e5d042e29baf715ec783296a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &2065959452
 Mesh:
   m_ObjectHideFlags: 0
@@ -15453,7 +15513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[0]._PersistentArguments.Array.size
@@ -15548,6 +15608,14 @@ PrefabInstance:
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[1]._X
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[2]._Target
+      value: 
+      objectReference: {fileID: 2040079876}
+    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[2]._MethodName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574015, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_Name

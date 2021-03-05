@@ -79,7 +79,7 @@ namespace Player
                 }
 
                 var transform1 = _playerController.transform;
-                var rotation = transform1.rotation;
+                Quaternion rotation = transform1.rotation;
                 rotation = new Quaternion(rotation.x,
                     _mainCamera.transform.rotation.y, rotation.z,
                     rotation.w);
