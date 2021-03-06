@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Editor.Extension;
+using Editor.Scriptable_Wizards;
 using Interactivity.Events;
 using Interactivity.Events.Listener;
 using TPUModelerEditor;
@@ -16,6 +17,7 @@ namespace Editor.PropertyDrawers
     {
         private SerializedProperty eventProperty;
         private ReorderableList _reorderableList;
+
 
         private void OnEnable()
         {
@@ -45,6 +47,9 @@ namespace Editor.PropertyDrawers
 
         public override void OnInspectorGUI()
         {
+            if (GUILayout.Button("Open Documentation"))
+                EventListenerDocumentation.CreateWizard();
+
             EditorGUI.BeginChangeCheck();
             _reorderableList.DoLayoutList();
 

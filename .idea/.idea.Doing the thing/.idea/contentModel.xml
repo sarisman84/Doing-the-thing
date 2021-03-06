@@ -25,6 +25,9 @@
             <e p="FancyListPropertyDrawer.cs" t="Include" />
             <e p="ScriptableExposerDrawer.cs" t="Include" />
           </e>
+          <e p="Scriptable Wizards" t="Include">
+            <e p="EventListenerDocumentation.cs" t="Include" />
+          </e>
           <e p="SpriteProcessor.cs" t="Include" />
           <e p="Test.cs" t="Include" />
         </e>

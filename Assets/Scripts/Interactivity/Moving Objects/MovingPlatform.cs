@@ -88,6 +88,12 @@ namespace Interactivity.Moving_Objects
                 loopMode, (int[]) waypointList.GetIndexes()));
         }
 
+        public void Stop()
+        {
+            StopCoroutine(_platformMovementCoroutine);
+            StopCoroutine(_entityGrabCoroutine);
+        }
+
         private IEnumerator MoveToWaypoints(float platformSpeed, float onStartupDelay = 0, float onReachDelay = 0,
             LoopMode loopMode = LoopMode.NoLoop, params int[] waypoints)
         {

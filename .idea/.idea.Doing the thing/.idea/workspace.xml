@@ -23,12 +23,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/TestCondition01.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/TestCondition02.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/createEventsTexture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/createEventsTexture.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/useEvents_CallMethod.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/useEvents_CallMethod.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/useEvents_InvokeTexture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Resources/ELDocs/useEvents_InvokeTexture.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Scriptable Wizards.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Scriptable Wizards/EventListenerDocumentation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Scriptable Wizards/EventListenerDocumentation.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/New Material.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/New Material.mat.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/Extension/EditorUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Extension/EditorUtilities.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +149,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Editor/CustomEventDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/CustomEditorUtilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/Utilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
@@ -182,11 +194,12 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/GroupMockup.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/Extension/EditorUtilities.cs" />
       <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/EventListenerEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/MovingPlatformEditor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs" />
+      <option value="$PROJECT_DIR$/Assets/Editor/Scriptable Wizards/EventListenerDocumentation.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -339,7 +352,7 @@
       <workItem from="1611428663048" duration="1531000" />
       <workItem from="1613223648684" duration="1323000" />
       <workItem from="1613310616052" duration="674000" />
-      <workItem from="1614960144769" duration="9317000" />
+      <workItem from="1614960144769" duration="15896000" />
     </task>
     <servers />
   </component>
@@ -369,13 +382,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Interactivity/Moving Objects/MovingPlatform.cs</url>
-          <line>198</line>
+          <line>204</line>
           <properties documentPath="C:\Users\epicd\Documents\Unity Projects\Doing the thing\Assets\Scripts\Interactivity\Moving Objects\MovingPlatform.cs" initialLine="195" containingFunctionPresentation="method 'CarryEntities'">
             <startOffsets>
-              <option value="7224" />
+              <option value="7376" />
             </startOffsets>
             <endOffsets>
-              <option value="7278" />
+              <option value="7430" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="16" />
