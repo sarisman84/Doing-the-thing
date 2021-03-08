@@ -16,8 +16,7 @@ MonoBehaviour:
   description: Shoots Rockets
   maxAmmo: 150
   ammoType: {fileID: 11400000, guid: 854af08aa515a1a40ba1048ad31a4915, type: 2}
-  fireRate: 0.75
+  fireRate: 0.15
   weaponModelPrefab: {fileID: 6070638544507608690, guid: 0598f841f12457b44875352e00d465ee, type: 3}
   weaponIcon: {fileID: 21300000, guid: cf00aa586e86fd643a3bec5aa133116b, type: 3}
-  weaponFireType: {fileID: 11400000, guid: d92e336fb826e0745ba926feec508f96, type: 2}
-  weaponImpactEffect: {fileID: 11400000, guid: 2efc12e459f0aa8429a11c228113f28c, type: 2}
+  fireType: {fileID: 0}

@@ -10563,6 +10563,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3781763890522782098, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.539
+      objectReference: {fileID: 0}
+    - target: {fileID: 3781763890782471355, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.539
+      objectReference: {fileID: 0}
     - target: {fileID: 6072229264723137591, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
       propertyPath: playerController
       value: 

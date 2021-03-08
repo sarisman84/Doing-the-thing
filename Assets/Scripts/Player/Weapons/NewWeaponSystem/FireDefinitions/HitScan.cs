@@ -8,8 +8,7 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
     {
         public float hitScanDetectionRange;
 
-        public override void FireCustomEffect(Vector3 origin, Vector3 direction,
-            Func<Collider, string> onImpactCallback)
+        public override void Fire(Vector3 origin, Vector3 direction)
         {
             Color rayColor = Color.red;
 
@@ -17,7 +16,7 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
             Ray ray = new Ray(origin, direction);
             if (Physics.Raycast(ray, out hitInfo, hitScanDetectionRange))
             {
-                onImpactCallback?.Invoke(hitInfo.collider);
+                weaponImpactEffect.TargetSelectionOnImpact(hitInfo.collider);
                 rayColor = Color.green;
             }
 

@@ -19,5 +19,4 @@ MonoBehaviour:
   fireRate: 0.25
   weaponModelPrefab: {fileID: 1418987551376876318, guid: 268dbfea50baa244ebfe29c5bedff94f, type: 3}
   weaponIcon: {fileID: 21300000, guid: 7c027db23d555a64aa8d903382a41aa9, type: 3}
-  weaponFireType: {fileID: 11400000, guid: 5c28e64275355e44f84db5766e7160da, type: 2}
-  weaponImpactEffect: {fileID: 11400000, guid: 2efc12e459f0aa8429a11c228113f28c, type: 2}
+  fireType: {fileID: 11400000, guid: 5c28e64275355e44f84db5766e7160da, type: 2}

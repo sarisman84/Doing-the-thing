@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Extensions;
 using Interactivity.Events;
 using Player;
@@ -38,6 +40,7 @@ namespace UI
         {
             Open(caller.gameObject, caller.GetComponent<WeaponController>());
         }
+
         public static void Open(GameObject caller, WeaponController controller)
         {
             if (_openShopEvent != null)
@@ -68,7 +71,15 @@ namespace UI
                 CustomEvent.CreateEvent<Func<bool>>(ref _getShopEvent, IsShopActive, playerController.gameObject);
 
 
-            foreach (var var in Weapon.GetAllWeapons())
+            SetupShopButtons(Weapon.GetAllWeapons().OrderBy(c => c.price).ToList());
+
+            gameObject.SetActive(false);
+            _weaponModels.ApplyAction(w => w.Value.SetActive(false));
+        }
+
+        private void SetupShopButtons(List<Weapon> foundWeapons)
+        {
+            foreach (var var in foundWeapons)
             {
                 ShopButton button = Instantiate(Resources.Load<ShopButton>("UI/Shop Slot"), buttonHolder);
                 button.ShopIcon = var.weaponIcon;
@@ -85,9 +96,6 @@ namespace UI
 
                 _weaponModels.Add(var.GetInstanceID(), model);
             }
-
-            gameObject.SetActive(false);
-            _weaponModels.ApplyAction(w => w.Value.SetActive(false));
         }
 
 
@@ -113,13 +121,14 @@ namespace UI
             _shopSlots.ApplyAction(s =>
             {
                 s.gameObject.SetActive(false);
-                if (index < library.Count && s.ID == library[index].GetInstanceID() || library[index].price == -1)
+                if (index < library.Count && (s.ID == library[index].GetInstanceID() || library[index].price == -1))
                 {
                     Debug.Log($"{library[index].name} already exists in player's inventory.");
                     index++;
                     return;
                 }
 
+                index++;
                 s.gameObject.SetActive(true);
             });
         }

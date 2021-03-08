@@ -18,8 +18,8 @@ namespace Player.Weapons.NewWeaponSystem
         [Space] public float fireRate;
         [Space] [SerializeField] private GameObject weaponModelPrefab;
         public Sprite weaponIcon;
-        [Space] [Expose] public FireDefinition weaponFireType;
-        [Expose] public ImpactDefinition weaponImpactEffect;
+        [Space] [Expose] public FireDefinition fireType;
+       
 
 
         #region Static Methods
@@ -87,9 +87,8 @@ namespace Player.Weapons.NewWeaponSystem
 
         void OnFire(Transform barrel, Transform owner)
         {
-            weaponFireType.FireCustomEffect(barrel.transform.position,
-                barrel.forward.normalized,
-                weaponImpactEffect.OnImpactCallback);
+            fireType.Fire(barrel.transform.position,
+                barrel.forward.normalized);
         }
 
         public int AddAmmo(int amount)

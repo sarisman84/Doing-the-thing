@@ -260,12 +260,17 @@
                   <e p="HitScan.cs" t="Include" />
                   <e p="Projectile.cs" t="Include" />
                 </e>
-                <e p="ImpactDefinition.cs" t="Include" />
                 <e p="ImpactDefinitions" t="Include">
-                  <e p="DamageTarget.cs" t="Include" />
+                  <e p="MultiTarget.cs" t="Include" />
+                  <e p="SingleTarget.cs" t="Include" />
                 </e>
-                <e p="ProjectileBehavior.cs" t="Include" />
+                <e p="ImpactSettings.cs" t="Include" />
+                <e p="ProjectileBehaviour.cs" t="Include" />
+                <e p="TargetSelectionSettings.cs" t="Include" />
                 <e p="Weapon.cs" t="Include" />
+                <e p="WeaponImpactSettings" t="Include">
+                  <e p="Damage.cs" t="Include" />
+                </e>
               </e>
               <e p="Old Weapon System" t="Include">
                 <e p="HeadsUpDisplay.cs" t="Include" />

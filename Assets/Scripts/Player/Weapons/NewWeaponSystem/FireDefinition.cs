@@ -1,13 +1,14 @@
 ﻿using System;
 using Spyro.Optimisation.ObjectManagement;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Player.Weapons.NewWeaponSystem
 {
     public abstract class FireDefinition : ScriptableObject
     {
-        public abstract void FireCustomEffect(Vector3 origin, Vector3 direction,
-            Func<Collider, string> onImpactCallback);
+        [Expose] public TargetSelectionSettings weaponImpactEffect;
+        public abstract void Fire(Vector3 origin, Vector3 direction);
     }
 
    

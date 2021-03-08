@@ -11,13 +11,12 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
         public float projectileVelocity = 15f;
         public GameObject projectileModel;
 
-        public override void FireCustomEffect(Vector3 origin, Vector3 direction,
-            Func<Collider, string> onImpactCallback)
+        public override void Fire(Vector3 origin, Vector3 direction)
         {
             ProjectileBehaviour projectile =
                 ObjectManager.DynamicInstantiate(Resources.Load<ProjectileBehaviour>("Weapons/Projectile"), false, 500);
             projectile.gameObject.SetActive(true);
-            projectile.UpdateInformation(origin, direction, projectileVelocity, projectileLifespan, onImpactCallback);
+            projectile.UpdateInformation(origin, direction, projectileVelocity, projectileLifespan, weaponImpactEffect.TargetSelectionOnImpact);
             projectile.UpdateProjectileModel(projectileModel);
         }
     }
