@@ -7,6 +7,7 @@ namespace Interactivity
     public interface IDamageable : IUnity
     {
         void TakeDamage(Collider col, float damage);
+        void TakeDamage(float damage);
         void OnDeath(Collider col);
     }
 

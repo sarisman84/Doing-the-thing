@@ -7,6 +7,7 @@ using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Events;
 using Player.Weapons;
+using Player.Weapons.NewWeaponSystem;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,7 +15,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
 using CustomEvent = Interactivity.Events.CustomEvent;
-using Debug = System.Diagnostics.Debug;
+using Debug = UnityEngine.Debug;
 
 namespace Player
 {
@@ -23,7 +24,6 @@ namespace Player
         [HideInInspector] public Weapon currentWeapon;
         public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
-        private WeaponVisualiser _weaponVisualiser;
 
 
         public void Start()
@@ -32,13 +32,12 @@ namespace Player
 
             weaponLibrary = new List<Weapon>();
 
-            _weaponVisualiser =
-                Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
+           
 
 
             player.ONUpdateCallback += LocalUpdate;
 
-            AddWeaponToLibrary(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
+            AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, "Starter Weapon"));
 
 
             SelectWeapon(0);
@@ -49,11 +48,8 @@ namespace Player
             EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
             EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
             {
-                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
-                {
-                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
-                    SelectWeapon(weaponLibrary.Count - 1);
-                }
+                AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+                SelectWeapon(weaponLibrary.Count - 1);
             });
         }
 
@@ -62,11 +58,8 @@ namespace Player
             EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
             EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
             {
-                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
-                {
-                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
-                    SelectWeapon(weaponLibrary.Count - 1);
-                }
+                AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+                SelectWeapon(weaponLibrary.Count - 1);
             });
         }
 
@@ -74,15 +67,20 @@ namespace Player
         {
             if (index >= 0 && index < weaponLibrary.Count)
             {
-                currentWeapon = weaponLibrary[index];
-                _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
-                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
-
-                HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
-                HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+               currentWeapon = WeaponExtensions.SwapWeaponTo(weaponLibrary, weaponLibrary[index]);
             }
         }
+
+        #region Old Code
+
+        // _weaponVisualiser.SetWeaponModel(this, currentWeapon);
+        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
+        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
+        //
+        // HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
+        // HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+
+        #endregion
 
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
@@ -101,15 +99,19 @@ namespace Player
 
             if (player.CameraController.CameraLocked) return;
 
-            if (currentWeapon == null) return;
+            if (currentWeapon == null)
+            {
+                Debug.Log("No Weapon found");
+                return;
+            }
 
-            currentWeapon.OnWeaponPrimaryFire(this);
+            Debug.Log(currentWeapon.TriggerFire(InputListener.GetKey(InputListener.KeyCode.Attack)));
         }
 
 
         bool OnWeaponPurchace(string weapon)
         {
-            Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
+            Weapon newWeapon = Weapon.GetWeaponViaName(gameObject, weapon);
             if (CurrencyHandler.GetCurrency(gameObject) < newWeapon.price) return false;
             CurrencyHandler.PayCurrency(gameObject, newWeapon.price);
             AddWeaponToLibrary(newWeapon);

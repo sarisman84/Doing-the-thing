@@ -4,6 +4,7 @@ using System.Linq;
 using Extensions;
 using Player;
 using Player.Weapons;
+using Player.Weapons.NewWeaponSystem;
 using UnityEngine;
 using Utility;
 using CustomEvent = Interactivity.Events.CustomEvent;

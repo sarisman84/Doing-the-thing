@@ -4,6 +4,7 @@ using Extensions;
 using Interactivity.Events;
 using Player;
 using Player.Weapons;
+using Player.Weapons.NewWeaponSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +32,7 @@ namespace UI
         private static CustomEvent _getShopEvent;
 
 
-        Dictionary<Guid, GameObject> _weaponModels = new Dictionary<Guid, GameObject>();
+        Dictionary<int, GameObject> _weaponModels = new Dictionary<int, GameObject>();
 
         public static void Open(Collider caller)
         {
@@ -67,22 +68,22 @@ namespace UI
                 CustomEvent.CreateEvent<Func<bool>>(ref _getShopEvent, IsShopActive, playerController.gameObject);
 
 
-            foreach (var var in WeaponManager.globalWeaponLibrary)
+            foreach (var var in Weapon.GetAllWeapons())
             {
                 ShopButton button = Instantiate(Resources.Load<ShopButton>("UI/Shop Slot"), buttonHolder);
-                button.ShopIcon = var.Value.icon;
-                button.ID = var.Value.ID;
-                button.OnEnteringUIElement += element => SetWeaponInformationToButton(var.Value);
+                button.ShopIcon = var.weaponIcon;
+                button.ID = var.GetInstanceID();
+                button.OnEnteringUIElement += element => SetWeaponInformationToButton(var);
                 button.OnExitingUIElement += element => ResetInformation();
-                button.OnClickUIElement += () => BuyItem(var.Value);
+                button.OnClickUIElement += () => BuyItem(var);
                 _shopSlots.Add(button);
                 button.gameObject.SetActive(false);
 
-                GameObject model = Instantiate(var.Value.model, weaponRenderer.transform);
+                GameObject model = Instantiate(var.WeaponModelPrefab, weaponRenderer.transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localRotation = Quaternion.identity;
 
-                _weaponModels.Add(var.Value.ID, model);
+                _weaponModels.Add(var.GetInstanceID(), model);
             }
 
             gameObject.SetActive(false);
@@ -112,7 +113,7 @@ namespace UI
             _shopSlots.ApplyAction(s =>
             {
                 s.gameObject.SetActive(false);
-                if (index < library.Count && s.ID == library[index].ID)
+                if (index < library.Count && s.ID == library[index].GetInstanceID() || library[index].price == -1)
                 {
                     Debug.Log($"{library[index].name} already exists in player's inventory.");
                     index++;
@@ -136,7 +137,7 @@ namespace UI
         {
             if ((bool) EventManager.TriggerEvent("Player_BuyWeapon", weapon.name))
             {
-                _shopSlots.Find(s => s.ID == weapon.ID).gameObject.SetActive(false);
+                _shopSlots.Find(s => s.ID == weapon.GetInstanceID()).gameObject.SetActive(false);
                 ResetInformation();
             }
         }
@@ -158,7 +159,7 @@ namespace UI
             {
                 w.Value.gameObject.SetActive(false);
 
-                if (w.Key == weapon.ID)
+                if (w.Key == weapon.GetInstanceID())
                 {
                     w.Value.gameObject.SetActive(true);
                 }

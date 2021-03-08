@@ -57,9 +57,7 @@ namespace Player
             if (foundObjs.Equals(null)) return;
             foreach (var t in foundObjs)
             {
-                Weapon weapon = _weaponController != null ? _weaponController.currentWeapon : null;
-                if (OnTriggerDetection(t, weapon)) continue;
-                t.gameObject.SetActive(false);
+                OnTriggerDetection(t);
             }
         }
 
@@ -120,45 +118,42 @@ namespace Player
             }
         }
 
-        private bool OnTriggerDetection(Collider entity, object args = null)
+        private int OnTriggerDetection(Collider entity)
         {
-            if (entity.Equals(null)) return false;
+            if (entity.Equals(null)) return -1;
             foreach (var component in entity.GetComponents<Component>())
             {
                 switch (component)
                 {
                     case BasePickup pickup:
-                        if (pickup && args != null)
+                        if (pickup)
                         {
-                            bool result = pickup.OnPickup((Weapon) args);
-
-
-                            return !result;
+                            int result = pickup.OnPickup(_weaponController.currentWeapon);
+                            if(result == 200)
+                                pickup.gameObject.SetActive(false);
+                            return result;
                         }
-
-                        return true;
+                        return 1;
 
                     case IDetectable interactable:
-
                         var position = interactable.transform.position;
                         ProximityCheck(position, () => interactable.OnAreaEnter(_col),
                             () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
-
-
-                        return true;
+                        return 100;
+                   
                     default:
                         if (entity.CompareTag("Currency"))
                         {
                             CurrencyHandler.EarnCurrency(gameObject, 1);
-                            return false;
+                            entity.gameObject.SetActive(false);
+                            return 50;
                         }
-
                         continue;
                 }
             }
 
 
-            return true;
+            return 0;
         }
 
 

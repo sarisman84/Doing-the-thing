@@ -6,7 +6,7 @@ namespace UI
 {
     public class ShopButton : CustomUIElement
     {
-        public Guid ID { get; set; }
+        public int ID { get; set; }
 
         public Sprite ShopIcon
         {

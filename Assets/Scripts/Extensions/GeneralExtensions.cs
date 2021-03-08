@@ -318,20 +318,24 @@ namespace Extensions
             return list;
         }
 
-        public static Transform GetChildWithTag<T>(this T value, string tag) where T : Component
+        public static Transform GetChildWithTag<T>(this T value, string tag)
         {
             Transform result = null;
+            
+            Transform transformValue = value as Transform;
 
-            for (int child = 0; child < value.transform.childCount; child++)
+            if (!transformValue) return null;
+            
+            for (int child = 0; child < transformValue.childCount; child++)
             {
-                if (value.transform.GetChild(child).CompareTag(tag))
+                if (transformValue.GetChild(child).CompareTag(tag))
                 {
-                    result = value.transform.GetChild(child);
+                    result = transformValue.GetChild(child);
 
                     break;
                 }
 
-                result = GetChildWithTag(value.transform.GetChild(child), tag);
+                result = GetChildWithTag(transformValue.GetChild(child), tag);
                 if (result && result.CompareTag(tag)) break;
             }
 

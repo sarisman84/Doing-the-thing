@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6466371032497639067}
   - component: {fileID: 980368353}
   m_Layer: 11
-  m_Name: Pickup
+  m_Name: Test_Pistol_Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f05fda83b914f899e91886efaa0efc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoType: {fileID: 11400000, guid: 99ccb309962152a4da096c0a7bd99e8d, type: 2}
 --- !u!1001 &2025910915281261299
 PrefabInstance:
   m_ObjectHideFlags: 0

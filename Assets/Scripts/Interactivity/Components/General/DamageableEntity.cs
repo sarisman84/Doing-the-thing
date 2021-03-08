@@ -45,6 +45,11 @@ namespace Interactivity.Components
             }
         }
 
+        public void TakeDamage(float damage)
+        {
+            TakeDamage(null, damage);
+        }
+
         public void OnDeath(Collider col)
         {
             if (godMode) return;
