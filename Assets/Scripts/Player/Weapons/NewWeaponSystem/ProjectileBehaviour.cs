@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using Player.Weapons.NewWeaponSystem.FireDefinitions;
+using Player.Weapons.NewWeaponSystem.ImpactDefinitions;
 using UnityEngine;
 
 namespace Player.Weapons.NewWeaponSystem
@@ -11,15 +12,15 @@ namespace Player.Weapons.NewWeaponSystem
     [RequireComponent(typeof(Rigidbody))]
     public class ProjectileBehaviour : MonoBehaviour
     {
-        private Rigidbody _physicsController;
-        private float _velocity, _lifeSpan;
+        private Projectile _projectileSettings;
 
         private float _currentLifespan;
         private bool _disableObject;
 
-        private Func<Collider, int> _onImpactCallback;
+
         private Dictionary<int, GameObject> currentModels = new Dictionary<int, GameObject>();
-        private Func<Vector3, Vector3, IEnumerator> impactFX;
+        private Rigidbody _physicsController;
+
 
         private void OnEnable()
         {
@@ -32,40 +33,32 @@ namespace Player.Weapons.NewWeaponSystem
         private void Update()
         {
             _currentLifespan += Time.deltaTime;
-          
 
-           // OnCollisionCheck();
+
+            // OnCollisionCheck();
 
             if (_disableObject)
                 gameObject.SetActive(false);
-            
-            _disableObject = !_disableObject && _currentLifespan >= _lifeSpan;
+
+            _disableObject = !_disableObject && _currentLifespan >= _projectileSettings.projectileLifespan;
         }
 
-        private void OnCollisionCheck()
-        {
-            Collider[] foundColliders = Physics.OverlapSphere(transform.position, 0.1f);
-            if (foundColliders != null)
-            {
-                Collider other = foundColliders.First();
-                if (other.gameObject.GetComponent<PlayerController>() != null)
-                {
-                    _onImpactCallback?.Invoke(other);
-                    _disableObject = true;
-                }
-                
-            }
-        }
 
         private void FixedUpdate()
         {
-            _physicsController.velocity = transform.forward.normalized * (_velocity * 100f * Time.fixedDeltaTime);
+            _physicsController.velocity = transform.forward.normalized *
+                                          (_projectileSettings.projectileVelocity * 100f * Time.fixedDeltaTime);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            _onImpactCallback?.Invoke(other.collider);
-            CoroutineManager.Instance.StartCoroutine(impactFX?.Invoke(other.GetContact(0).point, other.GetContact(0).normal));
+            _projectileSettings.targetSelectionType.TargetSelectionOnImpact(other.collider);
+            var detectionRange = (_projectileSettings.targetSelectionType as MultiTarget)?.detectionRange;
+
+            CoroutineManager.Instance.StartCoroutine(
+                _projectileSettings.targetSelectionType.impactEffect.PlayImpactEffect(other.GetContact(0).point,
+                    (-transform.forward) - other.GetContact(0).normal,
+                    detectionRange ?? 1));
             _disableObject = true;
         }
 
@@ -74,13 +67,8 @@ namespace Player.Weapons.NewWeaponSystem
             transform.position = origin;
             transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
 
-            _velocity = definition.projectileVelocity;
-            _lifeSpan = definition.projectileLifespan;
+            _projectileSettings = definition;
 
-
-            _onImpactCallback = definition.targetSelectionType.TargetSelectionOnImpact;
-            impactFX = definition.targetSelectionType.impactEffect.PlayImpactEffect;
-            
             UpdateProjectileModel(definition.projectileModel);
         }
 
