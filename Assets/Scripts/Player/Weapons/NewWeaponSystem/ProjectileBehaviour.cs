@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
+using Player.Weapons.NewWeaponSystem.FireDefinitions;
 using UnityEngine;
 
 namespace Player.Weapons.NewWeaponSystem
@@ -17,6 +19,7 @@ namespace Player.Weapons.NewWeaponSystem
 
         private Func<Collider, int> _onImpactCallback;
         private Dictionary<int, GameObject> currentModels = new Dictionary<int, GameObject>();
+        private Func<Vector3, Vector3, IEnumerator> impactFX;
 
         private void OnEnable()
         {
@@ -62,23 +65,26 @@ namespace Player.Weapons.NewWeaponSystem
         private void OnCollisionEnter(Collision other)
         {
             _onImpactCallback?.Invoke(other.collider);
+            CoroutineManager.Instance.StartCoroutine(impactFX?.Invoke(other.GetContact(0).point, other.GetContact(0).normal));
             _disableObject = true;
         }
 
-        public void UpdateInformation(Vector3 origin, Vector3 direction, float newVelocity, float newLifeSpan,
-            Func<Collider, int> onImpactCallback)
+        public void UpdateInformation(Vector3 origin, Vector3 direction, Projectile definition)
         {
             transform.position = origin;
             transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
 
-            _velocity = newVelocity;
-            _lifeSpan = newLifeSpan;
+            _velocity = definition.projectileVelocity;
+            _lifeSpan = definition.projectileLifespan;
 
 
-            _onImpactCallback = onImpactCallback;
+            _onImpactCallback = definition.targetSelectionType.TargetSelectionOnImpact;
+            impactFX = definition.targetSelectionType.impactEffect.PlayImpactEffect;
+            
+            UpdateProjectileModel(definition.projectileModel);
         }
 
-        public void UpdateProjectileModel(GameObject projectileModel)
+        private void UpdateProjectileModel(GameObject projectileModel)
         {
             //Reset any previous models.
             currentModels.ApplyAction(p => p.Value.SetActive(false));

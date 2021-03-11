@@ -1,4 +1,5 @@
 ﻿using System;
+using Extensions;
 using UnityEngine;
 
 namespace Player.Weapons.NewWeaponSystem.FireDefinitions
@@ -16,7 +17,8 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
             Ray ray = new Ray(origin, direction);
             if (Physics.Raycast(ray, out hitInfo, hitScanDetectionRange))
             {
-                weaponImpactEffect.TargetSelectionOnImpact(hitInfo.collider);
+                targetSelectionType.TargetSelectionOnImpact(hitInfo.collider);
+                CoroutineManager.Instance.StartCoroutine(targetSelectionType.impactEffect.PlayImpactEffect(hitInfo.point, hitInfo.normal));
                 rayColor = Color.green;
             }
 

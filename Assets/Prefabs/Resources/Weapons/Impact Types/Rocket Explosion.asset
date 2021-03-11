@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe5761cee004ad6bdb82c378933d8f1, type: 3}
   m_Name: Rocket Explosion
   m_EditorClassIdentifier: 
-  impactType: {fileID: 0}
-  detectionRange: 3
+  impactEffect: {fileID: 11400000, guid: 33ee03baa6e25ba489c5722a02cca710, type: 2}
+  impactType: {fileID: 11400000, guid: f57b61414d2c2334f8cb6fb7c77594e0, type: 2}
+  detectionRange: 5

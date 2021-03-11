@@ -193,6 +193,7 @@
             <e p="VentorTitleRotator.cs" t="Include" />
           </e>
           <e p="Extensions" t="Include">
+            <e p="CoroutineManager.cs" t="Include" />
             <e p="GeneralExtensions.cs" t="Include" />
             <e p="InputExtension" t="Include">
               <e p="InputReferenceExtension.cs" t="Include" />
@@ -255,6 +256,7 @@
             <e p="Weapons" t="Include">
               <e p="NewWeaponSystem" t="Include">
                 <e p="AmmoType.cs" t="Include" />
+                <e p="DamageEffect.cs" t="Include" />
                 <e p="FireDefinition.cs" t="Include" />
                 <e p="FireDefinitions" t="Include">
                   <e p="HitScan.cs" t="Include" />
@@ -264,7 +266,7 @@
                   <e p="MultiTarget.cs" t="Include" />
                   <e p="SingleTarget.cs" t="Include" />
                 </e>
-                <e p="ImpactSettings.cs" t="Include" />
+                <e p="ImpactEffect.cs" t="Include" />
                 <e p="ProjectileBehaviour.cs" t="Include" />
                 <e p="TargetSelectionSettings.cs" t="Include" />
                 <e p="Weapon.cs" t="Include" />

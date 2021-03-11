@@ -23,31 +23,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Projectile.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Projectile.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactSettings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactSettings.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/WeaponEffects/Rocket Explosion FX.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/WeaponEffects/Rocket Explosion FX.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Damage Types.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Damage Types/Default Damage.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Damage Types/Default Damage.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact FX.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact FX/Rocket Explosion.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact FX/Rocket Explosion.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Rocket Explosion.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Rocket Explosion.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Single Target.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Single Target.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/CoroutineManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/CoroutineManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactEffect.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player Prefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player Prefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Prototype C.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Default Hit Scan.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Default Hit Scan.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Rocket.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Rocket.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Default Damage.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Default Damage.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Rocket Explosion.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Rocket Explosion.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Single Target.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Effects/Single Target.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Rocket Launcher.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Rocket Launcher.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinition.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinition.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/DamageTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/SingleTarget.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/DamageTarget.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/SingleTarget.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehavior.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/Weapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/DamageEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactSettings.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/DamageEffect.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,8 +177,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Utility/TestScripts/GroupMockup.cs" />
@@ -205,17 +215,19 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehavior.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinition.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/Weapon.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/ImpactSettings.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/SingleTarget.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactSettings.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactEffect.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/CoroutineManager.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -257,10 +269,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="27488">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="27488" />
+      <option name="pid" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -372,7 +384,8 @@
       <workItem from="1615035429524" duration="1527000" />
       <workItem from="1615040323940" duration="3662000" />
       <workItem from="1615122035626" duration="10153000" />
-      <workItem from="1615211126769" duration="7148000" />
+      <workItem from="1615211126769" duration="8619000" />
+      <workItem from="1615481730516" duration="3944000" />
     </task>
     <servers />
   </component>

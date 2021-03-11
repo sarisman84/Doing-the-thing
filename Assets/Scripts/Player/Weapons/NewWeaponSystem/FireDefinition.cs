@@ -7,7 +7,8 @@ namespace Player.Weapons.NewWeaponSystem
 {
     public abstract class FireDefinition : ScriptableObject
     {
-        [Expose] public TargetSelectionSettings weaponImpactEffect;
+      
+        [Expose] public TargetSelectionSettings targetSelectionType;
         public abstract void Fire(Vector3 origin, Vector3 direction);
     }
 
