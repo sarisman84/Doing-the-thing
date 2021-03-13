@@ -13,7 +13,7 @@ namespace Editor.PropertyDrawers
     [CustomPropertyDrawer(typeof(ExposeAttribute))]
     public class ScriptableExposerDrawer : PropertyDrawer
     {
-        bool b = false;
+        bool displaySubEditor = false;
         private SerializedObject _so;
         float _totalHeight;
 
@@ -39,7 +39,6 @@ namespace Editor.PropertyDrawers
             //EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector);
 
             ExposeScriptableObject(property, position, ref _so);
-           
         }
 
 
@@ -62,15 +61,19 @@ namespace Editor.PropertyDrawers
         {
             Rect r = position;
             r.y += 5f;
-
+            int ogIndentLevel = EditorGUI.indentLevel;
             r.height = EditorGUI.GetPropertyHeight(property, property.isExpanded);
             EditorGUI.PropertyField(r, property, property.isExpanded);
 
             if (property.objectReferenceValue != null)
-                b = EditorGUI.Toggle(
-                    new Rect(r.x + (EditorStyles.inspectorDefaultMargins.padding.horizontal + r.width / 2f) / 1.5f, r.y,
-                        r.width / 4f,
-                        r.height), b);
+            {
+                Rect offsetRect = r;
+                offsetRect.x = EditorGUIUtility.labelWidth - (15f * EditorGUI.indentLevel);
+                // EditorGUI.indentLevel -= EditorGUI.indentLevel * 15;
+                displaySubEditor = EditorGUI.Toggle(offsetRect, displaySubEditor);
+
+                //EditorGUI.indentLevel = ogIndentLevel;
+            }
 
 
             if (!IsCorrectType(property, typeof(ScriptableObject)))
@@ -83,7 +86,7 @@ namespace Editor.PropertyDrawers
                 so = new SerializedObject(property.objectReferenceValue);
             }
 
-            if (!b)
+            if (!displaySubEditor)
             {
                 return;
             }
@@ -97,14 +100,13 @@ namespace Editor.PropertyDrawers
             it.Next(true);
 
 
-            int ogIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel++;
 
             bool disableFirstElement = true;
             bool indentOnSecondElement = false;
 
 
-            while (it.NextVisible(true))
+            while (it.NextVisible(false))
             {
                 if (indentOnSecondElement)
                 {
@@ -236,7 +238,7 @@ namespace Editor.PropertyDrawers
             bool isLocal = true)
         {
             GUIContent label = default;
-            if (so != null && b)
+            if (so != null && displaySubEditor)
             {
                 _totalHeight = 0;
                 _totalHeight += 15f;

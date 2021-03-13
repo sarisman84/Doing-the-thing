@@ -3,7 +3,7 @@
 namespace Player.Weapons.NewWeaponSystem
 {
    
-    public abstract class DamageEffect : ScriptableObject
+    public abstract class InteractionType : ScriptableObject
     {
         public abstract int ApplyImpactEffectToEntity(Collider collider);
     }

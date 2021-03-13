@@ -55,10 +55,11 @@ namespace Player.Weapons.NewWeaponSystem
             _projectileSettings.targetSelectionType.TargetSelectionOnImpact(other.collider);
             var detectionRange = (_projectileSettings.targetSelectionType as MultiTarget)?.detectionRange;
 
-            CoroutineManager.Instance.StartCoroutine(
-                _projectileSettings.targetSelectionType.impactEffect.PlayImpactEffect(other.GetContact(0).point,
-                    (-transform.forward) - other.GetContact(0).normal,
-                    detectionRange ?? 1));
+            if (_projectileSettings.targetSelectionType.impactEffect)
+                CoroutineManager.Instance.StartCoroutine(
+                    _projectileSettings.targetSelectionType.impactEffect.PlayImpactEffect(other.GetContact(0).point,
+                        (-transform.forward) - other.GetContact(0).normal,
+                        detectionRange ?? 1));
             _disableObject = true;
         }
 

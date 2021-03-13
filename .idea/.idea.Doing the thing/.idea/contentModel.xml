@@ -256,17 +256,17 @@
             <e p="Weapons" t="Include">
               <e p="NewWeaponSystem" t="Include">
                 <e p="AmmoType.cs" t="Include" />
-                <e p="DamageEffect.cs" t="Include" />
-                <e p="FireDefinition.cs" t="Include" />
                 <e p="FireDefinitions" t="Include">
                   <e p="HitScan.cs" t="Include" />
                   <e p="Projectile.cs" t="Include" />
                 </e>
+                <e p="FireType.cs" t="Include" />
                 <e p="ImpactDefinitions" t="Include">
                   <e p="MultiTarget.cs" t="Include" />
                   <e p="SingleTarget.cs" t="Include" />
                 </e>
                 <e p="ImpactEffect.cs" t="Include" />
+                <e p="InteractionType.cs" t="Include" />
                 <e p="ProjectileBehaviour.cs" t="Include" />
                 <e p="TargetSelectionSettings.cs" t="Include" />
                 <e p="Weapon.cs" t="Include" />

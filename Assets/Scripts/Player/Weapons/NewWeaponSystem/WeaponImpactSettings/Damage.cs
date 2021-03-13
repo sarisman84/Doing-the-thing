@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Player.Weapons.NewWeaponSystem.WeaponImpactSettings
 {
-    [CreateAssetMenu(menuName = "Weapons/Damage Effects/Default", fileName = "New Damage Effect", order = 0)]
-    public class Damage : DamageEffect
+    [CreateAssetMenu(menuName = "Weapons/Interaction Type/Damage", fileName = "New Damage Effect", order = 0)]
+    public class Damage : InteractionType
     {
         public float damage;
         public override int ApplyImpactEffectToEntity(Collider collider)

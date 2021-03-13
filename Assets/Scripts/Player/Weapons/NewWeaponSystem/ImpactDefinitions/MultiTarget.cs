@@ -4,7 +4,7 @@ using Utility.Attributes;
 
 namespace Player.Weapons.NewWeaponSystem.ImpactDefinitions
 {
-    [CreateAssetMenu(fileName = "New MultiTarget Settings", menuName = "Weapons/Impact Target/MultiTarget", order = 0)]
+    [CreateAssetMenu(fileName = "New MultiTarget Settings", menuName = "Weapons/Target Type/MultiTarget", order = 0)]
     public class MultiTarget : TargetSelectionSettings
     {
         public float detectionRange = 3f;

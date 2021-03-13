@@ -8,7 +8,7 @@ namespace Player.Weapons.NewWeaponSystem
     public abstract class TargetSelectionSettings : ScriptableObject
     {
         [Expose] public ImpactEffect impactEffect;
-        [Expose] public DamageEffect impactType;
+        [Expose] public InteractionType impactType;
         public abstract int TargetSelectionOnImpact(Collider collider);
     }
 }
