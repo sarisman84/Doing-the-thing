@@ -18,7 +18,7 @@ namespace Player.Weapons.NewWeaponSystem
         [Space] public float fireRate;
         [Space] [SerializeField] private GameObject weaponModelPrefab;
         public Sprite weaponIcon;
-        [Space] [Expose] public FireDefinition fireType;
+        [Space] [Expose] public FireType fireType;
        
 
 

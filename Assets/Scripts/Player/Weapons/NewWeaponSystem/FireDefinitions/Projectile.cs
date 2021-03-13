@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Player.Weapons.NewWeaponSystem.FireDefinitions
 {
-    [CreateAssetMenu(menuName = "Weapons/Fire Effects/Projectile", fileName = "New Projectile", order = 0)]
-    public class Projectile : FireDefinition
+    [CreateAssetMenu(menuName = "Weapons/Fire Type/Projectile", fileName = "New Projectile", order = 0)]
+    public class Projectile : FireType
     {
         public float projectileLifespan = 5f;
         public float projectileVelocity = 15f;

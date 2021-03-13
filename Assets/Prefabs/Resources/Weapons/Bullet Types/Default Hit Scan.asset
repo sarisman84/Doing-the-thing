@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ff41abb31d42fa827e7a9ff2e9821e, type: 3}
   m_Name: Default Hit Scan
   m_EditorClassIdentifier: Assembly-CSharp:Player.Weapons.NewWeaponSystem:HitScan
-  weaponImpactEffect: {fileID: 11400000, guid: 2efc12e459f0aa8429a11c228113f28c, type: 2}
+  targetSelectionType: {fileID: 11400000, guid: 2efc12e459f0aa8429a11c228113f28c, type: 2}
   hitScanDetectionRange: 150
+  fireParticle: {fileID: 576151867551497155, guid: 9d0fd3aac69b60d478bda3ce4dd75ed8, type: 3}
