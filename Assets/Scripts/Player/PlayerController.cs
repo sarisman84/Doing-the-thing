@@ -96,7 +96,7 @@ namespace Player
 
         private void Awake()
         {
-            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(ref _movePlayerEvent, MovePlayer, gameObject);
+            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(MovePlayer, gameObject);
             //Assigns the player as a priority target for any enemy.
             EnemyBehaivourManager.AssignNewTarget(transform);
 
@@ -142,17 +142,8 @@ namespace Player
 
             if (InputListener.GetKeyDown(Escape))
             {
-                if (WeaponShop.IsActive(gameObject))
-                {
-                    WeaponShop.Close(gameObject);
-                }
-
-                if (WeaponSelectMenu.IsActive(gameObject))
-                {
-                    WeaponSelectMenu.Close(gameObject);
-                }
-
-                PauseMenu.TogglePause();
+                if (!WeaponShopMenu.CloseShop(gameObject))
+                    PauseMenu.TogglePause();
             }
         }
 

@@ -10,6 +10,7 @@ namespace UI
 {
     public class PauseMenu : MonoBehaviour
     {
+        public PlayerController owner;
         private float _currentTimeScale;
         public static bool isGamePaused;
 
@@ -39,7 +40,7 @@ namespace UI
 
         public void Pause()
         {
-            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
+            CameraController.SetCursorActive(owner.gameObject, true);
             _currentTimeScale = Time.timeScale;
             gameObject.SetActive(true);
             Time.timeScale = 0;
@@ -48,7 +49,7 @@ namespace UI
 
         public void Resume()
         {
-            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
+            CameraController.SetCursorActive(owner.gameObject, false);
             Time.timeScale = _currentTimeScale;
             gameObject.SetActive(false);
             isGamePaused = false;
@@ -57,7 +58,7 @@ namespace UI
         public void ToMainMenu()
         {
             Resume();
-            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
+            CameraController.SetCursorActive(owner.gameObject, true);
             Time.timeScale = 1f;
             //SceneManager.LoadScene("Game_MainMenu", LoadSceneMode.Single);
             Debug.Log("Loading Menu...");

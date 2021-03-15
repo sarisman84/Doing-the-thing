@@ -1,24 +1,14 @@
 ﻿using System;
 using Cinemachine;
+using Interactivity.Events;
 using UnityEngine;
 using Utility;
+using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
 {
     public class CameraController : MonoBehaviour
     {
-        public const string ChangeCursorState = "Camera_ChangeCursorState";
-        public const string CameraFallBehaivourEvent = "Player_SetFallingBehaivour";
-        public const string SetCursorActiveEvent = "Player_SetCursorActive";
-        public const string ConstantlyLookTowardsThePlayerEvent = "PlayerFall_LookAtPlayer";
-
-        public enum CameraBehaivour
-        {
-            Follow,
-            Look,
-            FollowAndLook
-        }
-
         //Camera sensitivity
         [Range(1, 20f)] public float sensitivity = 200f;
 
@@ -31,6 +21,28 @@ namespace Player
 
         public float fieldOfView = 90f;
         public float fieldOfViewWhileSprinting = 100f;
+
+
+        #region Global Methods
+        private static CustomEvent onLockMouseCursor;
+
+        public static void SetCursorActive(GameObject targetPlayer, bool state)
+        {
+            if (onLockMouseCursor)
+                onLockMouseCursor.OnInvokeEvent(targetPlayer, state);
+        }
+        
+
+        private void OnEnable()
+        {
+            onLockMouseCursor = CustomEvent.CreateEvent<Action<bool>>(AlterCursorState, gameObject);
+        }
+
+        private void OnDisable()
+        {
+            onLockMouseCursor.RemoveEvent<Action<bool>>(AlterCursorState);
+        }
+        #endregion
 
         public float CameraHeight
         {
@@ -54,7 +66,7 @@ namespace Player
             _playerController = GetComponent<PlayerController>();
             if (playerCamera)
                 _pov = playerCamera.GetCinemachineComponent<CinemachinePOV>();
-            EventManager.TriggerEvent(ChangeCursorState, false);
+           
         }
 
         private void Update()
@@ -102,78 +114,13 @@ namespace Player
         }
 
 
-        private void AddListenersToEventManager()
-        {
-            EventManager.AddListener<Action<bool>>(ChangeCursorState, AlterCursorState);
-            EventManager.AddListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
-            EventManager.AddListener<Action<CameraBehaivour>>(CameraFallBehaivourEvent,
-                value => SetCameraBehaivour(playerCamera, transform, value));
-            EventManager.AddListener<Action>(ConstantlyLookTowardsThePlayerEvent,
-                () => RotateCameraTowards(playerCamera, transform));
-        }
+     
+
+     
+
+     
 
 
-        private void RemoveListenersFromEventManager()
-        {
-            EventManager.RemoveListener<Action<bool>>(ChangeCursorState, AlterCursorState);
-            EventManager.RemoveListener<Action<bool>>(SetCursorActiveEvent, SetCameraAndCursorActive);
-            EventManager.RemoveListener<Action<CameraBehaivour>>(CameraFallBehaivourEvent,
-                value => SetCameraBehaivour(playerCamera, transform, value));
-            EventManager.RemoveListener<Action>(ConstantlyLookTowardsThePlayerEvent,
-                () => RotateCameraTowards(playerCamera, transform));
-        }
-
-        private void SetCameraAndCursorActive(bool value)
-        {
-            CameraLocked = value;
-
-            EventManager.TriggerEvent(ChangeCursorState, value);
-            EventManager.TriggerEvent(InputListener.SetPlayerLookInputActiveState, !value);
-        }
-
-
-        private void OnDisable()
-        {
-            //In case this gameObject is disabled, it is required to disable the input references with it as to avoid any input errors.
-
-            RemoveListenersFromEventManager();
-        }
-
-
-        private void OnEnable()
-        {
-            //In case this gameObject is enabled, the references assigned to the gameObject will be enabled with the gameObject so that the player can regain control of this gameObject.
-
-            AddListenersToEventManager();
-        }
-
-        private void SetCameraBehaivour(CinemachineVirtualCamera cam, Transform target, CameraBehaivour value)
-        {
-            switch (value)
-            {
-                case CameraBehaivour.Follow:
-                    cam.Follow = target;
-                    cam.LookAt = null;
-                    cam.transform.parent = target;
-                    break;
-                case CameraBehaivour.Look:
-                    cam.Follow = null;
-                    cam.LookAt = target;
-                    cam.transform.parent = null;
-                    break;
-                case CameraBehaivour.FollowAndLook:
-                    cam.Follow = target;
-                    cam.LookAt = target;
-                    cam.transform.parent = target;
-                    break;
-            }
-        }
-
-        private void RotateCameraTowards(CinemachineVirtualCamera camera, Transform target)
-        {
-            var cameraTransform = camera.transform;
-            camera.transform.rotation = Quaternion.Lerp(cameraTransform.rotation,
-                Quaternion.LookRotation(target.position - cameraTransform.position, Vector3.up), 0.25f);
-        }
+      
     }
 }

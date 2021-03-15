@@ -19,7 +19,7 @@ namespace Player.Weapons
         {
             _onSetWeaponModel = _onSetWeaponModel
                 ? _onSetWeaponModel
-                : CustomEvent.CreateEvent<Action<List<Weapon>, Weapon>>(ref _onSetWeaponModel, SetWeaponModel,
+                : CustomEvent.CreateEvent<Action<List<Weapon>, Weapon>>(SetWeaponModel,
                     owner.gameObject);
         }
 

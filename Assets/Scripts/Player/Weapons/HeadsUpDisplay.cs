@@ -55,11 +55,11 @@ namespace Player.Weapons
 
 
             _weaponIconUIUpdateEvent =
-                CustomEvent.CreateEvent<Action<Sprite>>(ref _weaponIconUIUpdateEvent, SetWeaponIcon,
+                CustomEvent.CreateEvent<Action<Sprite>>(SetWeaponIcon,
                     playerController.gameObject);
-            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(ref _ammoUIUpdateEvent, _UpdateAmmoCounter,
+            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(_UpdateAmmoCounter,
                 playerController.gameObject);
-            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(ref _currencyUIUpdateEvent, _UpdateCurrency,
+            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(_UpdateCurrency,
                 playerController.gameObject);
         }
 

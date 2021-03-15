@@ -56,5 +56,10 @@ namespace Interactivity.Components
             onDeathEvent?.Invoke();
             gameObject.SetActive(false);
         }
+
+        public void HealEntity(int healValue)
+        {
+            _currentHealth = Mathf.Clamp(healValue, 0, maxHealth);
+        }
     }
 }

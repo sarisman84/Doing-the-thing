@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa72f2b82323c19479a53f1ec7b2d05e, type: 3}
+  m_Name: Seal Polymorph
+  m_EditorClassIdentifier: 
+  polymorphModel: {fileID: 1515076494093395798, guid: cbf6e4c5e38a04d49902716160dd0cb3, type: 3}
+  isPolymorphPassive: 0
+  extraInteraction: {fileID: 11400000, guid: f57b61414d2c2334f8cb6fb7c77594e0, type: 2}

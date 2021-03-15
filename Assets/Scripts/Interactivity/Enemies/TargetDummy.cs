@@ -21,13 +21,9 @@ namespace Interactivity.Enemies
             modelRenderer.sharedMaterial.color = Color.red;
         }
 
-        protected override void Update()
+        void Update()
         {
             modelRenderer.material.color = Color.Lerp(modelRenderer.material.color, originalColor, 0.01f);
-        }
-
-        public override void Transform(GameObject newModel)
-        {
         }
     }
 }

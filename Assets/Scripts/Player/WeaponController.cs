@@ -118,5 +118,10 @@ namespace Player
             SelectWeapon(weaponLibrary.Count - 1);
             return true;
         }
+
+        public void ResupplyWeapon(Weapon targetWeapon)
+        {
+            weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID()).AddAmmo(targetWeapon.ammoType.refillAmount);
+        }
     }
 }

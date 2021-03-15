@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7149b21eec23453d92b71dd9ad67fdec, type: 3}
+  m_Name: Seal Gun
+  m_EditorClassIdentifier: 
+  price: 2020
+  description: Insert description here
+  maxAmmo: 5000
+  ammoType: {fileID: 11400000, guid: 1c93c5f6b07b03d4681f3b692db0883c, type: 2}
+  fireRate: 0.01
+  weaponModelPrefab: {fileID: 919132149155446097, guid: 6f3c9a77fc6256f49a8405985670ba66, type: 3}
+  weaponIcon: {fileID: 21300000, guid: de50cd815ff35cb47bc4a78b19e7eecc, type: 3}
+  fireType: {fileID: 11400000, guid: c9377ddd3b35e9041954fdab24b0373b, type: 2}

@@ -25,5 +25,10 @@ namespace UI
         {
             OnClickUIElement?.Invoke();
         }
+
+        public void SetElementActive(bool value)
+        {
+            gameObject.SetActive(value);
+        }
     }
 }

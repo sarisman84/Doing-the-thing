@@ -8,16 +8,19 @@ namespace Player.Weapons.NewWeaponSystem
     public class AmmoType : ScriptableObject
     {
         [Header("Drop Information")]
-        public BasePickup ammoPrefab;
+        public GameObject ammoPrefab;
         public int pickupAmmount;
 
         [Header("Shop Information")]
+        public bool canBePurchased;
         public int price;
-        
+        public int refillAmount;
+      
+
 
         public BasePickup InstantiateAmmo()
         {
-            return ObjectManager.DynamicComponentInstantiate(ammoPrefab);
+            return ObjectManager.DynamicInstantiate(ammoPrefab).GetComponent<BasePickup>();
         }
     }
 }
