@@ -19,61 +19,87 @@ namespace UI
 {
     public class WeaponShopMenu : MonoBehaviour
     {
-        private static CustomEvent onOpenShopMenu, onCloseShopMenu;
+        private static CustomEvent _onOpenShopMenu, _onCloseShopMenu;
 
 
         public PlayerController owner;
         [Space] public ShopButton shopButtonPrefab;
-        [Header("Text elements")] public TMP_Text priceCounter;
-        public TMP_Text description, title;
+        [Space] public Canvas weaponShopUI;
         [Header("Model Rendering")] public Transform shopModelParent;
 
 
         private List<ShopButton> _shopButtons;
         private bool _isShopOpen;
 
+        TMP_Text _priceCounter;
+        TMP_Text _description, _title;
+
         private void OnEnable()
         {
             if (_shopButtons == null)
                 InitializeShop();
 
+            weaponShopUI.gameObject.SetActive(false);
 
-            onOpenShopMenu = CustomEvent.CreateEvent<Action<List<Weapon>>>(OpenMenu, owner.gameObject);
-            onCloseShopMenu = CustomEvent.CreateEvent<Func<bool>>(CloseMenu, owner.gameObject);
+            _onOpenShopMenu = CustomEvent.CreateEvent<Action<List<Weapon>>>(OpenMenu, owner.gameObject);
+            _onCloseShopMenu = CustomEvent.CreateEvent<Func<bool>>(CloseMenu, owner.gameObject);
         }
 
         private void OnDisable()
         {
-            onOpenShopMenu.RemoveEvent<Action<List<Weapon>>>(OpenMenu);
-            onCloseShopMenu.RemoveEvent<Func<bool>>(CloseMenu);
+            _onOpenShopMenu.RemoveEvent<Action<List<Weapon>>>(OpenMenu);
+            _onCloseShopMenu.RemoveEvent<Func<bool>>(CloseMenu);
         }
 
         private void InitializeShop()
         {
             _shopButtons = new List<ShopButton>();
-            Transform parent = new GameObject("Shop Buttons").transform;
 
-            parent.SetParent(transform);
+
+            _priceCounter = weaponShopUI.transform.GetChildWithTag("HUD/Shop/Price").GetComponent<TextMeshProUGUI>();
+            _title = weaponShopUI.transform.GetChildWithTag("HUD/Shop/Name").GetComponent<TextMeshProUGUI>();
+            _description = weaponShopUI.transform.GetChildWithTag("HUD/Shop/Description")
+                .GetComponent<TextMeshProUGUI>();
+
+
             foreach (var weapon in Weapon.GetAllWeapons())
             {
-                ShopButton button = Instantiate(shopButtonPrefab, parent);
+                ShopButton button = Instantiate(shopButtonPrefab,
+                    weaponShopUI.transform.GetChildWithTag("HUD/Shop/Slots"));
                 button.transform.localPosition = Vector3.zero;
                 button.transform.rotation = Quaternion.identity;
 
 
                 button.AssignedWeapon = weapon;
                 button.OnEnteringUIElement += element => DisplayInformation(element as ShopButton);
+                button.OnExitingUIElement += element => ResetInformation(element as ShopButton);
+                button.OnClickUIElement += () =>
+                {
+                    button.BuyItem(owner.gameObject);
+                    DisplayShopElements(owner.WeaponController.weaponLibrary);
+                    DisplayInformation(button);
+                };
 
-                button.AmmoModel = Instantiate(weapon.ammoType.ammoPrefab, shopModelParent);
-                button.AmmoModel.SetActive(false);
+                if (weapon.ammoType.ammoPrefab)
+                {
+                    button.AmmoModel = Instantiate(weapon.ammoType.ammoPrefab, shopModelParent);
+                    button.AmmoModel.SetActive(false);
+                }
+
                 button.WeaponModel = Instantiate(weapon.WeaponModelPrefab, shopModelParent);
                 button.WeaponModel.SetActive(false);
+
+                _shopButtons.Add(button);
             }
         }
 
 
         void OpenMenu(List<Weapon> weaponLibrary)
         {
+            weaponShopUI.gameObject.SetActive(true);
+            CameraController.SetCursorActive(owner.gameObject, true);
+            CameraController.SetCameraInputActive(owner.gameObject, false);
+            InputController.SetMovementInputActive(owner.gameObject, false);
             _isShopOpen = true;
             DisplayShopElements(weaponLibrary);
         }
@@ -92,6 +118,10 @@ namespace UI
             if (_isShopOpen)
             {
                 _isShopOpen = false;
+                weaponShopUI.gameObject.SetActive(false);
+                CameraController.SetCursorActive(owner.gameObject, false);
+                CameraController.SetCameraInputActive(owner.gameObject, true);
+                InputController.SetMovementInputActive(owner.gameObject, true);
                 return true;
             }
 
@@ -100,14 +130,24 @@ namespace UI
 
         void DisplayInformation(ShopButton shopButton)
         {
-            if (priceCounter)
-                priceCounter.text = shopButton.DisplayPrice();
+            if (_priceCounter)
+                _priceCounter.text = shopButton.DisplayPrice();
 
-            if (title)
-                title.text = shopButton.DisplayTitle();
+            if (_title)
+                _title.text = shopButton.DisplayTitle();
 
-            if (description)
-                description.text = shopButton.DisplayDecription();
+            if (_description)
+                _description.text = shopButton.DisplayDecription();
+
+            shopButton.DisplayItem();
+        }
+
+        private void ResetInformation(ShopButton element)
+        {
+            element.ResetDisplay();
+            _title.text = "";
+            _priceCounter.text = "";
+            _description.text = "";
         }
 
 
@@ -116,8 +156,8 @@ namespace UI
         public static void OpenShop(GameObject owner)
         {
             WeaponController controller = owner.GetComponent<WeaponController>();
-            if (onOpenShopMenu && controller != null)
-                onOpenShopMenu.OnInvokeEvent(owner, controller.weaponLibrary);
+            if (_onOpenShopMenu && controller != null)
+                _onOpenShopMenu.OnInvokeEvent(owner, controller.weaponLibrary);
         }
 
         public static void OpenShop(Collider collider)
@@ -127,8 +167,8 @@ namespace UI
 
         public static bool CloseShop(GameObject owner)
         {
-            if (onCloseShopMenu)
-                return (bool)onCloseShopMenu.OnInvokeEvent(owner);
+            if (_onCloseShopMenu)
+                return (bool) _onCloseShopMenu.OnInvokeEvent(owner);
             return false;
         }
 

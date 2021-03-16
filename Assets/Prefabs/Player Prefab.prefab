@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 2156520296480879118}
   - component: {fileID: 2156520296480879223}
   - component: {fileID: 709942393}
+  - component: {fileID: 709942394}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -550,6 +551,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 2156520296480879217}
+--- !u!114 &709942394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156520296480879220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f54b359f4f44d4be84c7133a3f064c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlSetup: {fileID: -944628639613478452, guid: 28f516fc3f4de3f4c99f72d86fb8f159, type: 3}
+  movementInput: {fileID: 0}
+  lookInput: {fileID: 0}
+  jumpInput: {fileID: 0}
+  crouchInput: {fileID: 0}
+  sprintInput: {fileID: 0}
+  fireInput: {fileID: 0}
+  weaponSelectInput: {fileID: 0}
+  interactInput: {fileID: 0}
+  aimInput: {fileID: 0}
+  escapeInput: {fileID: 0}
 --- !u!1 &2156520296666684742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,7 +1656,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3781763890522782099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.931, z: -3.5389996}
+  m_LocalPosition: {x: 0, y: 1.931, z: -3.539}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3781763890182772796}
@@ -1716,7 +1740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3781763890782471358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.931, z: -3.5389996}
+  m_LocalPosition: {x: 0, y: 1.931, z: -3.539}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3781763889528789604}
@@ -2107,18 +2131,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon Shop
       objectReference: {fileID: 0}
-    - target: {fileID: 1982357137966309087, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4086328494511551011, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
-      propertyPath: weaponRenderer
-      value: 
-      objectReference: {fileID: 7061564129048156464}
-    - target: {fileID: 4086328494511551011, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
-      propertyPath: playerController
+      propertyPath: owner
       value: 
       objectReference: {fileID: 2156520296480879217}
+    - target: {fileID: 4086328494511551011, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
+      propertyPath: shopModelParent
+      value: 
+      objectReference: {fileID: 7061564129048156464}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79fc7e8bbc382d5438b1cb658d231779, type: 3}
 --- !u!224 &8607457603067721932 stripped
@@ -2309,6 +2329,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8305490797562979211, guid: 3da50b27d30604b47be1fa8fed72a34d, type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 2156520296480879217}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3da50b27d30604b47be1fa8fed72a34d, type: 3}
 --- !u!224 &3776656733191173391 stripped

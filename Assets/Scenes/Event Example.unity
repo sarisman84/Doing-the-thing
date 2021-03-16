@@ -2757,17 +2757,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2156520296480879220, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
   m_PrefabInstance: {fileID: 1111158204}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &709942391 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2156520296480879217, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
-  m_PrefabInstance: {fileID: 1111158204}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709942384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b93505dc6cf702044a32922ba370de5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &719755886
 GameObject:
   m_ObjectHideFlags: 0
@@ -10771,10 +10760,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1510395641463187183, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 709942391}
     - target: {fileID: 3781763889966738821, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10823,20 +10808,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 3781763890522782098, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.539
-      objectReference: {fileID: 0}
-    - target: {fileID: 3781763890782471355, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.539
-      objectReference: {fileID: 0}
-    - target: {fileID: 6072229264723137591, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 709942391}
-    m_RemovedComponents:
-    - {fileID: 7055148590636258541, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
 --- !u!114 &1118354026 stripped
 MonoBehaviour:
@@ -15218,6 +15190,11 @@ PrefabInstance:
       propertyPath: onInteractCallback._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[1]._String
       value: Player.WeaponController, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040079878, guid: 11fd93eefb8962d469e4f196376b6f77, type: 3}
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[0]._MethodName
+      value: UI.WeaponShopMenu, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null.OpenShop
       objectReference: {fileID: 0}
     - target: {fileID: 1716380370467639681, guid: 11fd93eefb8962d469e4f196376b6f77, type: 3}
       propertyPath: m_LocalPosition.x

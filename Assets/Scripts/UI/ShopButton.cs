@@ -19,7 +19,7 @@ namespace UI
         {
             set
             {
-                _image = _image != null ? _image : transform.GetChild(0).GetComponent<Image>();
+                _image = _image ? _image : transform.GetChild(0).GetComponent<Image>();
                 _image.sprite = value;
             }
         }
@@ -31,37 +31,40 @@ namespace UI
         {
             WeaponController controller = owner.GetComponent<WeaponController>();
             if (!controller) return;
-            int priceToPay = _sellAssignedWeaponAmmo ? AssignedWeapon.ammoType.price : AssignedWeapon.price;
+            int priceToPay = _sellAssignedWeaponAmmo
+                ? (int) (AssignedWeapon.ammoType.price * (AssignedWeapon.maxAmmo - AssignedWeapon.currentAmunition))
+                : AssignedWeapon.price;
 
             if (CurrencyHandler.GetCurrency(owner) >= priceToPay)
             {
                 CurrencyHandler.PayCurrency(owner, priceToPay);
+                if (!_sellAssignedWeaponAmmo)
+                {
+                    controller.AddWeaponToLibrary(AssignedWeapon);
+                }
+                else
+                {
+                    controller.ResupplyWeapon(AssignedWeapon);
+                }
             }
 
 
-            if (!_sellAssignedWeaponAmmo)
-            {
-                controller.AddWeaponToLibrary(AssignedWeapon);
-            }
-            else
-            {
-                controller.ResupplyWeapon(AssignedWeapon);
-            }
+           
+            
         }
 
         public void UpdateButton(List<Weapon> incomingLibrary)
         {
             _sellAssignedWeaponAmmo = incomingLibrary.Contains(AssignedWeapon);
-            if (_sellAssignedWeaponAmmo)
-                AmmoModel.SetActive(true);
-            else
-                WeaponModel.SetActive(true);
+            DisplayIcon();
         }
 
 
         public string DisplayPrice()
         {
-            return _sellAssignedWeaponAmmo ? AssignedWeapon.ammoType.price.ToString() : AssignedWeapon.price.ToString();
+            return _sellAssignedWeaponAmmo
+                ? $"{AssignedWeapon.ammoType.price.ToString()} per ammo (Total Price: {(int) (AssignedWeapon.ammoType.price * (AssignedWeapon.maxAmmo - AssignedWeapon.currentAmunition))})"
+                : AssignedWeapon.price.ToString();
         }
 
         public string DisplayTitle()
@@ -72,8 +75,32 @@ namespace UI
         public string DisplayDecription()
         {
             return _sellAssignedWeaponAmmo
-                ? $"Ammunition for the {AssignedWeapon.name} weapon."
+                ? $"Ammunition for the {AssignedWeapon.name}."
                 : AssignedWeapon.description;
+        }
+
+        public void DisplayItem()
+        {
+            if (_sellAssignedWeaponAmmo)
+            {
+                if (AmmoModel)
+                    AmmoModel.SetActive(true);
+            }
+            else if (WeaponModel)
+                WeaponModel.SetActive(true);
+        }
+
+        public void DisplayIcon()
+        {
+            ShopIcon = AssignedWeapon.weaponIcon;
+        }
+
+        public void ResetDisplay()
+        {
+            if (AmmoModel)
+                AmmoModel.SetActive(false);
+            if (WeaponModel)
+                WeaponModel.SetActive(false);
         }
     }
 }

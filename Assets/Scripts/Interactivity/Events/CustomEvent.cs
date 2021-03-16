@@ -82,7 +82,8 @@ namespace Interactivity.Events
     {
         public static void RemoveEvent<TDel>(this CustomEvent customEvent, TDel method) where TDel : Delegate
         {
-            customEvent.Unsubcribe(method);
+            if (customEvent)
+                customEvent.Unsubcribe(method);
             customEvent = null;
         }
     }

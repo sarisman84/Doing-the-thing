@@ -110,7 +110,7 @@
 //             _localCounter += Time.deltaTime;
 //             _localCounter = Mathf.Clamp(_localCounter, 0, fireRate);
 //
-//             var transform = controller.player.CameraController.PlayerCamera;
+//             var transform = controller.player.PlayerCamera.PlayerCamera;
 //             var firePosition = transform.position;
 //             var fireDirection = transform.forward;
 //

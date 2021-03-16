@@ -318,11 +318,11 @@ namespace Extensions
             return list;
         }
 
-        public static Transform GetChildWithTag<T>(this T value, string tag)
+        public static Transform GetChildWithTag(this Transform value, string tag)
         {
             Transform result = null;
-            
-            Transform transformValue = value as Transform;
+
+            Transform transformValue = value;
 
             if (!transformValue) return null;
             

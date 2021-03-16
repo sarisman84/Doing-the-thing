@@ -14,8 +14,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
+using static Player.InputController;
 using CustomEvent = Interactivity.Events.CustomEvent;
 using Debug = UnityEngine.Debug;
+using static Player.InputController.KeyCode;
 
 namespace Player
 {
@@ -32,8 +34,6 @@ namespace Player
 
             weaponLibrary = new List<Weapon>();
 
-           
-
 
             player.ONUpdateCallback += LocalUpdate;
 
@@ -45,29 +45,29 @@ namespace Player
 
         private void OnEnable()
         {
-            EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
-            EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
-            {
-                AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
-                SelectWeapon(weaponLibrary.Count - 1);
-            });
+            // EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            // EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
+            // {
+            //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+            //     SelectWeapon(weaponLibrary.Count - 1);
+            // });
         }
 
         private void OnDisable()
         {
-            EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
-            EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
-            {
-                AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
-                SelectWeapon(weaponLibrary.Count - 1);
-            });
+            // EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            // EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
+            // {
+            //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+            //     SelectWeapon(weaponLibrary.Count - 1);
+            // });
         }
 
         public void SelectWeapon(int index)
         {
             if (index >= 0 && index < weaponLibrary.Count)
             {
-               currentWeapon = WeaponExtensions.SwapWeaponTo(weaponLibrary, weaponLibrary[index]);
+                currentWeapon = WeaponExtensions.SwapWeaponTo(weaponLibrary, weaponLibrary[index]);
             }
         }
 
@@ -85,43 +85,38 @@ namespace Player
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
             if (!weaponLibrary.Contains(newWeapon))
+            {
+                newWeapon.Setup(gameObject);
                 weaponLibrary.Add(newWeapon);
+                SelectWeapon(weaponLibrary.Count - 1);
+            }
         }
 
 
         void LocalUpdate()
         {
-            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
+            if (player.Input.GetKeyDown(WeaponSelect) && weaponLibrary.Count > 1)
             {
-                //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
                 WeaponSelectMenu.Open(gameObject, SelectWeapon, weaponLibrary);
             }
 
-            if (player.CameraController.CameraLocked) return;
+            if (player.PlayerCamera.CameraLocked) return;
 
-            if (currentWeapon == null)
+            if (!currentWeapon)
             {
                 Debug.Log("No Weapon found");
                 return;
             }
 
-            Debug.Log(currentWeapon.TriggerFire(InputListener.GetKey(InputListener.KeyCode.Attack)));
+            Debug.Log(currentWeapon.TriggerFire(player.Input.GetKey(Attack)));
         }
 
-
-        bool OnWeaponPurchace(string weapon)
-        {
-            Weapon newWeapon = Weapon.GetWeaponViaName(gameObject, weapon);
-            if (CurrencyHandler.GetCurrency(gameObject) < newWeapon.price) return false;
-            CurrencyHandler.PayCurrency(gameObject, newWeapon.price);
-            AddWeaponToLibrary(newWeapon);
-            SelectWeapon(weaponLibrary.Count - 1);
-            return true;
-        }
 
         public void ResupplyWeapon(Weapon targetWeapon)
         {
-            weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID()).AddAmmo(targetWeapon.ammoType.refillAmount);
+            weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID())
+                .AddAmmo((int) (targetWeapon.maxAmmo - targetWeapon.currentAmunition));
+            HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject,currentWeapon);
         }
     }
 }

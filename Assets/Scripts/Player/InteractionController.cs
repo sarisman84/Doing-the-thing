@@ -11,7 +11,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Utility;
 using Utility.Attributes;
-using static Player.InputListener.KeyCode;
+using static Player.InputController.KeyCode;
 
 namespace Player
 {
@@ -78,10 +78,12 @@ namespace Player
                     switch (_interactable.InputType)
                     {
                         case InteractionInput.Hold:
-                            if (InputListener.GetKey(Interact)) _interactable.OnInteract(_col);
+                            if (_player.Input.GetKey(Interact))
+                                _interactable.OnInteract(_col);
                             break;
                         case InteractionInput.Press:
-                            if (InputListener.GetKeyDown(Interact)) _interactable.OnInteract(_col);
+                            if (_player.Input.GetKeyDown(Interact))
+                                _interactable.OnInteract(_col);
                             break;
                     }
 
@@ -129,10 +131,11 @@ namespace Player
                         if (pickup)
                         {
                             int result = pickup.OnPickup(_weaponController.currentWeapon);
-                            if(result == 200)
+                            if (result == 200)
                                 pickup.gameObject.SetActive(false);
                             return result;
                         }
+
                         return 1;
 
                     case IDetectable interactable:
@@ -140,7 +143,7 @@ namespace Player
                         ProximityCheck(position, () => interactable.OnAreaEnter(_col),
                             () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
                         return 100;
-                   
+
                     default:
                         if (entity.CompareTag("Currency"))
                         {
@@ -148,6 +151,7 @@ namespace Player
                             entity.gameObject.SetActive(false);
                             return 50;
                         }
+
                         continue;
                 }
             }

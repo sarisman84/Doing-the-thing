@@ -3,6 +3,7 @@ using Cinemachine;
 using Interactivity.Events;
 using UnityEngine;
 using Utility;
+using Action = Interactivity.Enemies.Finite_Statemachine.Action;
 using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
@@ -24,24 +25,34 @@ namespace Player
 
 
         #region Global Methods
-        private static CustomEvent onLockMouseCursor;
+
+        private static CustomEvent _onLockMouseCursor, _onAlterCameraInput;
 
         public static void SetCursorActive(GameObject targetPlayer, bool state)
         {
-            if (onLockMouseCursor)
-                onLockMouseCursor.OnInvokeEvent(targetPlayer, state);
+            if (_onLockMouseCursor)
+                _onLockMouseCursor.OnInvokeEvent(targetPlayer, state);
         }
-        
+
+        public static void SetCameraInputActive(GameObject targetPlayer, bool state)
+        {
+            if (_onAlterCameraInput)
+                _onAlterCameraInput.OnInvokeEvent(targetPlayer, state);
+        }
+
 
         private void OnEnable()
         {
-            onLockMouseCursor = CustomEvent.CreateEvent<Action<bool>>(AlterCursorState, gameObject);
+            _onLockMouseCursor = CustomEvent.CreateEvent<Action<bool>>(AlterCursorState, gameObject);
+            _onAlterCameraInput = CustomEvent.CreateEvent<Action<bool>>(AlterCameraInput, gameObject);
         }
 
         private void OnDisable()
         {
-            onLockMouseCursor.RemoveEvent<Action<bool>>(AlterCursorState);
+            _onLockMouseCursor.RemoveEvent<Action<bool>>(AlterCursorState);
+            _onAlterCameraInput.RemoveEvent<Action<bool>>(AlterCameraInput);
         }
+
         #endregion
 
         public float CameraHeight
@@ -66,14 +77,13 @@ namespace Player
             _playerController = GetComponent<PlayerController>();
             if (playerCamera)
                 _pov = playerCamera.GetCinemachineComponent<CinemachinePOV>();
-           
         }
 
         private void Update()
         {
             if (!CameraLocked)
             {
-                if (_playerController != null)
+                if (!_playerController)
                 {
                     playerCamera.m_Lens.FieldOfView =
                         _playerController.IsSprinting
@@ -113,14 +123,9 @@ namespace Player
             Cursor.visible = value;
         }
 
-
-     
-
-     
-
-     
-
-
-      
+        private void AlterCameraInput(bool value)
+        {
+            CameraLocked = !value;
+        }
     }
 }

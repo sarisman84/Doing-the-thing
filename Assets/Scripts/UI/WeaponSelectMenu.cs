@@ -70,6 +70,7 @@ namespace UI
             });
             gameObject.SetActive(false);
             CameraController.SetCursorActive(playerController.gameObject, false);
+            CameraController.SetCameraInputActive(playerController.gameObject, true);
             IsAlreadyActive = false;
         }
 
@@ -86,6 +87,7 @@ namespace UI
             int index = 0;
             IsAlreadyActive = true;
             CameraController.SetCursorActive(playerController.gameObject, true);
+            CameraController.SetCameraInputActive(playerController.gameObject, false);
             _weaponSlots.ApplyAction(w => index = ApplyBehaivour(weaponLibrary, selectWeapon, w, index));
         }
 
@@ -100,6 +102,7 @@ namespace UI
                     {
                         _weaponSlots.ApplyAction(b => b.gameObject.SetActive(false));
                         CameraController.SetCursorActive(playerController.gameObject, false);
+                        CameraController.SetCameraInputActive(playerController.gameObject, true);
                         IsAlreadyActive = false;
                     }
                 );

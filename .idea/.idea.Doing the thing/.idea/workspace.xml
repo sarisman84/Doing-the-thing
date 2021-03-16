@@ -23,93 +23,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Ammo Types/Polymorph Ammo.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Polymorph Ray.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Damage Types/Seal Polymorph.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Damage Types/Seal Polymorph.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Single Polymorph (Seal).asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Impact Types/Single Polymorph (Seal).asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Seal Gun.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Seal Gun.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/PolymorphicEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/PolymorphicEntity.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Action.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Action.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Actions.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Actions/PatrolAction.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Actions/PatrolAction.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/State.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/State.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/StateController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/StateController.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Polymorph.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Polymorph.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/ConstructoPistol/ConstructoPistol.obj.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/ConstructoPistol/ConstructoPistol.obj.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Enemies/Zombie.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Enemies/Zombie.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player Prefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player Prefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/UI/Weapon Shop.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/UI/Weapon Shop.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/BaseEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/BaseEnemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/InputController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/InputController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Bullet Types/Polymorph Ray.asset.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/AmmoType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/AmmoType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/AmmoType.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/AmmoType.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/HitScan.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/HitScan.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/HitScan.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/Projectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/Projectile.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireType.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireType.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/MultiTarget.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/MultiTarget.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/SingleTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/SingleTarget.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/SingleTarget.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/SingleTarget.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactEffect.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactEffect.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/InteractionType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/InteractionType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/InteractionType.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/InteractionType.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ProjectileBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ProjectileBehaviour.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ProjectileBehaviour.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/TargetSelectionSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/TargetSelectionSettings.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/Weapon.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Damage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Damage.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Weapons/Ammo Types/Polymorph Ammo.asset.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/HeadsUpDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/HeadsUpDisplay.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/HeadsUpDisplay.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/Projectile.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/Projectile.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/WeaponLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/WeaponLibrary.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/WeaponVisualiser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/WeaponVisualiser.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponVisualiser.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CustomUIElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CustomUIElement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponLibrary.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/PauseMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/PauseMenu.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ShopButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ShopButton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Events.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Events/CustomEvent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Events/CustomEvent.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Events/EventManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Events/EventManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +60,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InputController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/c3/fcbf31ee/MonoMethodInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.3/Runtime/Helpers/CinemachineInputProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0EBEB27C-A6DF-45BB-AEEC-500DC98FF733/35/11410d07/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
@@ -228,9 +160,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Editor/AmmoEditor.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/New Weapon System/Weapon.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/New Weapon System/Projectile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/New Weapon System/FireDefinition.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/New Weapon System/ImpactDefinition.cs" />
@@ -246,7 +175,6 @@
       <option value="$PROJECT_DIR$/Assets/Editor/PropertyDrawers/ScriptableExposerDrawer.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/TargetSelectionSettings.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinition.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/FireDefinitions/Projectile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/ImpactDefinitions/MultiTarget.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Damage.cs" />
@@ -267,18 +195,22 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShop.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/UI/CustomUIElement.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CurrencyHandler.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/AmmoType.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/ShopButton.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/WeaponVisualiser.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Old Weapon System/HeadsUpDisplay.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/PauseMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/InputListener.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/EnemyBehaivourManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/PauseMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Events/CustomEvent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Extensions/GeneralExtensions.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/InputController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponSelectMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/ShopButton.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/UI/WeaponShopMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -439,7 +371,8 @@
       <workItem from="1615481730516" duration="4730000" />
       <workItem from="1615643914379" duration="7026000" />
       <workItem from="1615726463856" duration="9348000" />
-      <workItem from="1615831458110" duration="12242000" />
+      <workItem from="1615831458110" duration="12419000" />
+      <workItem from="1615891664641" duration="6032000" />
     </task>
     <servers />
   </component>
