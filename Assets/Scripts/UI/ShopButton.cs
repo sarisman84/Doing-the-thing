@@ -47,10 +47,6 @@ namespace UI
                     controller.ResupplyWeapon(AssignedWeapon);
                 }
             }
-
-
-           
-            
         }
 
         public void UpdateButton(List<Weapon> incomingLibrary)
@@ -81,6 +77,7 @@ namespace UI
 
         public void DisplayItem()
         {
+            ResetDisplay();
             if (_sellAssignedWeaponAmmo)
             {
                 if (AmmoModel)

@@ -83,6 +83,7 @@ namespace UI
                 if (weapon.ammoType.ammoPrefab)
                 {
                     button.AmmoModel = Instantiate(weapon.ammoType.ammoPrefab, shopModelParent);
+                    Destroy(button.AmmoModel.GetComponent<Rigidbody>());
                     button.AmmoModel.SetActive(false);
                 }
 

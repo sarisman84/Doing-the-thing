@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f951c7b81f274f819b63fcc903fac86a, type: 3}
   m_Name: Rocket Launcher Ammo
   m_EditorClassIdentifier: 
-  ammoPrefab: {fileID: 0}
+  ammoPrefab: {fileID: 6143490854486546914, guid: 2068140a858bf444a98e18845462fbf2, type: 3}
   pickupAmmount: 15
-  price: 3000
+  canBePurchased: 0
+  price: 50
+  refillAmount: 0

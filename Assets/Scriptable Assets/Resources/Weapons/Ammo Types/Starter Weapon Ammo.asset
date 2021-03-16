@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f951c7b81f274f819b63fcc903fac86a, type: 3}
-  m_Name: Polymorph Ammo
+  m_Name: Starter Weapon Ammo
   m_EditorClassIdentifier: 
-  ammoPrefab: {fileID: 0}
-  pickupAmmount: 500
-  price: 1600
+  ammoPrefab: {fileID: 4697799404756452169, guid: 6fed8828a31dbab439a412421d901def, type: 3}
+  pickupAmmount: 150
+  canBePurchased: 0
+  price: 30
+  refillAmount: 0

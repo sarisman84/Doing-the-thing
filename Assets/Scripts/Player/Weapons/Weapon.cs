@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
+using Interactivity.Pickup;
 using JetBrains.Annotations;
 using UnityEngine;
 using Utility.Attributes;
@@ -19,7 +20,6 @@ namespace Player.Weapons.NewWeaponSystem
         [Space] [SerializeField] private GameObject weaponModelPrefab;
         public Sprite weaponIcon;
         [Space] [Expose] public FireType fireType;
-       
 
 
         #region Static Methods
@@ -62,6 +62,13 @@ namespace Player.Weapons.NewWeaponSystem
             {
                 _currentOwner = owner;
                 currentAmmo = maxAmmo;
+
+                if (ammoType && ammoType.ammoPrefab)
+                {
+                    Ammo pickup = ammoType.ammoPrefab.GetComponent<Ammo>();
+                    pickup.ammoType = ammoType;
+                }
+
                 return;
             }
 
