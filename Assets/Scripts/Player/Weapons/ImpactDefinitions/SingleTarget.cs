@@ -8,10 +8,10 @@ namespace Player.Weapons.NewWeaponSystem.ImpactDefinitions
     public class SingleTarget : TargetSelectionSettings
     {
       
-        public override int TargetSelectionOnImpact(Collider collider)
+        public override int TargetSelectionOnImpact(Collider collider, GameObject owner)
         {
             
-            return impactType.ApplyImpactEffectToEntity(collider);
+            return impactType.ApplyImpactEffectToEntity(collider, owner);
         }
     }
 }

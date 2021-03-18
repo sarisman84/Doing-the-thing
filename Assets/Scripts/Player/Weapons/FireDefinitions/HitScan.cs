@@ -11,6 +11,7 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
     public class HitScan : FireType
     {
         public float hitScanDetectionRange;
+        public LayerMask hitScanLayerMask;
         public TrailRenderer fireParticle;
 
 
@@ -18,19 +19,19 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
         {
         }
 
-        public override void Fire(Vector3 origin, Vector3 direction)
+        public override void Fire(Vector3 origin, Vector3 direction, GameObject owner)
         {
             Color rayColor = Color.red;
 
             RaycastHit hitInfo;
             Ray ray = new Ray(origin, direction);
-            if (Physics.Raycast(ray, out hitInfo, hitScanDetectionRange))
+            if (Physics.Raycast(ray, out hitInfo, hitScanDetectionRange, hitScanLayerMask))
             {
                 TrailRenderer fx = ObjectManager.DynamicComponentInstantiate(fireParticle, true);
-             
+
                 fx.transform.position = origin;
                 fx.AddPosition(origin);
-                targetSelectionType.TargetSelectionOnImpact(hitInfo.collider);
+                targetSelectionType.TargetSelectionOnImpact(hitInfo.collider, owner);
                 if (targetSelectionType.impactEffect)
                     CoroutineManager.Instance.StartCoroutine(
                         targetSelectionType.impactEffect.PlayImpactEffect(hitInfo.point, hitInfo.normal));

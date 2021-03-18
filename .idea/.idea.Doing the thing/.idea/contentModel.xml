@@ -218,6 +218,7 @@
             </e>
             <e p="Destructable Objects" t="Include">
               <e p="AmmoCrate.cs" t="Include" />
+              <e p="BaseCrate.cs" t="Include" />
               <e p="Crate.cs" t="Include" />
             </e>
             <e p="Enemies" t="Include">

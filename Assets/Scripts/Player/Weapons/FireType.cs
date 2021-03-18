@@ -9,7 +9,7 @@ namespace Player.Weapons.NewWeaponSystem
     {
         
         [Expose] public TargetSelectionSettings targetSelectionType;
-        public abstract void Fire(Vector3 origin, Vector3 direction);
+        public abstract void Fire(Vector3 origin, Vector3 direction, GameObject owner);
     }
 
    

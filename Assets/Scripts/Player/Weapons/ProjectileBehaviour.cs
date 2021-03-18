@@ -20,6 +20,7 @@ namespace Player.Weapons.NewWeaponSystem
 
         private Dictionary<int, GameObject> currentModels = new Dictionary<int, GameObject>();
         private Rigidbody _physicsController;
+        private GameObject _projectileOwner;
 
 
         private void OnEnable()
@@ -52,7 +53,7 @@ namespace Player.Weapons.NewWeaponSystem
 
         private void OnCollisionEnter(Collision other)
         {
-            _projectileSettings.targetSelectionType.TargetSelectionOnImpact(other.collider);
+            _projectileSettings.targetSelectionType.TargetSelectionOnImpact(other.collider, _projectileOwner);
             var detectionRange = (_projectileSettings.targetSelectionType as MultiTarget)?.detectionRange;
 
             if (_projectileSettings.targetSelectionType.impactEffect)
@@ -63,8 +64,9 @@ namespace Player.Weapons.NewWeaponSystem
             _disableObject = true;
         }
 
-        public void UpdateInformation(Vector3 origin, Vector3 direction, Projectile definition)
+        public void UpdateInformation(Vector3 origin, Vector3 direction, Projectile definition, GameObject owner)
         {
+            _projectileOwner = owner;
             transform.position = origin;
             transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
 

@@ -17,7 +17,7 @@ namespace Interactivity.Components
 
         [Space] public UnityEvent<int> onUpdateEvent;
         public UnityEvent<int> onDamageTakenEvent;
-        public UnityEvent onDeathEvent;
+        public UnityEvent<Collider> onDeathEvent;
 
 
         public int CurrentHealth => Mathf.RoundToInt(_currentHealth);
@@ -45,15 +45,20 @@ namespace Interactivity.Components
             }
         }
 
+        public void TakeDamage(GameObject obj, float damage)
+        {
+            TakeDamage(gameObject.GetComponent<Collider>(), damage);
+        }
+
         public void TakeDamage(float damage)
         {
-            TakeDamage(null, damage);
+            TakeDamage(default(GameObject),damage);
         }
 
         public void OnDeath(Collider col)
         {
             if (godMode) return;
-            onDeathEvent?.Invoke();
+            onDeathEvent?.Invoke(col);
             gameObject.SetActive(false);
         }
 

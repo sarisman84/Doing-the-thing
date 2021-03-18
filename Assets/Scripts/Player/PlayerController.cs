@@ -97,9 +97,43 @@ namespace Player
         public InputController Input => _inputController ? _inputController : GetComponent<InputController>();
         public WeaponController WeaponController => _weaponController;
 
+        public InteractionController InteractionController =>
+            InteractionController.GetInteractionController(gameObject);
+
+        void OnEnable()
+        {
+            if (InteractionController)
+                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
+        }
+
+        void OnDisable()
+        {
+            if (InteractionController)
+                InteractionController.ONInteractionEvent -= InteractWithInteractableEntities;
+        }
+
+        private void InteractWithInteractableEntities(RaycastHit obj)
+        {
+            InteractableEntity entity = obj.collider.GetComponent<InteractableEntity>();
+            if (entity)
+            {
+                switch (entity.interactionInputType)
+                {
+                    case InteractionInput.Hold:
+                        if (_inputController.GetKey(Interact))
+                            entity.OnInteract(GetComponent<Collider>());
+                        break;
+                    case InteractionInput.Press:
+                        if (_inputController.GetKeyDown(Interact))
+                            entity.OnInteract(GetComponent<Collider>());
+                        break;
+                }
+            }
+        }
+
+
         private void Awake()
         {
-          
             _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(MovePlayer, gameObject);
 
             //Assigns the player as a priority target for any enemy.
@@ -236,17 +270,6 @@ namespace Player
             Gizmos.DrawCube(TopPositionOfCollider, sealingCheckSize * 2f);
         }
 
-
-        private void OnDisable()
-        {
-            //In case this gameObject is disabled, it is required to disable the input references with it as to avoid any input errors.
-        }
-
-
-        private void OnEnable()
-        {
-            //In case this gameObject is enabled, the references assigned to the gameObject will be enabled with the gameObject so that the player can regain control of this gameObject.
-        }
 
         // private void AddListenersToEventManager()
         // {

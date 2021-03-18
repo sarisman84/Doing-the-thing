@@ -6,6 +6,7 @@ using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Events;
+using Interactivity.Pickup;
 using Player.Weapons;
 using Player.Weapons.NewWeaponSystem;
 using UI;
@@ -26,7 +27,7 @@ namespace Player
         [HideInInspector] public Weapon currentWeapon;
         public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
-
+        private InteractionController controller;
 
         public void Start()
         {
@@ -51,6 +52,20 @@ namespace Player
             //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
             //     SelectWeapon(weaponLibrary.Count - 1);
             // });
+
+            if (controller)
+                controller.ONDetectionEvent += PickupAmmo;
+        }
+
+        private void PickupAmmo(Collider obj)
+        {
+            IPickup pickup = obj.GetComponent<IPickup>();
+
+            if (pickup != null)
+            {
+                pickup.OnPickup(gameObject);
+               
+            }
         }
 
         private void OnDisable()
@@ -61,6 +76,9 @@ namespace Player
             //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
             //     SelectWeapon(weaponLibrary.Count - 1);
             // });
+            InteractionController controller = InteractionController.GetInteractionController(gameObject);
+            if (controller)
+                controller.ONDetectionEvent -= PickupAmmo;
         }
 
         public void SelectWeapon(int index)
@@ -109,6 +127,12 @@ namespace Player
             }
 
             Debug.Log(currentWeapon.TriggerFire(player.Input.GetKey(Attack)));
+
+            if (!controller)
+            {
+                controller = InteractionController.GetInteractionController(gameObject);
+                controller.ONDetectionEvent += PickupAmmo;
+            }
         }
 
 
@@ -116,7 +140,7 @@ namespace Player
         {
             weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID())
                 .AddAmmo((int) (targetWeapon.maxAmmo - targetWeapon.currentAmunition));
-            HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject,currentWeapon);
+            HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
         }
     }
 }

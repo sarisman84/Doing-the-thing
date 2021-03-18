@@ -7,12 +7,12 @@ namespace Player.Weapons.NewWeaponSystem.WeaponImpactSettings
     public class Damage : InteractionType
     {
         public float damage;
-        public override int ApplyImpactEffectToEntity(Collider collider)
+        public override int ApplyImpactEffectToEntity(Collider collider, GameObject owner)
         {
             IDamageable damageable = collider.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damage);
+                damageable.TakeDamage(owner,damage);
                 return 200;
             }
 

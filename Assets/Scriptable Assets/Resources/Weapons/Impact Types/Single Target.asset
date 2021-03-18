@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214bd820c4a34b9a88ec0d4096f2e228, type: 3}
   m_Name: Single Target
   m_EditorClassIdentifier: Assembly-CSharp:Player.Weapons.NewWeaponSystem:DamageTarget
+  impactEffect: {fileID: 11400000, guid: 643f13c193f0c5345b960770390e9ecd, type: 2}
   impactType: {fileID: 11400000, guid: f57b61414d2c2334f8cb6fb7c77594e0, type: 2}

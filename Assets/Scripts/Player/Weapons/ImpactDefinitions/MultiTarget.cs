@@ -10,7 +10,7 @@ namespace Player.Weapons.NewWeaponSystem.ImpactDefinitions
         public float detectionRange = 3f;
 
 
-        public override int TargetSelectionOnImpact(Collider collider)
+        public override int TargetSelectionOnImpact(Collider collider, GameObject owner)
         {
             Collider[] foundColliders = Physics.OverlapSphere(collider.transform.position, detectionRange);
 
@@ -19,7 +19,7 @@ namespace Player.Weapons.NewWeaponSystem.ImpactDefinitions
                 int result = 199;
                 foreach (var col in foundColliders)
                 {
-                    result = impactType.ApplyImpactEffectToEntity(col);
+                    result = impactType.ApplyImpactEffectToEntity(col, owner);
                 }
 
                 return result;

@@ -11,7 +11,7 @@ namespace Player.Weapons.NewWeaponSystem.WeaponImpactSettings
         public bool isPolymorphPassive;
         [Expose] public InteractionType extraInteraction;
 
-        public override int ApplyImpactEffectToEntity(Collider collider)
+        public override int ApplyImpactEffectToEntity(Collider collider, GameObject owner)
         {
             PolymorphicEntity polymorphicEntity = collider.GetComponent<PolymorphicEntity>();
             if (polymorphicEntity)
@@ -21,7 +21,7 @@ namespace Player.Weapons.NewWeaponSystem.WeaponImpactSettings
             }
 
             if (extraInteraction)
-                extraInteraction.ApplyImpactEffectToEntity(collider);
+                extraInteraction.ApplyImpactEffectToEntity(collider, owner);
 
 
             return 0;

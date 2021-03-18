@@ -9,6 +9,6 @@ namespace Player.Weapons.NewWeaponSystem
     {
         [Expose] public ImpactEffect impactEffect;
         [Expose] public InteractionType impactType;
-        public abstract int TargetSelectionOnImpact(Collider collider);
+        public abstract int TargetSelectionOnImpact(Collider collider, GameObject gameObject);
     }
 }

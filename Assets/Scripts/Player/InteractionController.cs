@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Components;
@@ -17,162 +19,161 @@ namespace Player
 {
     public class InteractionController : MonoBehaviour
     {
-        [Space] public LayerMask interactionFilter;
-        public LayerMask pickupFilter;
-        public float detectionRange = 20, interactionRange = 20;
-        private PlayerController _player;
-        private WeaponController _weaponController;
-        private float _lastInteractionDistance = 0;
+        public bool useRaycast;
+        [EnableIf("useRaycast")] public float interactionRange;
+        [EnableIf("useRaycast")] public LayerMask interactionMask;
+        public bool useOverlapSphere;
+        [EnableIf("useOverlapSphere")] public float overlapSphereRange;
+        [EnableIf("useOverlapSphere")] public LayerMask detectionMask;
+        public bool showDebug;
+
+        public event Action<RaycastHit> ONInteractionEvent;
+        public event Action<Collider> ONDetectionEvent;
+        private Camera _cam;
+        private Collider[] _cachedFoundColliders;
+        private Coroutine _coroutinedUpdateLoop;
 
 
-        public bool showPickupRange = false;
-        private Collider _col;
-        private CameraController _cameraController;
-        private Ray _ray;
-        private IInteractable _interactable;
+        private static CustomEvent accessInteractionComponent;
 
-#if UNITY_EDITOR
-        [EnableIf("showPickupRange")] [SerializeField]
-        private Color interactionColor, detectionColor;
-#endif
+
+        public static InteractionController GetInteractionController(GameObject owner)
+        {
+            if (accessInteractionComponent)
+                return (InteractionController) accessInteractionComponent.OnInvokeEvent(owner);
+            return null;
+        }
+
         private void Awake()
         {
-            _player = GetComponent<PlayerController>();
-            _weaponController = GetComponent<WeaponController>();
-            _cameraController = GetComponent<CameraController>();
-            _col = GetComponent<Collider>();
+            accessInteractionComponent =
+                CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent, gameObject);
+            _cam = Camera.main;
+        }
+
+        private void OnEnable()
+        {
+            accessInteractionComponent = accessInteractionComponent
+                ? accessInteractionComponent
+                : CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent,
+                    gameObject);
+            ONDetectionEvent += InteractWithDetectableEntities;
+            _coroutinedUpdateLoop = StartCoroutine(CoroutineUpdateLoop());
+        }
+
+        private IEnumerator CoroutineUpdateLoop()
+        {
+            while (true)
+            {
+                if (useOverlapSphere)
+                    yield return OverlapSphereDetection(transform.position, overlapSphereRange, detectionMask);
+                else
+                    yield return new WaitForEndOfFrame();
+            }
+
+            yield return null;
+        }
+
+
+        private void OnDisable()
+        {
+            accessInteractionComponent.RemoveEvent<Func<InteractionController>>(GetInteractionComponent);
+            ONDetectionEvent -= InteractWithDetectableEntities;
+
+            if (_coroutinedUpdateLoop != null)
+                StopCoroutine(_coroutinedUpdateLoop);
+        }
+
+        private InteractionController GetInteractionComponent()
+        {
+            return this;
+        }
+
+
+        private void InteractWithDetectableEntities(Collider obj)
+        {
+            DetectableEntity entity = obj.GetComponent<DetectableEntity>();
+            if (entity)
+            {
+                entity.OnDetect(GetComponent<Collider>(), overlapSphereRange);
+            }
         }
 
 
         private void Update()
         {
-            DetectEntityFromRaycast(interactionRange);
-            DetectEntitiesInProximity(detectionRange);
+            if (useRaycast)
+                RaycastDetection(_cam.transform.position, _cam.transform.forward, interactionRange, interactionMask);
         }
 
-        private void DetectEntitiesInProximity(float detectionRadius)
+        private void LateUpdate()
         {
-            Collider[] foundObjs = Physics.OverlapSphere(transform.position, detectionRadius, pickupFilter);
-
-            if (foundObjs.Equals(null)) return;
-            foreach (var t in foundObjs)
-            {
-                OnTriggerDetection(t);
-            }
+            // cachedFoundColliders = new Collider[300];
         }
 
-        private void DetectEntityFromRaycast(float rayLength)
+        private void RaycastDetection(Vector3 origin, Vector3 direction, float mask,
+            LayerMask interactionMask)
         {
-            RaycastHit closestHit;
-            _ray = new Ray(transform.position,
-                _cameraController == null ? transform.forward : _cameraController.PlayerCamera.forward);
-            if (Physics.Raycast(_ray, out closestHit, rayLength, interactionFilter))
+            Ray ray = new Ray(origin, direction);
+            RaycastHit hitInfo;
+            Color rayColor = Color.red;
+
+            if (Physics.Raycast(ray, out hitInfo, mask, interactionMask))
             {
-                if (closestHit.collider == null)
-                    return;
-
-                _interactable = closestHit.collider.GetComponent<IInteractable>();
-
-                if (_interactable != null)
-                {
-                    switch (_interactable.InputType)
-                    {
-                        case InteractionInput.Hold:
-                            if (_player.Input.GetKey(Interact))
-                                _interactable.OnInteract(_col);
-                            break;
-                        case InteractionInput.Press:
-                            if (_player.Input.GetKeyDown(Interact))
-                                _interactable.OnInteract(_col);
-                            break;
-                    }
-
-                    _interactable.OnHoverEnter(_col);
-                    _interactable.OnHoverStay(_col);
-                    return;
-                }
+                rayColor = Color.green;
+                ONInteractionEvent?.Invoke(hitInfo);
             }
 
-            _interactable?.OnHoverExit(_col);
+            if (showDebug)
+                Debug.DrawRay(ray.origin, ray.direction * mask, rayColor);
         }
 
-
-        private void ProximityCheck(Vector3 target, Action onEnter, Action onStay, Action onExit, float range)
+        private IEnumerator OverlapSphereDetection(Vector3 origin, float radius, LayerMask mask)
         {
-            float distance = Vector3.Distance(transform.position, target);
-            if (distance >= interactionRange)
+            Collider[] foundColliders = new Collider[50];
+            Physics.OverlapSphereNonAlloc(origin, radius, foundColliders, mask);
+
+            if (foundColliders.Length == 0) yield break;
+
+            foreach (var foundObject in foundColliders)
             {
-                if (distance >= _lastInteractionDistance && _lastInteractionDistance != 0)
-                {
-                    onExit?.Invoke();
-                    _lastInteractionDistance = 0;
-                }
-            }
-            else if (_lastInteractionDistance == 0)
-            {
-                _lastInteractionDistance = distance;
-                onEnter?.Invoke();
+                if (foundObject)
+                    ONDetectionEvent?.Invoke(foundObject);
             }
 
-            if (distance < interactionRange)
-            {
-                onStay?.Invoke();
-            }
-        }
-
-        private int OnTriggerDetection(Collider entity)
-        {
-            if (entity.Equals(null)) return -1;
-            foreach (var component in entity.GetComponents<Component>())
-            {
-                switch (component)
-                {
-                    case BasePickup pickup:
-                        if (pickup)
-                        {
-                            int result = pickup.OnPickup(_weaponController.currentWeapon);
-                            if (result == 200)
-                                pickup.gameObject.SetActive(false);
-                            return result;
-                        }
-
-                        return 1;
-
-                    case IDetectable interactable:
-                        var position = interactable.transform.position;
-                        ProximityCheck(position, () => interactable.OnAreaEnter(_col),
-                            () => interactable.OnAreaStay(_col), () => interactable.OnAreaExit(_col), detectionRange);
-                        return 100;
-
-                    default:
-                        if (entity.CompareTag("Currency"))
-                        {
-                            CurrencyHandler.EarnCurrency(gameObject, 1);
-                            entity.gameObject.SetActive(false);
-                            return 50;
-                        }
-
-                        continue;
-                }
-            }
-
-
-            return 0;
+            _cachedFoundColliders = foundColliders;
+            yield return new WaitForSeconds(0.1f);
         }
 
 
-#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (!showPickupRange) return;
-            Gizmos.color = detectionColor - new Color(0, 0, 0, 0.5f);
-            var position = transform.position;
-            Gizmos.DrawSphere(position, detectionRange);
-            Gizmos.color = interactionColor;
-            Gizmos.DrawWireSphere(position, interactionRange);
-            Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction * interactionRange);
-        }
+            if (showDebug)
+            {
+                if (useOverlapSphere)
+                {
+                    Gizmos.color = Color.yellow - new Color(0, 0, 0, 0.5f);
+                    Gizmos.DrawSphere(transform.position, overlapSphereRange);
+                    Gizmos.color -= new Color(0.4f, 0.4f, 0.4f, 0);
+                    Gizmos.DrawWireSphere(transform.position, overlapSphereRange);
 
-#endif
+                    if (_cachedFoundColliders == null || _cachedFoundColliders.Length != 0)
+                    {
+                        foreach (var collider in _cachedFoundColliders)
+                        {
+                            if (!collider) continue;
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawSphere(collider.transform.position, 1f);
+                        }
+                    }
+                }
+
+                if (useRaycast && Application.isEditor && !Application.isPlaying)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactionRange);
+                }
+            }
+        }
     }
 }

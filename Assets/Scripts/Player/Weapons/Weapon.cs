@@ -82,7 +82,7 @@ namespace Player.Weapons.NewWeaponSystem
             if (input && _tempFireRate >= fireRate && currentAmmo > 0)
             {
                 _tempFireRate = 0;
-                OnFire(InstancedWeaponModel.transform.GetChild(0), _currentOwner.transform);
+                OnFire(InstancedWeaponModel.transform.GetChild(0));
                 currentAmmo--;
                 HeadsUpDisplay.UpdateWeaponAmmoUI(Owner, this);
                 return 200;
@@ -92,17 +92,19 @@ namespace Player.Weapons.NewWeaponSystem
         }
 
 
-        void OnFire(Transform barrel, Transform owner)
+        void OnFire(Transform barrel)
         {
             fireType.Fire(barrel.transform.position,
-                barrel.forward.normalized);
+                barrel.forward.normalized, Owner);
         }
 
         public int AddAmmo(int amount)
         {
-            if (currentAmmo == maxAmmo) return 201;
+            if (Math.Abs(currentAmmo - maxAmmo) < 0.01f) return 201;
+            Debug.Log($"Adding ammo for {name}");
             currentAmmo += amount;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
+            HeadsUpDisplay.UpdateWeaponAmmoUI(Owner, this);
             return 200;
         }
     }

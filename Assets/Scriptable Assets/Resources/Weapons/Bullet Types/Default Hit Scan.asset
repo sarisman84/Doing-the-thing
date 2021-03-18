@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Player.Weapons.NewWeaponSystem:HitScan
   targetSelectionType: {fileID: 11400000, guid: 2efc12e459f0aa8429a11c228113f28c, type: 2}
   hitScanDetectionRange: 150
+  hitScanLayerMask:
+    serializedVersion: 2
+    m_Bits: 29751
   fireParticle: {fileID: 576151867551497155, guid: 9d0fd3aac69b60d478bda3ce4dd75ed8, type: 3}
