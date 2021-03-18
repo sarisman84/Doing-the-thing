@@ -193,6 +193,7 @@
             <e p="VentorTitleRotator.cs" t="Include" />
           </e>
           <e p="Extensions" t="Include">
+            <e p="CoroutineManager.cs" t="Include" />
             <e p="GeneralExtensions.cs" t="Include" />
             <e p="InputExtension" t="Include">
               <e p="InputReferenceExtension.cs" t="Include" />
@@ -212,14 +213,24 @@
                 <e p="DetectableEntity.cs" t="Include" />
                 <e p="DetectionArea.cs" t="Include" />
                 <e p="InteractableEntity.cs" t="Include" />
+                <e p="PolymorphicEntity.cs" t="Include" />
               </e>
             </e>
             <e p="Destructable Objects" t="Include">
               <e p="AmmoCrate.cs" t="Include" />
+              <e p="BaseCrate.cs" t="Include" />
               <e p="Crate.cs" t="Include" />
             </e>
             <e p="Enemies" t="Include">
               <e p="BaseEnemy.cs" t="Include" />
+              <e p="Finite Statemachine" t="Include">
+                <e p="Action.cs" t="Include" />
+                <e p="Actions" t="Include">
+                  <e p="PatrolAction.cs" t="Include" />
+                </e>
+                <e p="State.cs" t="Include" />
+                <e p="StateController.cs" t="Include" />
+              </e>
               <e p="TargetDummy.cs" t="Include" />
               <e p="Zombie.cs" t="Include" />
             </e>
@@ -238,7 +249,6 @@
             <e p="Pickup" t="Include">
               <e p="Ammo.cs" t="Include" />
               <e p="BasePickup.cs" t="Include" />
-              <e p="QuestPickup.cs" t="Include" />
             </e>
             <e p="ProxiDetection.cs" t="Include" />
             <e p="Vendor" t="Include">
@@ -248,15 +258,31 @@
           <e p="Player" t="Include">
             <e p="CameraController.cs" t="Include" />
             <e p="CurrencyHandler.cs" t="Include" />
-            <e p="CurrencyManager.cs" t="Include" />
-            <e p="InputListener.cs" t="Include" />
+            <e p="InputController.cs" t="Include" />
             <e p="InteractionController.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="WeaponController.cs" t="Include" />
             <e p="Weapons" t="Include">
+              <e p="AmmoType.cs" t="Include" />
+              <e p="FireDefinitions" t="Include">
+                <e p="HitScan.cs" t="Include" />
+                <e p="Projectile.cs" t="Include" />
+              </e>
+              <e p="FireType.cs" t="Include" />
               <e p="HeadsUpDisplay.cs" t="Include" />
-              <e p="Projectile.cs" t="Include" />
-              <e p="ProjectileBehaivour.cs" t="Include" />
+              <e p="ImpactDefinitions" t="Include">
+                <e p="MultiTarget.cs" t="Include" />
+                <e p="SingleTarget.cs" t="Include" />
+              </e>
+              <e p="ImpactEffect.cs" t="Include" />
+              <e p="InteractionType.cs" t="Include" />
+              <e p="ProjectileBehaviour.cs" t="Include" />
+              <e p="TargetSelectionSettings.cs" t="Include" />
+              <e p="Weapon.cs" t="Include" />
+              <e p="WeaponImpactSettings" t="Include">
+                <e p="Damage.cs" t="Include" />
+                <e p="Polymorph.cs" t="Include" />
+              </e>
               <e p="WeaponLibrary.cs" t="Include" />
               <e p="WeaponVisualiser.cs" t="Include" />
             </e>
@@ -267,7 +293,7 @@
             <e p="PauseMenu.cs" t="Include" />
             <e p="ShopButton.cs" t="Include" />
             <e p="WeaponSelectMenu.cs" t="Include" />
-            <e p="WeaponShop.cs" t="Include" />
+            <e p="WeaponShopMenu.cs" t="Include" />
             <e p="WeaponSlot.cs" t="Include" />
           </e>
           <e p="Utility" t="Include">
@@ -276,10 +302,6 @@
               <e p="EventListAttribute.cs" t="Include" />
               <e p="ExposeAttribute.cs" t="Include" />
               <e p="FancyListAttribute.cs" t="Include" />
-            </e>
-            <e p="Events" t="Include">
-              <e p="CustomEvent.cs" t="Include" />
-              <e p="EventManager.cs" t="Include" />
             </e>
             <e p="TestScripts" t="Include">
               <e p="GroupMockup.cs" t="Include" />

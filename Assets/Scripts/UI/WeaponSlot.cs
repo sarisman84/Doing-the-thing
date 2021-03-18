@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Weapons.NewWeaponSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace Player.Weapons
 
         public void SetWeaponSlotIcon(Weapon weapon)
         {
-            icon.sprite = weapon.icon;
+            icon.sprite = weapon.weaponIcon;
         }
 
 

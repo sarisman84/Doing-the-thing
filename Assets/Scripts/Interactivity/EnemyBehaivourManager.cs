@@ -15,28 +15,28 @@ namespace Interactivity
         public static void OnGameLoad()
         {
             EnemyBehaivourManager manager = new EnemyBehaivourManager();
-            EventManager.AddListener(c_AssignNewTarget,
-                new Action<Transform>(value => manager.AssignTarget(value)));
-            EventManager.AddListener(c_GetTargetPosition,
-                new Func<Vector3>(() => manager._GetTargetPosition()));
-            EventManager.AddListener(c_RemoveCurrentTarget, new Action(() => { manager.ClearTarget(); }));
+            // EventManager.AddListener(c_AssignNewTarget,
+            //     new Action<Transform>(value => manager.AssignTarget(value)));
+            // EventManager.AddListener(c_GetTargetPosition,
+            //     new Func<Vector3>(() => manager._GetTargetPosition()));
+            // EventManager.AddListener(c_RemoveCurrentTarget, new Action(() => { manager.ClearTarget(); }));
         }
 
 
-        public static void AssignNewTarget(Transform value)
-        {
-            EventManager.TriggerEvent(c_AssignNewTarget, value);
-        }
-
-        public static Vector3 GetCurrentTargetPosition()
-        {
-            return (Vector3)EventManager.TriggerEvent(c_GetTargetPosition);
-        }
-
-        public static void ClearTargetFocus()
-        {
-            EventManager.TriggerEvent(c_RemoveCurrentTarget);
-        }
+        // public static void AssignNewTarget(Transform value)
+        // {
+        //     // EventManager.TriggerEvent(c_AssignNewTarget, value);
+        // }
+        //
+        // public static Vector3 GetCurrentTargetPosition()
+        // {
+        //     return (Vector3)EventManager.TriggerEvent(c_GetTargetPosition);
+        // }
+        //
+        // public static void ClearTargetFocus()
+        // {
+        //     EventManager.TriggerEvent(c_RemoveCurrentTarget);
+        // }
 
 
         private Transform _target;

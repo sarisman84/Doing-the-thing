@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc55e732e5d042e29baf715ec783296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAwakeCallback:
+    _PersistentCalls: []
   onInteractCallback:
     _PersistentCalls:
     - _Target: {fileID: 0}
@@ -84,7 +86,7 @@ MonoBehaviour:
         PublicKeyToken=null.Open
       _PersistentArguments:
       - _Type: 14
-        _Int: 0
+        _Int: 1
         _String: UnityEngine.Collider, UnityEngine.PhysicsModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         _X: 0

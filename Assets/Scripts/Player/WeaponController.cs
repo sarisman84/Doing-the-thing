@@ -6,15 +6,19 @@ using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Events;
+using Interactivity.Pickup;
 using Player.Weapons;
+using Player.Weapons.NewWeaponSystem;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using Utility;
+using static Player.InputController;
 using CustomEvent = Interactivity.Events.CustomEvent;
-using Debug = System.Diagnostics.Debug;
+using Debug = UnityEngine.Debug;
+using static Player.InputController.KeyCode;
 
 namespace Player
 {
@@ -23,8 +27,7 @@ namespace Player
         [HideInInspector] public Weapon currentWeapon;
         public List<Weapon> weaponLibrary;
         [HideInInspector] public PlayerController player;
-        private WeaponVisualiser _weaponVisualiser;
-
+        private InteractionController controller;
 
         public void Start()
         {
@@ -32,13 +35,10 @@ namespace Player
 
             weaponLibrary = new List<Weapon>();
 
-            _weaponVisualiser =
-                Camera.main.transform.GetComponentInChildren<WeaponVisualiser>();
-
 
             player.ONUpdateCallback += LocalUpdate;
 
-            AddWeaponToLibrary(WeaponManager.globalWeaponLibrary["Test_Pistol"]);
+            AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, "Starter Weapon"));
 
 
             SelectWeapon(0);
@@ -46,75 +46,101 @@ namespace Player
 
         private void OnEnable()
         {
-            EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
-            EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
+            // EventManager.AddListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            // EventManager.AddListener<Action<string>>("Player_AddWeapon", value =>
+            // {
+            //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+            //     SelectWeapon(weaponLibrary.Count - 1);
+            // });
+
+            if (controller)
+                controller.ONDetectionEvent += PickupAmmo;
+        }
+
+        private void PickupAmmo(Collider obj)
+        {
+            IPickup pickup = obj.GetComponent<IPickup>();
+
+            if (pickup != null)
             {
-                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
-                {
-                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
-                    SelectWeapon(weaponLibrary.Count - 1);
-                }
-            });
+                pickup.OnPickup(gameObject);
+               
+            }
         }
 
         private void OnDisable()
         {
-            EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
-            EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
-            {
-                if (WeaponManager.globalWeaponLibrary.ContainsKey(value))
-                {
-                    AddWeaponToLibrary(WeaponManager.globalWeaponLibrary[value]);
-                    SelectWeapon(weaponLibrary.Count - 1);
-                }
-            });
+            // EventManager.RemoveListener<Func<string, bool>>("Player_BuyWeapon", OnWeaponPurchace);
+            // EventManager.RemoveListener<Action<string>>("Player_AddWeapon", value =>
+            // {
+            //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
+            //     SelectWeapon(weaponLibrary.Count - 1);
+            // });
+            InteractionController controller = InteractionController.GetInteractionController(gameObject);
+            if (controller)
+                controller.ONDetectionEvent -= PickupAmmo;
         }
 
         public void SelectWeapon(int index)
         {
             if (index >= 0 && index < weaponLibrary.Count)
             {
-                currentWeapon = weaponLibrary[index];
-                _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
-                // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
-
-                HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
-                HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+                currentWeapon = WeaponExtensions.SwapWeaponTo(weaponLibrary, weaponLibrary[index]);
             }
         }
+
+        #region Old Code
+
+        // _weaponVisualiser.SetWeaponModel(this, currentWeapon);
+        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
+        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
+        //
+        // HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
+        // HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+
+        #endregion
 
         public void AddWeaponToLibrary(Weapon newWeapon)
         {
             if (!weaponLibrary.Contains(newWeapon))
+            {
+                newWeapon.Setup(gameObject);
                 weaponLibrary.Add(newWeapon);
+                SelectWeapon(weaponLibrary.Count - 1);
+            }
         }
 
 
         void LocalUpdate()
         {
-            if (InputListener.GetKeyDown(InputListener.KeyCode.WeaponSelect) && weaponLibrary.Count > 1)
+            if (player.Input.GetKeyDown(WeaponSelect) && weaponLibrary.Count > 1)
             {
-                //WeaponSelectMenu.Access(weaponLibrary, SelectWeapon);
                 WeaponSelectMenu.Open(gameObject, SelectWeapon, weaponLibrary);
             }
 
-            if (player.CameraController.CameraLocked) return;
+            if (player.PlayerCamera.CameraLocked) return;
 
-            if (currentWeapon == null) return;
+            if (!currentWeapon)
+            {
+                Debug.Log("No Weapon found");
+                return;
+            }
 
-            currentWeapon.OnWeaponPrimaryFire(this);
+            Debug.Log(currentWeapon.TriggerFire(player.Input.GetKey(Attack)));
+
+            if (!controller)
+            {
+                controller = InteractionController.GetInteractionController(gameObject);
+                controller.ONDetectionEvent += PickupAmmo;
+            }
         }
 
 
-        bool OnWeaponPurchace(string weapon)
+        public void ResupplyWeapon(Weapon targetWeapon)
         {
-            Weapon newWeapon = WeaponManager.globalWeaponLibrary[weapon];
-            if (CurrencyHandler.GetCurrency(gameObject) < newWeapon.price) return false;
-            CurrencyHandler.PayCurrency(gameObject, newWeapon.price);
-            AddWeaponToLibrary(newWeapon);
-            SelectWeapon(weaponLibrary.Count - 1);
-            return true;
+            weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID())
+                .AddAmmo((int) (targetWeapon.maxAmmo - targetWeapon.currentAmunition));
+            HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
         }
     }
 }

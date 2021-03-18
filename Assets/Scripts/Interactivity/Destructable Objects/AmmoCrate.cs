@@ -1,18 +1,24 @@
 ﻿using System;
 using Interactivity.Pickup;
+using Player;
+using Player.Weapons.NewWeaponSystem;
 using UnityEngine;
 
 namespace Interactivity.Destructable_Objects
 {
-    public class AmmoCrate : Crate
+    public class AmmoCrate : BaseCrate
     {
-        public string ammoType = "Pickup";
         public int amountOfAmmo = 1;
 
 
-        protected override void OnDeathEvent()
+        protected override void OnDeathEvent(GameObject attacker)
         {
-            BasePickup.SpawnAmmo(transform, ammoType, amountOfAmmo);
+            WeaponController controller = default;
+            if (attacker)
+                controller = attacker.GetComponent<WeaponController>();
+            Debug.Log(attacker);
+            Pickup.Pickup.SpawnRandomAmmoType(controller ? controller.weaponLibrary : Weapon.GetAllWeapons(),
+                transform.position, amountOfAmmo);
         }
     }
 }
