@@ -157,7 +157,7 @@ namespace Player
                     Gizmos.color -= new Color(0.4f, 0.4f, 0.4f, 0);
                     Gizmos.DrawWireSphere(transform.position, overlapSphereRange);
 
-                    if (_cachedFoundColliders == null || _cachedFoundColliders.Length != 0)
+                    if (_cachedFoundColliders != null || _cachedFoundColliders.Length != 0)
                     {
                         foreach (var collider in _cachedFoundColliders)
                         {

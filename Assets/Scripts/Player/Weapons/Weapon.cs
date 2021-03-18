@@ -63,11 +63,6 @@ namespace Player.Weapons.NewWeaponSystem
                 _currentOwner = owner;
                 currentAmmo = maxAmmo;
 
-                if (ammoType && ammoType.ammoPrefab)
-                {
-                    Ammo pickup = ammoType.ammoPrefab.GetComponent<Ammo>();
-                    pickup.ammoType = ammoType;
-                }
 
                 return;
             }

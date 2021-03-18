@@ -23,49 +23,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Ammo Crate.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Ammo Crate.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Polymorph Ammo Crate.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Polymorph Ammo Crate.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Rocket Ammo Crate.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Rocket Ammo Crate.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Starter Ammo Crate.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/Starter Ammo Crate.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Doing the thing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/TestWeapon_AmmoCrate.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Destructables/TestWeapon_AmmoCrate.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Ammo/Polymorph Ammo.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Ammo/Polymorph Ammo.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Ammo/Starter Ammo.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Resources/Drops/Ammo/Starter Ammo.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Event Example.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Resources/Weapons/Bullet Types/Default Hit Scan.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Resources/Weapons/Bullet Types/Default Hit Scan.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scriptable Assets/Resources/Weapons/Bullet Types/Polymorph Ray.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptable Assets/Resources/Weapons/Bullet Types/Polymorph Ray.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectableEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectableEntity.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/Ammo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/Ammo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/AmmoType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/AmmoType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/HitScan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/HitScan.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/Projectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/Projectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/MultiTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/MultiTarget.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/SingleTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/SingleTarget.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/InteractionType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/InteractionType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ProjectileBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ProjectileBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/TargetSelectionSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/TargetSelectionSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Damage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Damage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Polymorph.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Polymorph.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +81,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/a0/be1423af/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/be/b7a3c7fb/MethodInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/27/6c6ad3d7/RuntimeTypeHandle.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/epicd/Documents/Unity Projects/Doing the thing/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/24/45c6bfc9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/76/2f5a6e0d/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/65/647ebfa5/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
@@ -218,24 +182,24 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DetectableEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/AmmoType.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireType.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/Projectile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ProjectileBehaviour.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/SingleTarget.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Damage.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/WeaponImpactSettings/Polymorph.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/ImpactDefinitions/MultiTarget.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/WeaponController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/Ammo.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/FireDefinitions/HitScan.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/InteractionController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/BasePickup.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/DamageableEntity.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/InterfaceLibrary.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/BaseCrate.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/AmmoCrate.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Destructable Objects/Crate.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/Weapon.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -277,10 +241,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14160">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="14160" />
+      <option name="pid" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -398,7 +362,8 @@
       <workItem from="1615726463856" duration="9348000" />
       <workItem from="1615831458110" duration="12419000" />
       <workItem from="1615891664641" duration="12354000" />
-      <workItem from="1616004648355" duration="13710000" />
+      <workItem from="1616004648355" duration="14572000" />
+      <workItem from="1616077678552" duration="1330000" />
     </task>
     <servers />
   </component>

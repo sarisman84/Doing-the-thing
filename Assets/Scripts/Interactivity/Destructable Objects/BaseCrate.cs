@@ -19,6 +19,6 @@ namespace Interactivity.Destructable_Objects
         }
 
 
-        protected abstract void OnDeathEvent(Collider col);
+        protected abstract void OnDeathEvent(GameObject attacker);
     }
 }

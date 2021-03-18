@@ -11,12 +11,12 @@ namespace Interactivity.Destructable_Objects
         public int amountOfAmmo = 1;
 
 
-        protected override void OnDeathEvent(Collider other)
+        protected override void OnDeathEvent(GameObject attacker)
         {
             WeaponController controller = default;
-            if (other)
-                controller = other.GetComponent<WeaponController>();
-
+            if (attacker)
+                controller = attacker.GetComponent<WeaponController>();
+            Debug.Log(attacker);
             Pickup.Pickup.SpawnRandomAmmoType(controller ? controller.weaponLibrary : Weapon.GetAllWeapons(),
                 transform.position, amountOfAmmo);
         }
