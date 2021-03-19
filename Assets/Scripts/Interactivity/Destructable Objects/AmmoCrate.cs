@@ -16,7 +16,7 @@ namespace Interactivity.Destructable_Objects
             WeaponController controller = default;
             if (attacker)
                 controller = attacker.GetComponent<WeaponController>();
-            Debug.Log(attacker);
+
             Pickup.Pickup.SpawnRandomAmmoType(controller ? controller.weaponLibrary : Weapon.GetAllWeapons(),
                 transform.position, amountOfAmmo);
         }

@@ -97,8 +97,8 @@ namespace Player
         public InputController Input => _inputController ? _inputController : GetComponent<InputController>();
         public WeaponController WeaponController => _weaponController;
 
-        public InteractionController InteractionController =>
-            InteractionController.GetInteractionController(gameObject);
+        public InteractionController InteractionController { get; private set; }
+
 
         void OnEnable()
         {
@@ -115,6 +115,7 @@ namespace Player
         private void InteractWithInteractableEntities(RaycastHit obj)
         {
             InteractableEntity entity = obj.collider.GetComponent<InteractableEntity>();
+            Debug.Log("Attempting to interact");
             if (entity)
             {
                 switch (entity.interactionInputType)
@@ -184,6 +185,12 @@ namespace Player
             {
                 if (!WeaponShopMenu.CloseShop(gameObject))
                     PauseMenu.TogglePause(gameObject);
+            }
+
+            if (!InteractionController)
+            {
+                InteractionController = InteractionController.GetInteractionController(gameObject);
+                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
             }
         }
 

@@ -14591,7 +14591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2156520296480879117, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
       propertyPath: showDebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2156520296480879117, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
       propertyPath: detectionMask.m_Bits
