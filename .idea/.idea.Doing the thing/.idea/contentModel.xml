@@ -6,7 +6,9 @@
     <e p="C:\Users\epicd\Documents\Unity Projects\Doing the thing" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.Player.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.Player.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Editor" t="Include">
           <e p="AmmoEditor.cs" t="Include" />
@@ -366,11 +368,49 @@
           </e>
         </e>
       </e>
+      <e p="Cinemachine.csproj" t="IncludeRecursive" />
+      <e p="Cinemachine.Player.csproj" t="IncludeRecursive" />
+      <e p="com.unity.cinemachine.editor.csproj" t="IncludeRecursive" />
       <e p="Doing the thing.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
+      <e p="ObjectPooling.Runtime.csproj" t="IncludeRecursive" />
+      <e p="ObjectPooling.Runtime.Player.csproj" t="IncludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
       <e p="UltEvents.csproj" t="IncludeRecursive" />
+      <e p="UltEvents.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.CollabProxy.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.InputSystem.csproj" t="IncludeRecursive" />
+      <e p="Unity.InputSystem.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.AddOns.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.AssetIdRemapUtility.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Csg.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Csg.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.KdTree.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.KdTree.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Poly2Tri.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Poly2Tri.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Stl.csproj" t="IncludeRecursive" />
+      <e p="Unity.ProBuilder.Stl.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.Rider.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.Settings.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.TextMeshPro.csproj" t="IncludeRecursive" />
+      <e p="Unity.TextMeshPro.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.TextMeshPro.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.Timeline.csproj" t="IncludeRecursive" />
+      <e p="Unity.Timeline.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.Timeline.Player.csproj" t="IncludeRecursive" />
+      <e p="Unity.VisualStudio.Editor.csproj" t="IncludeRecursive" />
+      <e p="Unity.VSCode.Editor.csproj" t="IncludeRecursive" />
+      <e p="UnityEditor.TestRunner.csproj" t="IncludeRecursive" />
+      <e p="UnityEditor.UI.csproj" t="IncludeRecursive" />
+      <e p="UnityEngine.TestRunner.csproj" t="IncludeRecursive" />
+      <e p="UnityEngine.TestRunner.Player.csproj" t="IncludeRecursive" />
+      <e p="UnityEngine.UI.csproj" t="IncludeRecursive" />
+      <e p="UnityEngine.UI.Player.csproj" t="IncludeRecursive" />
     </e>
   </component>
 </project>
