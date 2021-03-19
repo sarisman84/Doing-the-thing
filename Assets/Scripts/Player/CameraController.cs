@@ -11,7 +11,7 @@ namespace Player
     public class CameraController : MonoBehaviour
     {
         //Camera sensitivity
-        [Range(1, 20f)] public float sensitivity = 200f;
+        [Range(0.01f, 20f)] public float sensitivity = 200f;
 
         //Public reference to a Cinemachine Camera that is used for the player.
         [SerializeField] private CinemachineVirtualCamera playerCamera;
