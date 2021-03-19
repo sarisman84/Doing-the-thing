@@ -23,7 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86aedd09-6f8a-4e63-ad76-7574ae061a65" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +95,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/9e/1af8f5d6/UnityEvent`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2500DD07-8A54-4A69-B6C9-23861AF6CD15/47/ca04fd4b/GUITargetAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/eb/2775860d/Type.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.1/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/55B53144-350B-41AC-9CB1-AD2CCF020513/c0/a1629dcf/UModeler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9810827-DCE3-444A-8E5C-4E9F3F5E0828/22/cfea3892/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/67055F1B-E365-4E2A-9872-54D5437EE5B8/fc/1bf4c93f/EditorGUIUtility.cs" root0="SKIP_HIGHLIGHTING" />
@@ -149,7 +150,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/PolymorphableEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapons/NewWeaponSystem/WeaponImpactSettings/Polymorph.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/BaseEnemy.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/PolymorphicEntity.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/TargetDummy.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Zombie.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Enemies/Finite Statemachine/Action.cs" />
@@ -193,6 +193,7 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Pickup/Ammo.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interactivity/Components/General/PolymorphicEntity.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1iV0nHXJSmBzjZpNHMoN0L7RAi2" />
@@ -357,7 +358,7 @@
       <workItem from="1615891664641" duration="12354000" />
       <workItem from="1616004648355" duration="14572000" />
       <workItem from="1616077678552" duration="1917000" />
-      <workItem from="1616162612238" duration="970000" />
+      <workItem from="1616162612238" duration="1564000" />
     </task>
     <servers />
   </component>
