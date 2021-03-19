@@ -17,7 +17,7 @@ namespace Interactivity.Components
 
         [Space] public UnityEvent<int> onUpdateEvent;
         public UnityEvent<int> onDamageTakenEvent;
-        public UnityEvent onDeathEvent;
+        public UnityEvent<GameObject> onDeathEvent;
 
 
         public int CurrentHealth => Mathf.RoundToInt(_currentHealth);
@@ -34,22 +34,28 @@ namespace Interactivity.Components
         }
 
 
-        public void TakeDamage(Collider col, float damage)
+        public void TakeDamage(GameObject attacker, float damage)
         {
             onDamageTakenEvent?.Invoke(CurrentHealth);
             _currentHealth -= _currentHealth.Equals(-1) ? 0 : damage;
             _currentHealth = !_currentHealth.Equals(-1) ? Mathf.Clamp(_currentHealth, 0, maxHealth) : _currentHealth;
             if (_currentHealth.Equals(0))
             {
-                OnDeath(col);
+                OnDeath(attacker);
             }
         }
 
-        public void OnDeath(Collider col)
+
+        public void OnDeath(GameObject attacker)
         {
             if (godMode) return;
-            onDeathEvent?.Invoke();
+            onDeathEvent?.Invoke(attacker);
             gameObject.SetActive(false);
+        }
+
+        public void HealEntity(int healValue)
+        {
+            _currentHealth = Mathf.Clamp(healValue, 0, maxHealth);
         }
     }
 }

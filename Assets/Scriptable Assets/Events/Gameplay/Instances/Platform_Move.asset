@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Platform_Move
   m_EditorClassIdentifier: 
   isEventGlobal: 0
-  showDebugMessages: 0
+  showDebugMessages: 1

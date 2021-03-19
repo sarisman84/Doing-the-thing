@@ -1,17 +1,27 @@
 ﻿using Player;
 using Player.Weapons;
+using Player.Weapons.NewWeaponSystem;
 using UnityEngine;
 
 namespace Interactivity.Pickup
 {
-    public class Ammo : BasePickup
+    public class Ammo : MonoBehaviour, IPickup
     {
-        public string ammoType = "Test_Pistol";
-        public override bool OnPickup(Weapon currentWeapon)
+        public int OnPickup(GameObject obj)
         {
-            if (currentWeapon.ID.Equals(WeaponManager.globalWeaponLibrary[ammoType].ID))
-                return currentWeapon.AddAmmo(100);
-            return false;
+            WeaponController playerInfo = obj.GetComponent<WeaponController>();
+
+            if (!playerInfo || !ammoType) return 0;
+
+            Weapon weapon = playerInfo.weaponLibrary.Find(w => w.ammoType == ammoType);
+
+            if (!weapon) return 0;
+            int result = weapon.AddAmmo(ammoType.pickupAmmount);
+            if (result != 201)
+                gameObject.SetActive(false);
+            return result;
         }
+
+        public AmmoType ammoType { get; set; }
     }
 }

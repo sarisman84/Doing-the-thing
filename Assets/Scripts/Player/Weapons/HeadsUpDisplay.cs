@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Interactivity.Events;
+using Player.Weapons.NewWeaponSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,22 +26,26 @@ namespace Player.Weapons
 
         public static void UpdateWeaponAmmoUI(GameObject owner, Weapon weapon)
         {
-            _ammoUIUpdateEvent?.OnInvokeEvent(owner, weapon);
+            if (_ammoUIUpdateEvent)
+                _ammoUIUpdateEvent.OnInvokeEvent(owner, weapon);
         }
 
         public static void UpdateWeaponAmmoUI(Collider owner, Weapon weapon)
         {
-            _ammoUIUpdateEvent?.OnInvokeEvent(owner.gameObject, weapon);
+            if (_ammoUIUpdateEvent)
+                _ammoUIUpdateEvent.OnInvokeEvent(owner.gameObject, weapon);
         }
 
         public static void UpdateWeaponIconUI(GameObject owner, Sprite currentWeaponIcon)
         {
-            _weaponIconUIUpdateEvent?.OnInvokeEvent(owner, currentWeaponIcon);
+            if (_weaponIconUIUpdateEvent)
+                _weaponIconUIUpdateEvent.OnInvokeEvent(owner, currentWeaponIcon);
         }
 
         public static void UpdateCurrencyUI(GameObject owner, int currency)
         {
-            _currencyUIUpdateEvent?.OnInvokeEvent(owner, currency);
+            if (_currencyUIUpdateEvent)
+                _currencyUIUpdateEvent.OnInvokeEvent(owner, currency);
         }
 
 
@@ -50,11 +55,11 @@ namespace Player.Weapons
 
 
             _weaponIconUIUpdateEvent =
-                CustomEvent.CreateEvent<Action<Sprite>>(ref _weaponIconUIUpdateEvent, SetWeaponIcon,
+                CustomEvent.CreateEvent<Action<Sprite>>(SetWeaponIcon,
                     playerController.gameObject);
-            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(ref _ammoUIUpdateEvent, _UpdateAmmoCounter,
+            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(_UpdateAmmoCounter,
                 playerController.gameObject);
-            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(ref _currencyUIUpdateEvent, _UpdateCurrency,
+            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(_UpdateCurrency,
                 playerController.gameObject);
         }
 
@@ -77,13 +82,13 @@ namespace Player.Weapons
 
         private void _UpdateAmmoCounter(Weapon weapon)
         {
-            if (weapon.maxAmmoCount == -1)
+            if (weapon.maxAmmo == -1)
             {
                 ammoCounter.text = "";
                 return;
             }
 
-            ammoCounter.text = $"{weapon.maxAmmoCount}/{weapon.currentAmmoCount}";
+            ammoCounter.text = $"{weapon.maxAmmo}/{weapon.currentAmunition}";
         }
 
         private void SetWeaponIcon(Sprite icon)

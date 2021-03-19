@@ -17,11 +17,11 @@ namespace Player
         private void Awake()
         {
             _getCurrencyEvent =
-                CustomEvent.CreateEvent<Func<int>>(ref _getCurrencyEvent, () => Currency, playerController.gameObject);
+                CustomEvent.CreateEvent<Func<int>>(() => Currency, playerController.gameObject);
             _payCurrencyEvent =
-                CustomEvent.CreateEvent<Action<int>>(ref _payCurrencyEvent, Pay, playerController.gameObject);
+                CustomEvent.CreateEvent<Action<int>>(Pay, playerController.gameObject);
             _earnCurrencyEvent =
-                CustomEvent.CreateEvent<Action<int>>(ref _earnCurrencyEvent, Earn, playerController.gameObject);
+                CustomEvent.CreateEvent<Action<int>>(Earn, playerController.gameObject);
         }
 
 

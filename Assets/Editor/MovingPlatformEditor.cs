@@ -47,7 +47,7 @@ namespace Editor
             it.Next(true);
 
             EditorGUI.BeginChangeCheck();
-            while (it.NextVisible(true))
+            while (it.NextVisible(false))
             {
                 switch (it.propertyPath)
                 {
