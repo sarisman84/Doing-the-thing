@@ -97,20 +97,32 @@ namespace Player
         public InputController Input => _inputController ? _inputController : GetComponent<InputController>();
         public WeaponController WeaponController => _weaponController;
 
-        public InteractionController InteractionController { get; private set; }
+        private InteractionController InteractionController { get; set; }
 
 
         void OnEnable()
         {
+            InteractionController = InteractionController.GetInteractionController(gameObject);
             if (InteractionController)
-                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
+            {
+                InteractionController.ONInteractionEnterEvent += InteractWithInteractableEntities;
+
+                
+            }
         }
+
+     
 
         void OnDisable()
         {
             if (InteractionController)
-                InteractionController.ONInteractionEvent -= InteractWithInteractableEntities;
+            {
+                InteractionController.ONInteractionEnterEvent -= InteractWithInteractableEntities;
+             
+            }
         }
+        
+        
 
         private void InteractWithInteractableEntities(RaycastHit obj)
         {
@@ -185,12 +197,6 @@ namespace Player
             {
                 if (!WeaponShopMenu.CloseShop(gameObject))
                     PauseMenu.TogglePause(gameObject);
-            }
-
-            if (!InteractionController)
-            {
-                InteractionController = InteractionController.GetInteractionController(gameObject);
-                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
             }
         }
 

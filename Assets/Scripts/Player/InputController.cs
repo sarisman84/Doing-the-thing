@@ -5,6 +5,7 @@ using Interactivity.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
+using Utility.Attributes;
 
 namespace Player
 {
@@ -28,22 +29,23 @@ namespace Player
             Vertical
         }
 
-        public InputActionAsset controlSetup;
+        [Expose] public InputActionAsset controlSetup;
 
-        [SerializeField] private InputActionReference movementInput,
-            lookInput,
-            jumpInput,
-            crouchInput,
-            sprintInput,
-            fireInput,
-            weaponSelectInput,
-            interactInput,
-            aimInput,
-            escapeInput;
+        private InputActionReference _movementInput,
+            _lookInput,
+            _jumpInput,
+            _crouchInput,
+            _sprintInput,
+            _fireInput,
+            _weaponSelectInput,
+            _interactInput,
+            _aimInput,
+            _escapeInput;
 
         private bool _useMovement = true;
 
-        private static CustomEvent onMovementToggle;
+        private static CustomEvent _onMovementToggle;
+
         private void Awake()
         {
             FetchReferencesFromAsset();
@@ -51,18 +53,17 @@ namespace Player
 
         private void OnEnable()
         {
-            onMovementToggle = CustomEvent.CreateEvent<Action<bool>>(ToggleMovement, gameObject);
-            SetInputReferenceActive(true, movementInput, lookInput, jumpInput, crouchInput, sprintInput,
-                fireInput, weaponSelectInput, interactInput, aimInput, escapeInput);
+            _onMovementToggle = CustomEvent.CreateEvent<Action<bool>>(ToggleMovement, gameObject);
+            SetInputReferenceActive(true, _movementInput, _lookInput, _jumpInput, _crouchInput, _sprintInput,
+                _fireInput, _weaponSelectInput, _interactInput, _aimInput, _escapeInput);
         }
 
-        
 
         private void OnDisable()
         {
-            onMovementToggle.RemoveEvent<Action<bool>>(ToggleMovement);
-            SetInputReferenceActive(false, movementInput, lookInput, jumpInput, crouchInput, sprintInput,
-                fireInput, weaponSelectInput, interactInput, aimInput, escapeInput);
+            _onMovementToggle.RemoveEvent<Action<bool>>(ToggleMovement);
+            SetInputReferenceActive(false, _movementInput, _lookInput, _jumpInput, _crouchInput, _sprintInput,
+                _fireInput, _weaponSelectInput, _interactInput, _aimInput, _escapeInput);
         }
 
 
@@ -82,16 +83,16 @@ namespace Player
 
         private void FetchReferencesFromAsset()
         {
-            interactInput = InputActionReference.Create(controlSetup.FindAction("Interact"));
-            fireInput = InputActionReference.Create(controlSetup.FindAction("Attack"));
-            aimInput = InputActionReference.Create(controlSetup.FindAction("Aim"));
-            lookInput = InputActionReference.Create(controlSetup.FindAction("Look"));
-            movementInput = InputActionReference.Create(controlSetup.FindAction("Movement"));
-            jumpInput = InputActionReference.Create(controlSetup.FindAction("Jump"));
-            crouchInput = InputActionReference.Create(controlSetup.FindAction("Crouch"));
-            sprintInput = InputActionReference.Create(controlSetup.FindAction("Sprint"));
-            weaponSelectInput = InputActionReference.Create(controlSetup.FindAction("Weapon Select"));
-            escapeInput = InputActionReference.Create(controlSetup.FindAction("Escape"));
+            _interactInput = InputActionReference.Create(controlSetup.FindAction("Interact"));
+            _fireInput = InputActionReference.Create(controlSetup.FindAction("Attack"));
+            _aimInput = InputActionReference.Create(controlSetup.FindAction("Aim"));
+            _lookInput = InputActionReference.Create(controlSetup.FindAction("Look"));
+            _movementInput = InputActionReference.Create(controlSetup.FindAction("Movement"));
+            _jumpInput = InputActionReference.Create(controlSetup.FindAction("Jump"));
+            _crouchInput = InputActionReference.Create(controlSetup.FindAction("Crouch"));
+            _sprintInput = InputActionReference.Create(controlSetup.FindAction("Sprint"));
+            _weaponSelectInput = InputActionReference.Create(controlSetup.FindAction("Weapon Select"));
+            _escapeInput = InputActionReference.Create(controlSetup.FindAction("Escape"));
         }
 
 
@@ -100,21 +101,21 @@ namespace Player
             switch (keyCode)
             {
                 case KeyCode.Attack:
-                    return fireInput.GetButtonDown();
+                    return _fireInput.GetButtonDown();
                 case KeyCode.Aim:
-                    return aimInput.GetButtonDown();
+                    return _aimInput.GetButtonDown();
                 case KeyCode.Jump:
-                    return jumpInput.GetButtonDown();
+                    return _jumpInput.GetButtonDown();
                 case KeyCode.Crouch:
-                    return crouchInput.GetButtonDown();
+                    return _crouchInput.GetButtonDown();
                 case KeyCode.Sprint:
-                    return sprintInput.GetButtonDown();
+                    return _sprintInput.GetButtonDown();
                 case KeyCode.WeaponSelect:
-                    return weaponSelectInput.GetButtonDown();
+                    return _weaponSelectInput.GetButtonDown();
                 case KeyCode.Escape:
-                    return escapeInput.GetButtonDown();
+                    return _escapeInput.GetButtonDown();
                 case KeyCode.Interact:
-                    return interactInput.GetButtonDown();
+                    return _interactInput.GetButtonDown();
             }
 
             return false;
@@ -125,21 +126,21 @@ namespace Player
             switch (keyCode)
             {
                 case KeyCode.Attack:
-                    return fireInput.GetInputValue<bool>();
+                    return _fireInput.GetInputValue<bool>();
                 case KeyCode.Aim:
-                    return aimInput.GetInputValue<bool>();
+                    return _aimInput.GetInputValue<bool>();
                 case KeyCode.Jump:
-                    return jumpInput.GetInputValue<bool>();
+                    return _jumpInput.GetInputValue<bool>();
                 case KeyCode.Crouch:
-                    return crouchInput.GetInputValue<bool>();
+                    return _crouchInput.GetInputValue<bool>();
                 case KeyCode.Sprint:
-                    return sprintInput.GetInputValue<bool>();
+                    return _sprintInput.GetInputValue<bool>();
                 case KeyCode.WeaponSelect:
-                    return weaponSelectInput.GetInputValue<bool>();
+                    return _weaponSelectInput.GetInputValue<bool>();
                 case KeyCode.Escape:
-                    return escapeInput.GetInputValue<bool>();
+                    return _escapeInput.GetInputValue<bool>();
                 case KeyCode.Interact:
-                    return interactInput.GetInputValue<bool>();
+                    return _interactInput.GetInputValue<bool>();
             }
 
             return false;
@@ -147,17 +148,17 @@ namespace Player
 
         public Vector2 GetMovementInput()
         {
-            Vector2 input = movementInput.action.ReadValue<Vector2>();
-            
+            Vector2 input = _movementInput.action.ReadValue<Vector2>();
+
             return _useMovement ? input : Vector2.zero;
         }
 
         public Vector2 GetMouseDelta()
         {
-            Vector2 input = lookInput.action.ReadValue<Vector2>();
+            Vector2 input = _lookInput.action.ReadValue<Vector2>();
             return input;
         }
-        
+
         private void ToggleMovement(bool value)
         {
             _useMovement = value;
@@ -165,8 +166,8 @@ namespace Player
 
         public static void SetMovementInputActive(GameObject targetPlayer, bool b)
         {
-            if (onMovementToggle)
-                onMovementToggle.OnInvokeEvent(targetPlayer, b);
+            if (_onMovementToggle)
+                _onMovementToggle.OnInvokeEvent(targetPlayer, b);
         }
     }
 }

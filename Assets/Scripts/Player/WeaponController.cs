@@ -52,6 +52,11 @@ namespace Player
             //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
             //     SelectWeapon(weaponLibrary.Count - 1);
             // });
+            controller = InteractionController.GetInteractionController(gameObject);
+            if (!controller)
+            {
+                controller.ONDetectionEvent += PickupAmmo;
+            }
 
             if (controller)
                 controller.ONDetectionEvent += PickupAmmo;
@@ -64,7 +69,6 @@ namespace Player
             if (pickup != null)
             {
                 pickup.OnPickup(gameObject);
-               
             }
         }
 
@@ -127,12 +131,6 @@ namespace Player
             }
 
             Debug.Log(currentWeapon.TriggerFire(player.Input.GetKey(Attack)));
-
-            if (!controller)
-            {
-                controller = InteractionController.GetInteractionController(gameObject);
-                controller.ONDetectionEvent += PickupAmmo;
-            }
         }
 
 

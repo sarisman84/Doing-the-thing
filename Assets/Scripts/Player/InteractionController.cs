@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Components;
@@ -27,36 +28,54 @@ namespace Player
         [EnableIf("useOverlapSphere")] public LayerMask detectionMask;
         public bool showDebug;
 
-        public event Action<RaycastHit> ONInteractionEvent;
+        public event Action<RaycastHit> ONInteractionEnterEvent, ONInteractionExitEvent;
         public event Action<Collider> ONDetectionEvent;
         private Camera _cam;
         private Collider[] _cachedFoundColliders;
+        private RaycastHit _lastInteractedEntity;
+        private bool _hasInteractedBefore;
         private Coroutine _coroutinedUpdateLoop;
 
 
-        private static CustomEvent accessInteractionComponent;
+        private static Dictionary<GameObject, InteractionController> _interactionControllers =
+            new Dictionary<GameObject, InteractionController>();
 
 
-        public static InteractionController GetInteractionController(GameObject owner)
+        public static InteractionController GetInteractionController(GameObject owner, int numberOfAttempts = 20)
         {
-            if (accessInteractionComponent)
-                return (InteractionController) accessInteractionComponent.OnInvokeEvent(owner);
-            return null;
+            InteractionController controller = default;
+            if (_interactionControllers.ContainsKey(owner))
+                controller = _interactionControllers[owner];
+            if (!controller && numberOfAttempts > 0)
+            {
+                RegisterInteractionController(owner);
+                controller = GetInteractionController(owner, numberOfAttempts - 1);
+            }
+
+            return controller;
         }
+
+        private static void RegisterInteractionController(GameObject owner)
+        {
+            InteractionController controller = owner.GetComponent<InteractionController>();
+
+            if (!controller)
+                throw new NullReferenceException($"Couldnt find an Interaction Controller in {owner.name}");
+
+            if (_interactionControllers.ContainsKey(owner) && !_interactionControllers[owner])
+                _interactionControllers[owner] = controller;
+            else
+                _interactionControllers.Add(owner, controller);
+        }
+
 
         private void Awake()
         {
-            accessInteractionComponent =
-                CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent, gameObject);
             _cam = Camera.main;
         }
 
         private void OnEnable()
         {
-            accessInteractionComponent = accessInteractionComponent
-                ? accessInteractionComponent
-                : CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent,
-                    gameObject);
             ONDetectionEvent += InteractWithDetectableEntities;
             _coroutinedUpdateLoop = StartCoroutine(CoroutineUpdateLoop());
         }
@@ -77,7 +96,6 @@ namespace Player
 
         private void OnDisable()
         {
-            accessInteractionComponent.RemoveEvent<Func<InteractionController>>(GetInteractionComponent);
             ONDetectionEvent -= InteractWithDetectableEntities;
 
             if (_coroutinedUpdateLoop != null)
@@ -118,11 +136,20 @@ namespace Player
             RaycastHit hitInfo;
             Color rayColor = Color.red;
 
+
             if (Physics.Raycast(ray, out hitInfo, mask, interactionMask))
             {
                 rayColor = Color.green;
-                ONInteractionEvent?.Invoke(hitInfo);
+                ONInteractionEnterEvent?.Invoke(hitInfo);
+                _lastInteractedEntity = hitInfo;
+                _hasInteractedBefore = true;
             }
+            else if (_hasInteractedBefore)
+            {
+                ONInteractionExitEvent?.Invoke(_lastInteractedEntity);
+                _hasInteractedBefore = false;
+            }
+
 
             if (showDebug)
                 Debug.DrawRay(ray.origin, ray.direction * mask, rayColor);
