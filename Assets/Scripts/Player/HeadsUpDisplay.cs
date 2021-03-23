@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Globalization;
+using Extensions;
 using Interactivity.Events;
+using Interactivity.Pickup;
 using Player.Weapons.NewWeaponSystem;
 using TMPro;
 using UnityEngine;
@@ -16,7 +18,8 @@ namespace Player
         public TMP_Text ammoCounter;
         public Image weaponIcon;
         public TMP_Text currencyCounter;
-        public TMP_Text interactionHeadsUpDisplay;
+        public TMP_Text interactionMessage;
+        public TMP_Text pickupMessage;
         public PlayerController playerController;
 
         private int _currentAmount;
@@ -63,8 +66,9 @@ namespace Player
             _interactionController = InteractionController.GetInteractionController(playerController.gameObject);
             if (_interactionController)
             {
-                _interactionController.ONInteractionExitEvent += ResetInteractionHud;
-                _interactionController.ONInteractionEnterEvent += DisplayInteractionHud;
+                _interactionController.ONInteractionExitEvent += ResetInteractionMessage;
+                _interactionController.ONInteractionEnterEvent += DisplayInteractionMessage;
+                _interactionController.ONDetectionEnterEvent += DisplayPickupMessage;
             }
         }
 
@@ -76,8 +80,9 @@ namespace Player
             _currencyUIUpdateEvent.RemoveEvent<Action<int>>(_UpdateCurrency);
 
             if (_interactionController)
-                _interactionController.ONInteractionExitEvent -= ResetInteractionHud;
-                _interactionController.ONInteractionEnterEvent -= DisplayInteractionHud;
+                _interactionController.ONInteractionExitEvent -= ResetInteractionMessage;
+            _interactionController.ONInteractionEnterEvent -= DisplayInteractionMessage;
+            _interactionController.ONDetectionEnterEvent -= DisplayPickupMessage;
         }
 
         private void Awake()
@@ -119,23 +124,51 @@ namespace Player
             weaponIcon.sprite = icon;
         }
 
-        private void DisplayInteractionHud(RaycastHit obj)
+        private void DisplayInteractionMessage(RaycastHit obj)
         {
             Debug.Log("Is being called");
-            if (interactionHeadsUpDisplay)
+            if (interactionMessage)
             {
-                interactionHeadsUpDisplay.gameObject.SetActive(true);
-                interactionHeadsUpDisplay.text = $"Press E to interact with {obj.collider.gameObject.name}.";
+                interactionMessage.gameObject.SetActive(true);
+                interactionMessage.text = $"Press E to interact with {obj.collider.gameObject.name}.";
             }
         }
 
 
-        private void ResetInteractionHud(RaycastHit obj)
+        private void ResetInteractionMessage(RaycastHit obj)
         {
-            if (interactionHeadsUpDisplay)
+            if (interactionMessage)
             {
-                interactionHeadsUpDisplay.text = "";
-                interactionHeadsUpDisplay.gameObject.SetActive(false);
+                interactionMessage.text = "";
+                interactionMessage.gameObject.SetActive(false);
+            }
+        }
+
+        private void DisplayPickupMessage(Collider obj)
+        {
+            IPickup pickupObject = obj.GetComponent<IPickup>();
+            int result = 0;
+            if (pickupObject != null)
+            {
+                result = pickupObject.CanBePickedUp(playerController.gameObject);
+            }
+
+            Debug.Log($"Checking if obj can be picked up: {result}");
+            if (pickupMessage && result != 0)
+            {
+                pickupMessage.gameObject.SetActive(true);
+                pickupMessage.text = $"Picked up {pickupObject.ammoType.pickupAmmount} {pickupObject.ammoType.name}";
+                CoroutineManager.Instance.StartCoroutine(ResetPickupMessage(obj));
+            }
+        }
+
+        private IEnumerator ResetPickupMessage(Collider obj)
+        {
+            yield return new WaitForSeconds(3f);
+            if (pickupMessage)
+            {
+                pickupMessage.text = "";
+                pickupMessage.gameObject.SetActive(false);
             }
         }
     }

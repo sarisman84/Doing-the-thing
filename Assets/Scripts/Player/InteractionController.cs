@@ -29,7 +29,8 @@ namespace Player
         public bool showDebug;
 
         public event Action<RaycastHit> ONInteractionEnterEvent, ONInteractionExitEvent;
-        public event Action<Collider> ONDetectionEvent;
+        public event Action<Collider> ONDetectionEnterEvent, ONDetectionExitEvent;
+        
         private Camera _cam;
         private Collider[] _cachedFoundColliders;
         private RaycastHit _lastInteractedEntity;
@@ -76,18 +77,21 @@ namespace Player
 
         private void OnEnable()
         {
-            ONDetectionEvent += InteractWithDetectableEntities;
+            ONDetectionEnterEvent += InteractWithDetectableEntities;
             _coroutinedUpdateLoop = StartCoroutine(CoroutineUpdateLoop());
         }
 
         private IEnumerator CoroutineUpdateLoop()
         {
-            while (true)
+            bool useLoop = true;
+            while (useLoop)
             {
                 if (useOverlapSphere)
                     yield return OverlapSphereDetection(transform.position, overlapSphereRange, detectionMask);
                 else
-                    yield return new WaitForEndOfFrame();
+                    useLoop = false;
+
+                yield return new WaitForEndOfFrame();
             }
 
             yield return null;
@@ -96,7 +100,7 @@ namespace Player
 
         private void OnDisable()
         {
-            ONDetectionEvent -= InteractWithDetectableEntities;
+            ONDetectionEnterEvent -= InteractWithDetectableEntities;
 
             if (_coroutinedUpdateLoop != null)
                 StopCoroutine(_coroutinedUpdateLoop);
@@ -160,15 +164,29 @@ namespace Player
             Collider[] foundColliders = new Collider[50];
             Physics.OverlapSphereNonAlloc(origin, radius, foundColliders, mask);
 
-            if (foundColliders.Length == 0) yield break;
+
+            if (!_cachedFoundColliders.IsArrayNull() && foundColliders.IsArrayNull())
+            {
+                ONDetectionExitEvent?.Invoke(_cachedFoundColliders[0]);
+            }
+
+            if (foundColliders.IsArrayNull()) yield break;
 
             foreach (var foundObject in foundColliders)
             {
                 if (foundObject)
-                    ONDetectionEvent?.Invoke(foundObject);
+                    ONDetectionEnterEvent?.Invoke(foundObject);
             }
 
             _cachedFoundColliders = foundColliders;
+            if (!_cachedFoundColliders.IsArrayNull())
+                Array.Sort(_cachedFoundColliders,
+                    (collider1, collider2) =>
+                    {
+                        if (collider1)
+                            return (int) Vector3.Distance(transform.position, collider1.transform.position);
+                        return 0;
+                    });
             yield return new WaitForSeconds(0.1f);
         }
 

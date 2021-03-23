@@ -13,6 +13,7 @@ namespace Interactivity.Pickup
     public interface IPickup
     {
         int OnPickup(GameObject obj);
+        int CanBePickedUp(GameObject obj);
 
         GameObject gameObject { get; }
         Transform transform { get; }
