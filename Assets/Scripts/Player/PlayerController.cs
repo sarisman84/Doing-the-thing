@@ -63,6 +63,8 @@ namespace Player
         private bool _isCrouching;
         private bool _isInteracting;
 
+        private bool _hasAlreadyJumped;
+
         public bool IsSprinting => _isSprinting;
         public bool IsCrouching => _isCrouching;
         public Vector3 LatestRespawnPos { get; set; }
@@ -217,30 +219,32 @@ namespace Player
 
         private void FixedUpdate()
         {
-            //Applying input and its speed to the Rigidbody while keeping the gravity intact.
-            // var velocity = _physics.velocity;
-            // velocity += new Vector3(_trueInputVector.x * _totalSpeed, 0, _trueInputVector.z * _totalSpeed);
-            // Vector3 clampedVelocity = Vector3.ClampMagnitude(velocity, _totalSpeed);
-            // velocity = new Vector3(clampedVelocity.x, velocity.y, clampedVelocity.z);
-            // if (_inputVector == Vector2.zero)
-            // {
-            //     velocity = new Vector3(0, velocity.y, 0);
-            // }
-            //
-            // _physics.velocity = velocity;
-            //
-            //
+            if (_hasAlreadyJumped && IsGrounded())
+                _hasAlreadyJumped = false;
+
+            _physics.velocity = MovePlayer();
+
             //Better jump logic by Boards to Bits Games (https://www.youtube.com/watch?v=7KiK0Aqtmzc)
+            GravityAlteration();
+            if (_isJumping && IsGrounded() && !_isCrouching && !_hasAlreadyJumped)
+            {
+                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+                _hasAlreadyJumped = true;
+            }
+        }
 
-
+        private Vector3 MovePlayer()
+        {
             var currentVelocity = _physics.velocity;
             currentVelocity += new Vector3(_trueInputVector.x * _totalSpeed, 0, _trueInputVector.z * _totalSpeed);
             currentVelocity = ClampVelocity(currentVelocity);
             if (_inputVector == Vector2.zero)
                 currentVelocity = ResetVelocity();
+            return currentVelocity;
+        }
 
-            _physics.velocity = currentVelocity;
-
+        private void GravityAlteration()
+        {
             if (_physics.velocity.y < 0)
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime);
@@ -249,10 +253,6 @@ namespace Player
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
             }
-
-
-            if (_isJumping && IsGrounded() && !_isCrouching)
-                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
 
         private Vector3 ClampVelocity(Vector3 currentVelocity)
