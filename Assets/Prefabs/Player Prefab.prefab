@@ -374,7 +374,7 @@ MonoBehaviour:
   movementSpeed: 4
   sprintMultiplier: 2
   crouchMultiplier: 0.25
-  jumpForce: 5
+  jumpForce: 2
   fallMultipler: 2.5
   lowJumpMultiplier: 2
   groundCheckSize: {x: 0.3, y: 0.0025, z: 0.3}
