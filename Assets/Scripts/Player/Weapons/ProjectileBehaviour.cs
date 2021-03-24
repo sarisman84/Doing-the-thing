@@ -57,7 +57,7 @@ namespace Player.Weapons.NewWeaponSystem
             var detectionRange = (_projectileSettings.targetSelectionType as MultiTarget)?.detectionRange;
 
             if (_projectileSettings.targetSelectionType.impactEffect)
-                CoroutineManager.Instance.StartCoroutine(
+                CoroutineManager.Instance.DynamicStartCoroutine(
                     _projectileSettings.targetSelectionType.impactEffect.PlayImpactEffect(other.GetContact(0).point,
                         (-transform.forward) - other.GetContact(0).normal,
                         detectionRange ?? 1));

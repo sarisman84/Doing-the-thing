@@ -153,16 +153,25 @@ namespace Player
                 result = pickupObject.CanBePickedUp(playerController.gameObject);
             }
 
-            Debug.Log($"Checking if obj can be picked up: {result}");
+
             if (pickupMessage && result != 0)
             {
                 pickupMessage.gameObject.SetActive(true);
-                pickupMessage.text = $"Picked up {pickupObject.ammoType.pickupAmmount} {pickupObject.ammoType.name}";
-                CoroutineManager.Instance.StartCoroutine(ResetPickupMessage(obj));
+                switch (pickupObject)
+                {
+                    case Ammo ammo:
+                        pickupMessage.text = $"Picked up {ammo.ammoType.pickupAmmount} {ammo.ammoType.name}.";
+                        break;
+                    default:
+                        pickupMessage.text = $"Picked up {pickupObject.name}.";
+                        break;
+                }
+
+                CoroutineManager.Instance.DynamicStartCoroutine(ResetPickupMessage());
             }
         }
 
-        private IEnumerator ResetPickupMessage(Collider obj)
+        private IEnumerator ResetPickupMessage()
         {
             yield return new WaitForSeconds(3f);
             if (pickupMessage)

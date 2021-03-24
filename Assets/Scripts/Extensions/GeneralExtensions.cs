@@ -191,17 +191,17 @@ namespace Extensions
             return applyAction;
         }
 
-        public static SerializedProperty ApplyAction(this SerializedProperty value,
-            Action<SerializedProperty> propertyMethod)
-        {
-            foreach (SerializedProperty p in value)
-            {
-                propertyMethod.Invoke(p.Copy());
-            }
-
-
-            return value;
-        }
+        // public static SerializedProperty ApplyAction(this SerializedProperty value,
+        //     Action<SerializedProperty> propertyMethod)
+        // {
+        //     foreach (SerializedProperty p in value)
+        //     {
+        //         propertyMethod.Invoke(p.Copy());
+        //     }
+        //
+        //
+        //     return value;
+        // }
 
         public static List<bool> ApplyFunction<T>(this IEnumerable<T> list, Func<T, bool> method)
         {

@@ -106,28 +106,22 @@ namespace Player
             if (InteractionController)
             {
                 InteractionController.ONInteractionEnterEvent += InteractWithInteractableEntities;
-
-                
             }
         }
 
-     
 
         void OnDisable()
         {
             if (InteractionController)
             {
                 InteractionController.ONInteractionEnterEvent -= InteractWithInteractableEntities;
-             
             }
         }
-        
-        
+
 
         private void InteractWithInteractableEntities(RaycastHit obj)
         {
             InteractableEntity entity = obj.collider.GetComponent<InteractableEntity>();
-            Debug.Log("Attempting to interact");
             if (entity)
             {
                 switch (entity.interactionInputType)
@@ -149,8 +143,6 @@ namespace Player
         {
             _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(MovePlayer, gameObject);
 
-            //Assigns the player as a priority target for any enemy.
-            // EnemyBehaivourManager.AssignNewTarget(transform);
 
             //Init
             _inputController = GetComponent<InputController>();

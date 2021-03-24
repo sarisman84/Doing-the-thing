@@ -33,10 +33,10 @@ namespace Player.Weapons.NewWeaponSystem.FireDefinitions
                 fx.AddPosition(origin);
                 targetSelectionType.TargetSelectionOnImpact(hitInfo.collider, owner);
                 if (targetSelectionType.impactEffect)
-                    CoroutineManager.Instance.StartCoroutine(
+                    CoroutineManager.Instance.DynamicStartCoroutine(
                         targetSelectionType.impactEffect.PlayImpactEffect(hitInfo.point, hitInfo.normal));
                 fx.transform.position = hitInfo.point;
-                CoroutineManager.Instance.StartCoroutine(ResetTrailFX(fx));
+                CoroutineManager.Instance.DynamicStartCoroutine(ResetTrailFX(fx));
 
                 //fireParticle.DynamicPlay();
                 rayColor = Color.green;

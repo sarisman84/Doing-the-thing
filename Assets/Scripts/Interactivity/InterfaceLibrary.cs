@@ -6,7 +6,6 @@ namespace Interactivity
 {
     public interface IDamageable : IUnity
     {
-    
         void TakeDamage(GameObject attacker, float damage);
         void OnDeath(GameObject attacker);
     }
@@ -47,5 +46,6 @@ namespace Interactivity
     {
         GameObject gameObject { get; }
         Transform transform { get; }
+        string name { get; }
     }
 }
