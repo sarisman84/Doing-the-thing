@@ -3145,8 +3145,8 @@ MonoBehaviour:
   - {x: 10, y: 0, z: 10}
   - {x: 10, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  maxPhysicalEntitiesOnPlatform: 50
-  speed: 1
+  loopType: 2
+  speed: 2
 --- !u!54 &372018666
 Rigidbody:
   m_ObjectHideFlags: 0

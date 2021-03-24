@@ -9,32 +9,42 @@ namespace Interactivity.Moving_Objects
     [RequireComponent(typeof(Rigidbody))]
     public class Platform : MonoBehaviour
     {
+        public enum LoopType
+        {
+            TeleportToStart,
+            MoveToStart,
+            Reverse,
+            Once
+        }
+
         //This should only do the following:
         /*Move in a certain path
          *Have different modes on how to reset.
          *Be able to configure these settings easily
          */
         public bool moveOnAwake;
-        public List<Vector3> waypointList;
-        public int maxPhysicalEntitiesOnPlatform = 50;
+        [Space] public List<Vector3> waypointList;
+        public LoopType loopType;
         public float speed;
+
 
         private Rigidbody _physicsBody;
         private Coroutine _platformCoroutine;
         private Vector3 _localPosition;
+        private bool _isReversing;
 
         private void Awake()
         {
             _physicsBody = GetComponent<Rigidbody>();
             _localPosition = transform.position;
             if (moveOnAwake)
-                StartMoving();
+                StartMoving(0, speed, loopType);
         }
 
 
-        public void StartMoving()
+        public void StartMoving(int startingPosition, float speed, LoopType loopType)
         {
-            _platformCoroutine = StartCoroutine(MovePlatform(0));
+            _platformCoroutine = StartCoroutine(MovePlatform(startingPosition, speed, loopType));
         }
 
         public void StopMoving()
@@ -42,21 +52,44 @@ namespace Interactivity.Moving_Objects
             StopCoroutine(_platformCoroutine);
         }
 
-        private IEnumerator MovePlatform(int startingPosition)
+        private IEnumerator MovePlatform(int startingPosition, float speed, LoopType loopType)
         {
             int currentPos = startingPosition;
-            while (true)
+            bool runLoop = true;
+            while (runLoop)
             {
-                Vector3 direction = (_localPosition + waypointList[currentPos]) - transform.position;
+                var position = transform.position;
+                Vector3 direction = (_localPosition + waypointList[currentPos]) - position;
 
 
-                _physicsBody.MovePosition(transform.position + direction.normalized * (speed * Time.fixedDeltaTime));
-                if (transform.position.IsInTheVicinityOf(_localPosition + waypointList[currentPos],0.01f))
+                _physicsBody.MovePosition(position + direction.normalized * (speed * Time.fixedDeltaTime));
+                if (transform.position.IsInTheVicinityOf(_localPosition + waypointList[currentPos], 0.05f))
                 {
-                    currentPos++;
+                    if (currentPos == 0)
+                    {
+                        _isReversing = false;
+                    }
+
+                    currentPos = _isReversing ? currentPos - 1 : currentPos + 1;
                     if (currentPos >= waypointList.Count)
                     {
-                        currentPos = 0;
+                        switch (loopType)
+                        {
+                            case LoopType.TeleportToStart:
+                                currentPos = 0;
+                                _physicsBody.MovePosition(_localPosition + waypointList[currentPos]);
+                                break;
+                            case LoopType.MoveToStart:
+                                currentPos = 0;
+                                break;
+                            case LoopType.Reverse:
+                                _isReversing = true;
+                                currentPos--;
+                                break;
+                            case LoopType.Once:
+                                runLoop = false;
+                                break;
+                        }
                     }
                 }
 
