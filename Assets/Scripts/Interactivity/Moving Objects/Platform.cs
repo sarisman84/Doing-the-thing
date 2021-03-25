@@ -66,7 +66,7 @@ namespace Interactivity.Moving_Objects
 
 
                 _physicsBody.MovePosition(position + direction.normalized * (speed * Time.fixedDeltaTime));
-                if (transform.position.IsInTheVicinityOf(_localPosition + waypointList[currentPos], 0.05f))
+                if (transform.position.IsInTheVicinityOf(_localPosition + waypointList[currentPos], 0.05f * speed/waypointList.Count))
                 {
                     if (currentPos == 0)
                     {

@@ -3142,11 +3142,11 @@ MonoBehaviour:
   moveOnAwake: 1
   waypointList:
   - {x: 0, y: 0, z: 0}
-  - {x: 14.999954, y: 9.7769785, z: 22.999935}
+  - {x: 14.999954, y: 4.291167, z: 32.14258}
   - {x: 14.999954, y: 0, z: 0}
-  - {x: 0, y: -13.154636, z: 23.353296}
-  loopType: 2
-  speed: 2
+  - {x: 7.2559958, y: 26.98558, z: -1.2142799}
+  loopType: 1
+  speed: 12
 --- !u!54 &372018666
 Rigidbody:
   m_ObjectHideFlags: 0
