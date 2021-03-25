@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Interactivity.Moving_Objects
 {
@@ -23,7 +24,7 @@ namespace Interactivity.Moving_Objects
          *Be able to configure these settings easily
          */
         public bool moveOnAwake;
-        [Space] public List<Vector3> waypointList;
+        [Space] [VisualisePosition(true)] public List<Vector3> waypointList;
         public LoopType loopType;
         public float speed;
 
@@ -56,6 +57,8 @@ namespace Interactivity.Moving_Objects
         {
             int currentPos = startingPosition;
             bool runLoop = true;
+            _physicsBody.MovePosition(_localPosition + waypointList[currentPos]);
+            currentPos++;
             while (runLoop)
             {
                 var position = transform.position;
@@ -106,22 +109,25 @@ namespace Interactivity.Moving_Objects
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.yellow;
-            float lerpAmm = 0;
-            for (var i = 0; i < waypointList.Count; i++)
+            Gizmos.color = Color.green;
+            if (waypointList != null)
             {
-                int b = i + 1;
-                if (b >= waypointList.Count)
+                float lerpAmm = 1 / waypointList.Count;
+                for (var i = 0; i < waypointList.Count; i++)
                 {
-                    b = 0;
-                }
+                    int b = i + 1;
+                    if (b >= waypointList.Count)
+                    {
+                        b = 0;
+                    }
 
-                var waypoint = waypointList[i];
-                var nextWaypoint = waypointList[b];
-                Gizmos.color = Color.Lerp(Gizmos.color, Color.red, lerpAmm);
-                Gizmos.DrawSphere(_localPosition + waypoint, 0.25f);
-                Gizmos.DrawLine(waypoint, nextWaypoint);
-                lerpAmm += 0.25f;
+                    var waypoint = waypointList[i] + _localPosition;
+                    var nextWaypoint = waypointList[b] + _localPosition;
+                    Gizmos.color = Color.Lerp(Gizmos.color, Color.red, lerpAmm);
+                    Gizmos.DrawSphere(waypoint, 0.25f);
+                    Gizmos.DrawLine(waypoint, nextWaypoint);
+                    lerpAmm += 0.25f;
+                }
             }
         }
 

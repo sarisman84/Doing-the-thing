@@ -3121,7 +3121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372018663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.67, y: 0.07, z: 24.57}
+  m_LocalPosition: {x: -4.83, y: 0.07, z: 3.78}
   m_LocalScale: {x: 5, y: 0.25, z: 5}
   m_Children: []
   m_Father: {fileID: 1519205448}
@@ -3141,10 +3141,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveOnAwake: 1
   waypointList:
-  - {x: 0, y: 0, z: 10}
-  - {x: 10, y: 0, z: 10}
-  - {x: 10, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  - {x: 14.999954, y: 9.7769785, z: 22.999935}
+  - {x: 14.999954, y: 0, z: 0}
+  - {x: 0, y: -13.154636, z: 23.353296}
   loopType: 2
   speed: 2
 --- !u!54 &372018666
