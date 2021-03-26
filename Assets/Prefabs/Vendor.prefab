@@ -77,15 +77,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc55e732e5d042e29baf715ec783296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAwakeCallback:
+    _PersistentCalls: []
   onInteractCallback:
     _PersistentCalls:
     - _Target: {fileID: 0}
-      _MethodName: UI.WeaponShop, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null.Open
+      _MethodName: UI.WeaponShopMenu, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null.OpenShop
       _PersistentArguments:
       - _Type: 14
         _Int: 0
-        _String: UnityEngine.Collider, UnityEngine.PhysicsModule, Version=0.0.0.0,
+        _String: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         _X: 0
         _Y: 0

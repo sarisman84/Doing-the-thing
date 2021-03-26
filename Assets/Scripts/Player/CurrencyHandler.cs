@@ -4,6 +4,7 @@ using Player.Weapons;
 using UnityEngine;
 using Utility;
 using CustomEvent = Interactivity.Events.CustomEvent;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -14,14 +15,38 @@ namespace Player
         private static CustomEvent _earnCurrencyEvent;
         public PlayerController playerController;
 
+        private InteractionController _interactionController;
         private void Awake()
         {
             _getCurrencyEvent =
-                CustomEvent.CreateEvent<Func<int>>(ref _getCurrencyEvent, () => Currency, playerController.gameObject);
+                CustomEvent.CreateEvent<Func<int>>(() => Currency, playerController.gameObject);
             _payCurrencyEvent =
-                CustomEvent.CreateEvent<Action<int>>(ref _payCurrencyEvent, Pay, playerController.gameObject);
+                CustomEvent.CreateEvent<Action<int>>(Pay, playerController.gameObject);
             _earnCurrencyEvent =
-                CustomEvent.CreateEvent<Action<int>>(ref _earnCurrencyEvent, Earn, playerController.gameObject);
+                CustomEvent.CreateEvent<Action<int>>(Earn, playerController.gameObject);
+        }
+
+        private void OnEnable()
+        {
+            if (!_interactionController)
+            {
+                _interactionController = InteractionController.GetInteractionController(playerController.gameObject);
+            }
+            _interactionController.ONDetectionEnterEvent += PickupCurrency;
+        }
+
+        private void OnDisable()
+        {
+            _interactionController.ONDetectionEnterEvent -= PickupCurrency;
+        }
+
+        private void PickupCurrency(Collider obj)
+        {
+            if (obj.CompareTag("Currency"))
+            {
+                EarnCurrency(playerController.gameObject, Random.Range(1, 5));
+                obj.gameObject.SetActive(false);
+            }
         }
 
 

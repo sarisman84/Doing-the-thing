@@ -10,6 +10,8 @@ namespace Editor
     [CustomEditor(typeof(MovingPlatform))]
     public class MovingPlatformEditor : UnityEditor.Editor
     {
+        private bool _isRunningAtAwake;
+
         public override void OnInspectorGUI()
         {
             MovingPlatform movingPlatform = target as MovingPlatform;
@@ -20,7 +22,7 @@ namespace Editor
                 CreateWaypoint(movingPlatform);
             }
 
-            base.OnInspectorGUI();
+            DrawInspector(movingPlatform);
 
             if (GUILayout.Button("Add Waypoint"))
             {
@@ -35,6 +37,77 @@ namespace Editor
                     movingPlatform.waypointList.Remove(waypoint);
                 }
             }
+        }
+
+        private void DrawInspector(MovingPlatform movingPlatform)
+        {
+            // if (movingPlatform == null) return;
+            SerializedProperty it = serializedObject.GetIterator();
+            SerializedProperty arrayProp = default;
+            it.Next(true);
+
+            EditorGUI.BeginChangeCheck();
+            while (it.NextVisible(false))
+            {
+                switch (it.propertyPath)
+                {
+                    case "loopMode":
+                    case "startupDelay":
+                    case "intermissionDelay":
+                    case "platformSpeed":
+                        if (_isRunningAtAwake)
+                        {
+                            bool _isPartOfArray = arrayProp != null &&
+                                                  it.propertyPath.Contains(arrayProp.name);
+                            if (!_isPartOfArray)
+                            {
+                                EditorGUILayout.PropertyField(it, new GUIContent(it.displayName),
+                                    it.isExpanded && !IsPropertyAVectorType(it));
+                            }
+                        }
+
+                        break;
+                    default:
+                        bool isPartOfArray = arrayProp != null && it.propertyPath.Contains(arrayProp.name);
+                        if (!isPartOfArray)
+                        {
+                            EditorGUILayout.PropertyField(it, new GUIContent(it.displayName),
+                                it.isExpanded && !IsPropertyAVectorType(it));
+                        }
+
+                        if (it.propertyPath.Contains("runAtAwake"))
+                        {
+                            _isRunningAtAwake = it.boolValue;
+                        }
+
+                        break;
+                }
+
+                switch (it.propertyType)
+                {
+                    case SerializedPropertyType.Generic:
+                        if (it.isArray)
+                            arrayProp = it;
+                        break;
+                }
+            }
+
+            if (EditorGUI.EndChangeCheck())
+                serializedObject.ApplyModifiedProperties();
+        }
+
+        private bool IsPropertyAVectorType(SerializedProperty property)
+        {
+            return property.propertyType == SerializedPropertyType.Vector2 ||
+                   property.propertyType == SerializedPropertyType.Vector3 ||
+                   property.propertyType == SerializedPropertyType.Vector4 ||
+                   property.propertyType == SerializedPropertyType.Vector2Int ||
+                   property.propertyType == SerializedPropertyType.Vector3Int;
+        }
+
+        private bool IsPropertyAnArrayType(SerializedProperty property)
+        {
+            return property.isArray;
         }
 
         private MovingPlatform _platform;

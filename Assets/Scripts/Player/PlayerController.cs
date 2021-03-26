@@ -13,17 +13,15 @@ using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility;
-using static Player.InputListener.KeyCode;
+using static Player.InputController.KeyCode;
 using CustomEvent = Interactivity.Events.CustomEvent;
 
 namespace Player
 {
     [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody), typeof(DamageableEntity))]
+    [RequireComponent(typeof(InputController))]
     public class PlayerController : MonoBehaviour
     {
-        public const string MoveEntityEvent = "Player_MoveEntity";
-
-
         //Controller information
 
         #region Controller Variables
@@ -52,18 +50,20 @@ namespace Player
         //Local variables that store information such as speed or input.
         private Rigidbody _physics;
         private WeaponController _weaponController;
+        private InputController _inputController;
         private CapsuleCollider _collisionBody;
-        public CameraController CameraController { get; private set; }
+
         private Vector2 _inputVector;
         private float _totalSpeed;
         private Vector3 _trueInputVector;
-        private Vector2 _lookValue;
         private float _groundCheckDelay;
 
         private bool _isSprinting;
         private bool _isJumping;
         private bool _isCrouching;
         private bool _isInteracting;
+
+        private bool _hasAlreadyJumped;
 
         public bool IsSprinting => _isSprinting;
         public bool IsCrouching => _isCrouching;
@@ -94,30 +94,78 @@ namespace Player
             }
         }
 
+
+        public CameraController PlayerCamera { get; private set; }
+        public InputController Input => _inputController ? _inputController : GetComponent<InputController>();
+        public WeaponController WeaponController => _weaponController;
+
+        private InteractionController InteractionController { get; set; }
+
+
+        void OnEnable()
+        {
+            InteractionController = InteractionController.GetInteractionController(gameObject);
+            if (InteractionController)
+            {
+                InteractionController.ONInteractionEnterEvent += InteractWithInteractableEntities;
+              
+            }
+        }
+
+
+        void OnDisable()
+        {
+            if (InteractionController)
+            {
+                InteractionController.ONInteractionEnterEvent -= InteractWithInteractableEntities;
+            }
+        }
+
+
+        private void InteractWithInteractableEntities(RaycastHit obj)
+        {
+            InteractableEntity entity = obj.collider.GetComponent<InteractableEntity>();
+            if (entity)
+            {
+                switch (entity.interactionInputType)
+                {
+                    case InteractionInput.Hold:
+                        if (_inputController.GetKey(Interact))
+                            entity.OnInteract(GetComponent<Collider>());
+                        break;
+                    case InteractionInput.Press:
+                        if (_inputController.GetKeyDown(Interact))
+                            entity.OnInteract(GetComponent<Collider>());
+                        break;
+                }
+            }
+        }
+
+
         private void Awake()
         {
-            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(ref _movePlayerEvent, MovePlayer, gameObject);
-            //Assigns the player as a priority target for any enemy.
-            EnemyBehaivourManager.AssignNewTarget(transform);
+            _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(MovePlayer, gameObject);
+
 
             //Init
+            _inputController = GetComponent<InputController>();
             _collisionBody = GetComponent<CapsuleCollider>();
             _physics = GetComponent<Rigidbody>();
-            CameraController = GetComponent<CameraController>();
-
-
+            PlayerCamera = GetComponent<CameraController>();
             _weaponController = GetComponent<WeaponController>();
+
+
+            CameraController.SetCursorActive(gameObject, false);
         }
 
 
         private void Update()
         {
             //Get values from Input References
-            _inputVector = InputListener.GetAxisRaw();
-            _lookValue = InputListener.GetMouseDelta();
-            _isSprinting = InputListener.GetKey(Sprint);
-            _isJumping = InputListener.GetKey(Jump);
-            _isCrouching = InputListener.GetKey(Crouch) || !CanStand();
+            _inputVector = _inputController.GetMovementInput();
+            _isSprinting = _inputController.GetKey(Sprint);
+            _isJumping = _inputController.GetKey(Jump);
+            _isCrouching = _inputController.GetKey(Crouch) || !CanStand();
 
 
             //Calculate input values to reflect strafing in correlation to player direction.
@@ -126,13 +174,6 @@ namespace Player
             _totalSpeed = _isSprinting && !_isCrouching && CanStand() ? movementSpeed * sprintMultiplier :
                 _isCrouching ? movementSpeed * crouchMultiplier : movementSpeed;
 
-            //Calculate and alter cameraFOV depending on player's input.
-            // float currentFOV = CameraController.playerCamera.m_Lens.FieldOfView;
-            // currentFOV = _isSprinting && !_isCrouching && CanStand()
-            //     ? Mathf.Lerp(currentFOV, _sprintFOV, 0.25f)
-            //     : Mathf.Lerp(currentFOV, _originalFOV, 0.25f);
-            // CameraController.playerCamera.m_Lens.FieldOfView = currentFOV;
-
 
             //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
@@ -140,19 +181,10 @@ namespace Player
 
             ONUpdateCallback?.Invoke();
 
-            if (InputListener.GetKeyDown(Escape))
+            if (_inputController.GetKeyDown(Escape))
             {
-                if (WeaponShop.IsActive(gameObject))
-                {
-                    WeaponShop.Close(gameObject);
-                }
-
-                if (WeaponSelectMenu.IsActive(gameObject))
-                {
-                    WeaponSelectMenu.Close(gameObject);
-                }
-
-                PauseMenu.TogglePause();
+                if (!WeaponShopMenu.CloseShop(gameObject))
+                    PauseMenu.TogglePause(gameObject);
             }
         }
 
@@ -188,13 +220,32 @@ namespace Player
 
         private void FixedUpdate()
         {
-            //Applying input and its speed to the Rigidbody while keeping the gravity intact.
-            var velocity = _physics.velocity;
-            velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
-            _physics.velocity = velocity;
+            if (_hasAlreadyJumped && IsGrounded())
+                _hasAlreadyJumped = false;
 
+            _physics.velocity = MovePlayer();
 
             //Better jump logic by Boards to Bits Games (https://www.youtube.com/watch?v=7KiK0Aqtmzc)
+            GravityAlteration();
+            if (_isJumping && IsGrounded() && !_isCrouching && !_hasAlreadyJumped)
+            {
+                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+                _hasAlreadyJumped = true;
+            }
+        }
+
+        private Vector3 MovePlayer()
+        {
+            var currentVelocity = _physics.velocity;
+            currentVelocity += new Vector3(_trueInputVector.x * _totalSpeed, 0, _trueInputVector.z * _totalSpeed);
+            currentVelocity = ClampVelocity(currentVelocity);
+            if (_inputVector == Vector2.zero)
+                currentVelocity = ResetVelocity();
+            return currentVelocity;
+        }
+
+        private void GravityAlteration()
+        {
             if (_physics.velocity.y < 0)
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime);
@@ -203,10 +254,26 @@ namespace Player
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
             }
+        }
 
+        private Vector3 ClampVelocity(Vector3 currentVelocity)
+        {
+            Vector3 clampedVelocity = Vector3.ClampMagnitude(currentVelocity, _totalSpeed);
+            return new Vector3(clampedVelocity.x, currentVelocity.y, clampedVelocity.z);
+        }
 
-            if (_isJumping && IsGrounded() && !_isCrouching)
-                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        private Vector3 ResetVelocity()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down,
+                out RaycastHit hitInfo, transform.localScale.y + groundCheckSize.y))
+            {
+                if (hitInfo.rigidbody)
+                {
+                    return hitInfo.rigidbody.velocity;
+                }
+            }
+
+            return new Vector3(0, _physics.velocity.y, 0);
         }
 
 
@@ -216,14 +283,8 @@ namespace Player
         /// <returns>Returns true if there is at least one gameObject bellow the player's feet.</returns>
         private bool IsGrounded()
         {
-            _groundCheckDelay = _groundCheckDelay.Equals(groundCheckDelay) ? 0 : _groundCheckDelay;
-            _groundCheckDelay += Time.deltaTime;
-            _groundCheckDelay = Mathf.Clamp(_groundCheckDelay, 0, groundCheckDelay);
-            List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
-                transform.rotation, movementCheckLayer).ToList();
-            bool result = foundObjects.FindAll(c => c != _collisionBody).Count != 0;
-
-            return result && _groundCheckDelay.Equals(groundCheckDelay);
+            return Physics.SphereCast(new Ray(transform.position, Vector3.down), groundCheckSize.x,
+                transform.localScale.y + groundCheckSize.y);
         }
 
 
@@ -240,33 +301,6 @@ namespace Player
         }
 
 
-        private void OnDisable()
-        {
-            //In case this gameObject is disabled, it is required to disable the input references with it as to avoid any input errors.
-
-            RemoveListenersFromEventManager();
-        }
-
-
-        private void OnEnable()
-        {
-            //In case this gameObject is enabled, the references assigned to the gameObject will be enabled with the gameObject so that the player can regain control of this gameObject.
-
-            AddListenersToEventManager();
-        }
-
-        private void AddListenersToEventManager()
-        {
-            EventManager.AddListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
-        }
-
-
-        private void RemoveListenersFromEventManager()
-        {
-            EventManager.RemoveListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
-        }
-
-
         private void MovePlayer(Vector3 velocity)
         {
             _physics.MovePosition(Vector3.Slerp(transform.position, transform.position + velocity, 1));
@@ -280,9 +314,9 @@ namespace Player
 
         public void OnFall()
         {
-            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent, CameraController.CameraBehaivour.Look);
-            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, true);
-            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
+            // EventManager.TriggerEvent(PlayerCamera.CameraFallBehaivourEvent, PlayerCamera.CameraBehaivour.Look);
+            // EventManager.TriggerEvent(PlayerCamera.SetCursorActiveEvent, true);
+            // EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, false);
             _physics.AddForce(transform.forward * 1600f, ForceMode.Acceleration);
             StartCoroutine(Respawn(4f, LatestRespawnPos));
         }
@@ -294,7 +328,7 @@ namespace Player
             while (time < respawnTime)
             {
                 yield return new WaitForEndOfFrame();
-                EventManager.TriggerEvent(CameraController.ConstantlyLookTowardsThePlayerEvent);
+                // EventManager.TriggerEvent(PlayerCamera.ConstantlyLookTowardsThePlayerEvent);
                 time += Time.deltaTime;
             }
 
@@ -302,10 +336,10 @@ namespace Player
             transform.position = spawnPos;
             _physics.velocity = Vector3.zero;
 
-            EventManager.TriggerEvent(CameraController.SetCursorActiveEvent, false);
-            EventManager.TriggerEvent(CameraController.CameraFallBehaivourEvent,
-                CameraController.CameraBehaivour.Follow);
-            EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
+            // EventManager.TriggerEvent(PlayerCamera.SetCursorActiveEvent, false);
+            // EventManager.TriggerEvent(PlayerCamera.CameraFallBehaivourEvent,
+            //     PlayerCamera.CameraBehaivour.Follow);
+            // EventManager.TriggerEvent(InputListener.SetPlayerMovementInputActiveState, true);
 
 
             yield return null;

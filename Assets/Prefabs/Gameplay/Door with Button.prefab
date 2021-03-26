@@ -144,6 +144,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -156,6 +160,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -166,14 +174,6 @@ PrefabInstance:
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -192,10 +192,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._Target
       value: 
       objectReference: {fileID: 11400000, guid: 0a73a32f306b1a34b992aeff09c35cc3, type: 2}
@@ -204,18 +200,22 @@ PrefabInstance:
       value: OnInvokeEvent
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Type
-      value: 13
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._String
-      value: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Type
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Object
       value: 
       objectReference: {fileID: 8679844918564655048}
+    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._String
+      value: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574015, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_Name
       value: Button
@@ -259,6 +259,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113060173343, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609692113060173343, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -270,16 +274,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7609692113060173343, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
+    - target: {fileID: 7609692113978624624, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
+      propertyPath: onZoneExit.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624624, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
       propertyPath: onZoneEnter.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7609692113978624624, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
-      propertyPath: onZoneExit.m_PersistentCalls.m_Calls.Array.size
+    - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
@@ -295,6 +299,10 @@ PrefabInstance:
       value: 10.14
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -304,14 +312,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624628, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
@@ -328,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7609692113978624631, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Door with Button
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7609692113978624624, guid: 1bc255f8eadd72c4dbdf6e24742bf88d, type: 3}
@@ -382,6 +382,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -394,6 +398,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -404,14 +412,6 @@ PrefabInstance:
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574012, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -430,10 +430,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._Target
       value: 
       objectReference: {fileID: 11400000, guid: 0a73a32f306b1a34b992aeff09c35cc3, type: 2}
@@ -442,18 +438,22 @@ PrefabInstance:
       value: OnInvokeEvent
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Type
-      value: 13
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
-      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._String
-      value: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Type
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Object
       value: 
       objectReference: {fileID: 8679844918564655048}
+    - target: {fileID: 7940191610277574014, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
+      propertyPath: onInteractCallback._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._String
+      value: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
     - target: {fileID: 7940191610277574015, guid: 91bf95bee4957d4478b12bc20bacb7a5, type: 3}
       propertyPath: m_Name
       value: Button

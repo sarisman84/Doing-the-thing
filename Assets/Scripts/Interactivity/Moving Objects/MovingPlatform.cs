@@ -51,6 +51,9 @@ namespace Interactivity.Moving_Objects
         public bool rotateTowardsDirection, rotateTowardsHorizontalDirection;
         public bool runAtAwake;
 
+        public LoopMode loopMode = LoopMode.OnLoopEndTargetStart;
+        public float startupDelay = 0, intermissionDelay = 0, platformSpeed = 2f;
+
         public bool showDebugMessages;
 
 
@@ -64,7 +67,7 @@ namespace Interactivity.Moving_Objects
         private void Awake()
         {
             if (runAtAwake)
-                Move(LoopMode.OnLoopEndTargetStart, 0, 0, 2f);
+                Move(loopMode, startupDelay, intermissionDelay, platformSpeed);
         }
 
         public void MoveToWaypoint(float platformSpeed, float startupDelay, int waypoint)
@@ -83,6 +86,12 @@ namespace Interactivity.Moving_Objects
 
             _platformMovementCoroutine = StartCoroutine(MoveToWaypoints(platformSpeed, startupDelay, intermissionDelay,
                 loopMode, (int[]) waypointList.GetIndexes()));
+        }
+
+        public void Stop()
+        {
+            StopCoroutine(_platformMovementCoroutine);
+            StopCoroutine(_entityGrabCoroutine);
         }
 
         private IEnumerator MoveToWaypoints(float platformSpeed, float onStartupDelay = 0, float onReachDelay = 0,

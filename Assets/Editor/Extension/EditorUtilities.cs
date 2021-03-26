@@ -17,6 +17,21 @@ namespace Editor.Extension
             Array
         }
 
+        public static float GetVisibleChildrenHeight(this SerializedProperty property)
+        {
+            float height = 0;
+            property = property.Copy();
+            while (property.NextVisible(false))
+            {
+                height += EditorGUI.GetPropertyHeight(property);
+            }
+
+            return height;
+        }
+        
+        
+        
+
         public static float GetPropertyHeight(SerializedProperty property = null, ElementType type = ElementType.Field)
         {
             int arraySize = 0;

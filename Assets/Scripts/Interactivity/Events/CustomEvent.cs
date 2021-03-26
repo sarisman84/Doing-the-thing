@@ -12,22 +12,23 @@ namespace Interactivity.Events
         public bool isEventGlobal;
         public bool showDebugMessages;
 
+        public ObjectEvent<object> CurrentEvent => GameEvent;
+
+
+        public object OnInvokeEvent(GameObject gameObject, params object[] args)
+        {
+            return GameEvent?.Invoke(gameObject, args);
+        }
+
+        public void OnInvokeEvent(Collider collider)
+        {
+            OnInvokeEvent(collider.gameObject);
+        }
 
         public void OnInvokeEvent(GameObject gameObject)
         {
             OnInvokeEvent(gameObject, null);
         }
-
-        public object OnInvokeEvent(GameObject gameObject, params object[] args)
-        {
-            if (isEventGlobal)
-            {
-                return GameEvent?.Invoke(gameObject, args);
-            }
-
-            return GameEvent?.Invoke(gameObject, args);
-        }
-
 
         public void Subscribe<TDel>(TDel method, GameObject instanceCondition = null)
             where TDel : Delegate
@@ -75,13 +76,24 @@ namespace Interactivity.Events
             return results;
         }
 
-        public static CustomEvent CreateEvent<TDel>(ref CustomEvent customEvent, TDel method,
+        public static CustomEvent CreateEvent<TDel>(TDel method,
             GameObject instanceCondition = null)
             where TDel : Delegate
         {
-            customEvent = customEvent ? customEvent : CreateInstance<CustomEvent>();
+            CustomEvent customEvent = CreateInstance<CustomEvent>();
             customEvent.Subscribe(method, instanceCondition);
             return customEvent;
+        }
+    }
+
+
+    public static class EventExtensions
+    {
+        public static void RemoveEvent<TDel>(this CustomEvent customEvent, TDel method) where TDel : Delegate
+        {
+            if (customEvent)
+                customEvent.Unsubcribe(method);
+            customEvent = null;
         }
     }
 }
