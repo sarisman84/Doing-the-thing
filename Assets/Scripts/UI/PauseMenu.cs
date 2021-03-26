@@ -47,7 +47,7 @@ namespace UI
         public static bool TogglePause(GameObject owner)
         {
             if (onTogglePause)
-                return (bool) onTogglePause.OnInvokeEvent(owner);
+                return (bool) onTogglePause.OnInvokeEvent(owner, null);
             return false;
         }
 

@@ -10,13 +10,10 @@ using Random = System.Random;
 
 namespace Interactivity.Pickup
 {
-    public interface IPickup
+    public interface IPickup : IUnity
     {
         int OnPickup(GameObject obj);
-
-        GameObject gameObject { get; }
-        Transform transform { get; }
-        AmmoType ammoType { get; set; }
+        int CanBePickedUp(GameObject obj);
     }
 
     public static class Pickup
@@ -36,7 +33,7 @@ namespace Interactivity.Pickup
         {
             float pushForce = 300;
             Random rnd = new Random();
-            IPickup ammo = type.InstantiateAmmo();
+            Ammo ammo = type.InstantiateAmmo() as Ammo;
             ammo.gameObject.SetActive(true);
             ammo.ammoType = type;
             ammo.transform.position = spawnPos;
@@ -49,7 +46,7 @@ namespace Interactivity.Pickup
             }
 
             if (rotator)
-                rotator.rotationSpeed = (float)rnd.NextDouble();
+                rotator.rotationSpeed = (float) rnd.NextDouble();
         }
 
         public static void SpawnRandomAmmoType(List<Weapon> weaponLibrary, Vector3 spawnPos, int amount)

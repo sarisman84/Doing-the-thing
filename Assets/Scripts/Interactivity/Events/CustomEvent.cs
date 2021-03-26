@@ -20,6 +20,15 @@ namespace Interactivity.Events
             return GameEvent?.Invoke(gameObject, args);
         }
 
+        public void OnInvokeEvent(Collider collider)
+        {
+            OnInvokeEvent(collider.gameObject);
+        }
+
+        public void OnInvokeEvent(GameObject gameObject)
+        {
+            OnInvokeEvent(gameObject, null);
+        }
 
         public void Subscribe<TDel>(TDel method, GameObject instanceCondition = null)
             where TDel : Delegate

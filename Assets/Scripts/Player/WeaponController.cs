@@ -52,20 +52,21 @@ namespace Player
             //     AddWeaponToLibrary(Weapon.GetWeaponViaName(gameObject, value));
             //     SelectWeapon(weaponLibrary.Count - 1);
             // });
+            controller = InteractionController.GetInteractionController(gameObject);
+            if (!controller)
+            {
+                controller.ONDetectionEnterEvent += PickupAmmo;
+            }
 
             if (controller)
-                controller.ONDetectionEvent += PickupAmmo;
+                controller.ONDetectionEnterEvent += PickupAmmo;
         }
 
         private void PickupAmmo(Collider obj)
         {
             IPickup pickup = obj.GetComponent<IPickup>();
 
-            if (pickup != null)
-            {
-                pickup.OnPickup(gameObject);
-               
-            }
+            pickup?.OnPickup(gameObject);
         }
 
         private void OnDisable()
@@ -78,7 +79,7 @@ namespace Player
             // });
             InteractionController controller = InteractionController.GetInteractionController(gameObject);
             if (controller)
-                controller.ONDetectionEvent -= PickupAmmo;
+                controller.ONDetectionEnterEvent -= PickupAmmo;
         }
 
         public void SelectWeapon(int index)
@@ -127,12 +128,6 @@ namespace Player
             }
 
             Debug.Log(currentWeapon.TriggerFire(player.Input.GetKey(Attack)));
-
-            if (!controller)
-            {
-                controller = InteractionController.GetInteractionController(gameObject);
-                controller.ONDetectionEvent += PickupAmmo;
-            }
         }
 
 

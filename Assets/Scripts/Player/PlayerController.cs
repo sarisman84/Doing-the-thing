@@ -63,6 +63,8 @@ namespace Player
         private bool _isCrouching;
         private bool _isInteracting;
 
+        private bool _hasAlreadyJumped;
+
         public bool IsSprinting => _isSprinting;
         public bool IsCrouching => _isCrouching;
         public Vector3 LatestRespawnPos { get; set; }
@@ -97,25 +99,32 @@ namespace Player
         public InputController Input => _inputController ? _inputController : GetComponent<InputController>();
         public WeaponController WeaponController => _weaponController;
 
-        public InteractionController InteractionController { get; private set; }
+        private InteractionController InteractionController { get; set; }
 
 
         void OnEnable()
         {
+            InteractionController = InteractionController.GetInteractionController(gameObject);
             if (InteractionController)
-                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
+            {
+                InteractionController.ONInteractionEnterEvent += InteractWithInteractableEntities;
+              
+            }
         }
+
 
         void OnDisable()
         {
             if (InteractionController)
-                InteractionController.ONInteractionEvent -= InteractWithInteractableEntities;
+            {
+                InteractionController.ONInteractionEnterEvent -= InteractWithInteractableEntities;
+            }
         }
+
 
         private void InteractWithInteractableEntities(RaycastHit obj)
         {
             InteractableEntity entity = obj.collider.GetComponent<InteractableEntity>();
-            Debug.Log("Attempting to interact");
             if (entity)
             {
                 switch (entity.interactionInputType)
@@ -137,8 +146,6 @@ namespace Player
         {
             _movePlayerEvent = CustomEvent.CreateEvent<Action<Vector3>>(MovePlayer, gameObject);
 
-            //Assigns the player as a priority target for any enemy.
-            // EnemyBehaivourManager.AssignNewTarget(transform);
 
             //Init
             _inputController = GetComponent<InputController>();
@@ -167,13 +174,6 @@ namespace Player
             _totalSpeed = _isSprinting && !_isCrouching && CanStand() ? movementSpeed * sprintMultiplier :
                 _isCrouching ? movementSpeed * crouchMultiplier : movementSpeed;
 
-            //Calculate and alter cameraFOV depending on player's input.
-            // float currentFOV = PlayerCamera.playerCamera.m_Lens.FieldOfView;
-            // currentFOV = _isSprinting && !_isCrouching && CanStand()
-            //     ? Mathf.Lerp(currentFOV, _sprintFOV, 0.25f)
-            //     : Mathf.Lerp(currentFOV, _originalFOV, 0.25f);
-            // PlayerCamera.playerCamera.m_Lens.FieldOfView = currentFOV;
-
 
             //Call method that alters collision's size depending on whenever or not player is crouching.
             OnCrouchAlterPlayerHeight(_isCrouching);
@@ -185,12 +185,6 @@ namespace Player
             {
                 if (!WeaponShopMenu.CloseShop(gameObject))
                     PauseMenu.TogglePause(gameObject);
-            }
-
-            if (!InteractionController)
-            {
-                InteractionController = InteractionController.GetInteractionController(gameObject);
-                InteractionController.ONInteractionEvent += InteractWithInteractableEntities;
             }
         }
 
@@ -226,13 +220,32 @@ namespace Player
 
         private void FixedUpdate()
         {
-            //Applying input and its speed to the Rigidbody while keeping the gravity intact.
-            var velocity = _physics.velocity;
-            velocity = new Vector3(_trueInputVector.x * _totalSpeed, velocity.y, _trueInputVector.z * _totalSpeed);
-            _physics.velocity = velocity;
+            if (_hasAlreadyJumped && IsGrounded())
+                _hasAlreadyJumped = false;
 
+            _physics.velocity = MovePlayer();
 
             //Better jump logic by Boards to Bits Games (https://www.youtube.com/watch?v=7KiK0Aqtmzc)
+            GravityAlteration();
+            if (_isJumping && IsGrounded() && !_isCrouching && !_hasAlreadyJumped)
+            {
+                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+                _hasAlreadyJumped = true;
+            }
+        }
+
+        private Vector3 MovePlayer()
+        {
+            var currentVelocity = _physics.velocity;
+            currentVelocity += new Vector3(_trueInputVector.x * _totalSpeed, 0, _trueInputVector.z * _totalSpeed);
+            currentVelocity = ClampVelocity(currentVelocity);
+            if (_inputVector == Vector2.zero)
+                currentVelocity = ResetVelocity();
+            return currentVelocity;
+        }
+
+        private void GravityAlteration()
+        {
             if (_physics.velocity.y < 0)
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (fallMultipler - 1) * Time.fixedDeltaTime);
@@ -241,10 +254,26 @@ namespace Player
             {
                 _physics.velocity += Vector3.up * (Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
             }
+        }
 
+        private Vector3 ClampVelocity(Vector3 currentVelocity)
+        {
+            Vector3 clampedVelocity = Vector3.ClampMagnitude(currentVelocity, _totalSpeed);
+            return new Vector3(clampedVelocity.x, currentVelocity.y, clampedVelocity.z);
+        }
 
-            if (_isJumping && IsGrounded() && !_isCrouching)
-                _physics.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        private Vector3 ResetVelocity()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down,
+                out RaycastHit hitInfo, transform.localScale.y + groundCheckSize.y))
+            {
+                if (hitInfo.rigidbody)
+                {
+                    return hitInfo.rigidbody.velocity;
+                }
+            }
+
+            return new Vector3(0, _physics.velocity.y, 0);
         }
 
 
@@ -254,14 +283,8 @@ namespace Player
         /// <returns>Returns true if there is at least one gameObject bellow the player's feet.</returns>
         private bool IsGrounded()
         {
-            _groundCheckDelay = _groundCheckDelay.Equals(groundCheckDelay) ? 0 : _groundCheckDelay;
-            _groundCheckDelay += Time.deltaTime;
-            _groundCheckDelay = Mathf.Clamp(_groundCheckDelay, 0, groundCheckDelay);
-            List<Collider> foundObjects = Physics.OverlapBox(BottonPositionOfCollider, groundCheckSize,
-                transform.rotation, movementCheckLayer).ToList();
-            bool result = foundObjects.FindAll(c => c != _collisionBody).Count != 0;
-
-            return result && _groundCheckDelay.Equals(groundCheckDelay);
+            return Physics.SphereCast(new Ray(transform.position, Vector3.down), groundCheckSize.x,
+                transform.localScale.y + groundCheckSize.y);
         }
 
 
@@ -276,18 +299,6 @@ namespace Player
             if (!CanStand()) Gizmos.color = Color.green;
             Gizmos.DrawCube(TopPositionOfCollider, sealingCheckSize * 2f);
         }
-
-
-        // private void AddListenersToEventManager()
-        // {
-        //     EventManager.AddListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
-        // }
-        //
-        //
-        // private void RemoveListenersFromEventManager()
-        // {
-        //     EventManager.RemoveListener<Action<Vector3>>(MoveEntityEvent, MovePlayer);
-        // }
 
 
         private void MovePlayer(Vector3 velocity)

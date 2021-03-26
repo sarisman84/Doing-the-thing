@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Components;
@@ -27,48 +28,70 @@ namespace Player
         [EnableIf("useOverlapSphere")] public LayerMask detectionMask;
         public bool showDebug;
 
-        public event Action<RaycastHit> ONInteractionEvent;
-        public event Action<Collider> ONDetectionEvent;
+        public event Action<RaycastHit> ONInteractionEnterEvent, ONInteractionExitEvent;
+        public event Action<Collider> ONDetectionEnterEvent, ONDetectionExitEvent;
+        
         private Camera _cam;
         private Collider[] _cachedFoundColliders;
+        private RaycastHit _lastInteractedEntity;
+        private bool _hasInteractedBefore;
         private Coroutine _coroutinedUpdateLoop;
 
 
-        private static CustomEvent accessInteractionComponent;
+        private static Dictionary<GameObject, InteractionController> _interactionControllers =
+            new Dictionary<GameObject, InteractionController>();
 
 
-        public static InteractionController GetInteractionController(GameObject owner)
+        public static InteractionController GetInteractionController(GameObject owner, int numberOfAttempts = 20)
         {
-            if (accessInteractionComponent)
-                return (InteractionController) accessInteractionComponent.OnInvokeEvent(owner);
-            return null;
+            InteractionController controller = default;
+            if (_interactionControllers.ContainsKey(owner))
+                controller = _interactionControllers[owner];
+            if (!controller && numberOfAttempts > 0)
+            {
+                RegisterInteractionController(owner);
+                controller = GetInteractionController(owner, numberOfAttempts - 1);
+            }
+
+            return controller;
         }
+
+        private static void RegisterInteractionController(GameObject owner)
+        {
+            InteractionController controller = owner.GetComponent<InteractionController>();
+
+            if (!controller)
+                throw new NullReferenceException($"Couldnt find an Interaction Controller in {owner.name}");
+
+            if (_interactionControllers.ContainsKey(owner) && !_interactionControllers[owner])
+                _interactionControllers[owner] = controller;
+            else
+                _interactionControllers.Add(owner, controller);
+        }
+
 
         private void Awake()
         {
-            accessInteractionComponent =
-                CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent, gameObject);
             _cam = Camera.main;
         }
 
         private void OnEnable()
         {
-            accessInteractionComponent = accessInteractionComponent
-                ? accessInteractionComponent
-                : CustomEvent.CreateEvent<Func<InteractionController>>(GetInteractionComponent,
-                    gameObject);
-            ONDetectionEvent += InteractWithDetectableEntities;
+            ONDetectionEnterEvent += InteractWithDetectableEntities;
             _coroutinedUpdateLoop = StartCoroutine(CoroutineUpdateLoop());
         }
 
         private IEnumerator CoroutineUpdateLoop()
         {
-            while (true)
+            bool useLoop = true;
+            while (useLoop)
             {
                 if (useOverlapSphere)
                     yield return OverlapSphereDetection(transform.position, overlapSphereRange, detectionMask);
                 else
-                    yield return new WaitForEndOfFrame();
+                    useLoop = false;
+
+                yield return new WaitForEndOfFrame();
             }
 
             yield return null;
@@ -77,8 +100,7 @@ namespace Player
 
         private void OnDisable()
         {
-            accessInteractionComponent.RemoveEvent<Func<InteractionController>>(GetInteractionComponent);
-            ONDetectionEvent -= InteractWithDetectableEntities;
+            ONDetectionEnterEvent -= InteractWithDetectableEntities;
 
             if (_coroutinedUpdateLoop != null)
                 StopCoroutine(_coroutinedUpdateLoop);
@@ -118,11 +140,20 @@ namespace Player
             RaycastHit hitInfo;
             Color rayColor = Color.red;
 
+
             if (Physics.Raycast(ray, out hitInfo, mask, interactionMask))
             {
                 rayColor = Color.green;
-                ONInteractionEvent?.Invoke(hitInfo);
+                ONInteractionEnterEvent?.Invoke(hitInfo);
+                _lastInteractedEntity = hitInfo;
+                _hasInteractedBefore = true;
             }
+            else if (_hasInteractedBefore)
+            {
+                ONInteractionExitEvent?.Invoke(_lastInteractedEntity);
+                _hasInteractedBefore = false;
+            }
+
 
             if (showDebug)
                 Debug.DrawRay(ray.origin, ray.direction * mask, rayColor);
@@ -133,15 +164,29 @@ namespace Player
             Collider[] foundColliders = new Collider[50];
             Physics.OverlapSphereNonAlloc(origin, radius, foundColliders, mask);
 
-            if (foundColliders.Length == 0) yield break;
+
+            if (!_cachedFoundColliders.IsArrayNull() && foundColliders.IsArrayNull())
+            {
+                ONDetectionExitEvent?.Invoke(_cachedFoundColliders[0]);
+            }
+
+            if (foundColliders.IsArrayNull()) yield break;
 
             foreach (var foundObject in foundColliders)
             {
                 if (foundObject)
-                    ONDetectionEvent?.Invoke(foundObject);
+                    ONDetectionEnterEvent?.Invoke(foundObject);
             }
 
             _cachedFoundColliders = foundColliders;
+            if (!_cachedFoundColliders.IsArrayNull())
+                Array.Sort(_cachedFoundColliders,
+                    (collider1, collider2) =>
+                    {
+                        if (collider1)
+                            return (int) Vector3.Distance(transform.position, collider1.transform.position);
+                        return 0;
+                    });
             yield return new WaitForSeconds(0.1f);
         }
 

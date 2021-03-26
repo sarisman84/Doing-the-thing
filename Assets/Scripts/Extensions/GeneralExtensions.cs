@@ -191,17 +191,17 @@ namespace Extensions
             return applyAction;
         }
 
-        public static SerializedProperty ApplyAction(this SerializedProperty value,
-            Action<SerializedProperty> propertyMethod)
-        {
-            foreach (SerializedProperty p in value)
-            {
-                propertyMethod.Invoke(p.Copy());
-            }
-
-
-            return value;
-        }
+        // public static SerializedProperty ApplyAction(this SerializedProperty value,
+        //     Action<SerializedProperty> propertyMethod)
+        // {
+        //     foreach (SerializedProperty p in value)
+        //     {
+        //         propertyMethod.Invoke(p.Copy());
+        //     }
+        //
+        //
+        //     return value;
+        // }
 
         public static List<bool> ApplyFunction<T>(this IEnumerable<T> list, Func<T, bool> method)
         {
@@ -225,6 +225,29 @@ namespace Extensions
             }
 
             return applyAction;
+        }
+
+        /// <summary>
+        /// Checks whenever or not an array or all of its elements are null.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <typeparam name="TElement"></typeparam>
+        /// <returns></returns>
+        public static bool IsArrayNull<TElement>(this TElement[] array) where TElement : class
+        {
+            bool result = array == null;
+
+            if (array != null)
+                foreach (var element in array)
+                {
+                    if (element != null)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+
+            return result;
         }
 
         public static T Execute<T>(this T entity, Action<T> action)
@@ -325,7 +348,7 @@ namespace Extensions
             Transform transformValue = value;
 
             if (!transformValue) return null;
-            
+
             for (int child = 0; child < transformValue.childCount; child++)
             {
                 if (transformValue.GetChild(child).CompareTag(tag))
@@ -355,10 +378,6 @@ namespace Extensions
 
         public static void DynamicPlay(this ParticleSystem particleSystem)
         {
-            
         }
-        
-        
-      
     }
 }
