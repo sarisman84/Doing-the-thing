@@ -3121,7 +3121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372018663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.67, y: 0.07, z: 24.57}
+  m_LocalPosition: {x: -4.83, y: 0.07, z: 3.78}
   m_LocalScale: {x: 5, y: 0.25, z: 5}
   m_Children: []
   m_Father: {fileID: 1519205448}
@@ -3141,12 +3141,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveOnAwake: 1
   waypointList:
-  - {x: 0, y: 0, z: 10}
-  - {x: 10, y: 0, z: 10}
-  - {x: 10, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  loopType: 2
-  speed: 2
+  - {x: 10.241522, y: 4.291167, z: 28.607817}
+  - {x: 14.999954, y: 0, z: 0}
+  - {x: 7.2559958, y: 26.98558, z: -1.2142799}
+  loopType: 3
+  speed: 5
 --- !u!54 &372018666
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5067,6 +5067,14 @@ PrefabInstance:
       propertyPath: mainRenderableMesh
       value: 
       objectReference: {fileID: 180740504}
+    - target: {fileID: 8679844918564655050, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
+      propertyPath: doorOpenPosition.x
+      value: 0.06521988
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679844918564655050, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
+      propertyPath: doorOpenPosition.z
+      value: 2.1376371
+      objectReference: {fileID: 0}
     - target: {fileID: 8679844919332049825, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
       propertyPath: m_Name
       value: Door (1)

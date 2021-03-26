@@ -169,7 +169,7 @@ namespace UI
         public static bool CloseShop(GameObject owner)
         {
             if (_onCloseShopMenu)
-                return (bool) _onCloseShopMenu.OnInvokeEvent(owner);
+                return (bool) _onCloseShopMenu.OnInvokeEvent(owner, null);
             return false;
         }
 
