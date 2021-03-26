@@ -108,6 +108,7 @@ namespace Player
             if (InteractionController)
             {
                 InteractionController.ONInteractionEnterEvent += InteractWithInteractableEntities;
+              
             }
         }
 
