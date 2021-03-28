@@ -7,31 +7,27 @@ namespace Interactivity.Pickup
 {
     public class Ammo : MonoBehaviour, IPickup
     {
-        public int OnPickup(GameObject obj)
+        public void OnPickup(GameObject obj)
         {
-            WeaponController playerInfo = obj.GetComponent<WeaponController>();
-
-            if (!playerInfo || !ammoType) return 0;
-
-            Weapon weapon = playerInfo.weaponLibrary.Find(w => w.ammoType == ammoType);
-
-            if (!weapon) return 0;
-            int result = weapon.AddAmmo(ammoType.pickupAmmount);
-            if (result != 201)
-                gameObject.SetActive(false);
-            return result;
+            int result = CanBePickedUp(obj, out var weapon);
+            if (result == 0) return;
+            int addedAmmo = weapon.AddAmmo(AmmoType.pickupAmmount);
+            gameObject.SetActive(false);
+            HeadsUpDisplay.DisplayPickupMessage(obj, $"{addedAmmo}x {AmmoType.name}");
+            HeadsUpDisplay.UpdateWeaponAmmoUI(obj, weapon);
         }
 
-        public int CanBePickedUp(GameObject obj)
+        public int CanBePickedUp(GameObject obj, out Weapon foundWeapon)
         {
             WeaponController playerInfo = obj.GetComponent<WeaponController>();
-            if (!playerInfo || !ammoType) return 0;
-            Weapon weapon = playerInfo.weaponLibrary.Find(w => w.ammoType == ammoType);
-            if (!weapon) return 0;
-            if (weapon.currentAmunition >= weapon.maxAmmo) return 0;
+            foundWeapon = null;
+            if (!playerInfo || !AmmoType) return 0;
+            foundWeapon = playerInfo.weaponLibrary.Find(w => w.ammoType == AmmoType);
+            if (!foundWeapon) return 0;
+            if (foundWeapon.currentAmunition >= foundWeapon.maxAmmo) return 0;
             return 200;
         }
 
-        public AmmoType ammoType { get; set; }
+        public AmmoType AmmoType { get; set; }
     }
 }

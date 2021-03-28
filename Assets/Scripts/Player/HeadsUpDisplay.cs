@@ -24,10 +24,12 @@ namespace Player
 
         private int _currentAmount;
         private InteractionController _interactionController;
+        private float _resetTimer;
 
         private static CustomEvent _ammoUIUpdateEvent;
         private static CustomEvent _currencyUIUpdateEvent;
         private static CustomEvent _weaponIconUIUpdateEvent;
+        private static CustomEvent _displayPickupMessageEvent;
 
 
         #region Static Methods
@@ -50,6 +52,12 @@ namespace Player
                 _currencyUIUpdateEvent.OnInvokeEvent(owner, currency);
         }
 
+        public static void DisplayPickupMessage(GameObject owner, string message)
+        {
+            if (_displayPickupMessageEvent)
+                _displayPickupMessageEvent.OnInvokeEvent(owner, message);
+        }
+
         #endregion
 
         private void OnEnable()
@@ -62,13 +70,15 @@ namespace Player
             _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(_UpdateCurrency,
                 playerController.gameObject);
 
+            _displayPickupMessageEvent =
+                CustomEvent.CreateEvent<Action<string>>(PickupMessageEvent, playerController.gameObject);
+
 
             _interactionController = InteractionController.GetInteractionController(playerController.gameObject);
             if (_interactionController)
             {
                 _interactionController.ONInteractionExitEvent += ResetInteractionMessage;
                 _interactionController.ONInteractionEnterEvent += DisplayInteractionMessage;
-                _interactionController.ONDetectionEnterEvent += DisplayPickupMessage;
             }
         }
 
@@ -78,11 +88,11 @@ namespace Player
             _weaponIconUIUpdateEvent.RemoveEvent<Action<Sprite>>(SetWeaponIcon);
             _ammoUIUpdateEvent.RemoveEvent<Action<Weapon>>(_UpdateAmmoCounter);
             _currencyUIUpdateEvent.RemoveEvent<Action<int>>(_UpdateCurrency);
+            _displayPickupMessageEvent.RemoveEvent<Action<string>>(PickupMessageEvent);
 
             if (_interactionController)
                 _interactionController.ONInteractionExitEvent -= ResetInteractionMessage;
             _interactionController.ONInteractionEnterEvent -= DisplayInteractionMessage;
-            _interactionController.ONDetectionEnterEvent -= DisplayPickupMessage;
         }
 
         private void Awake()
@@ -144,40 +154,32 @@ namespace Player
             }
         }
 
-        private void DisplayPickupMessage(Collider obj)
+        private void PickupMessageEvent(string message)
         {
-            IPickup pickupObject = obj.GetComponent<IPickup>();
-            int result = 0;
-            if (pickupObject != null)
-            {
-                result = pickupObject.CanBePickedUp(playerController.gameObject);
-            }
-
-
-            if (pickupMessage && result != 0)
+            if (pickupMessage)
             {
                 pickupMessage.gameObject.SetActive(true);
-                switch (pickupObject)
-                {
-                    case Ammo ammo:
-                        pickupMessage.text = $"Picked up {ammo.ammoType.pickupAmmount} {ammo.ammoType.name}.";
-                        break;
-                    default:
-                        pickupMessage.text = $"Picked up {pickupObject.name}.";
-                        break;
-                }
-
-                CoroutineManager.Instance.DynamicStartCoroutine(ResetPickupMessage());
+                pickupMessage.text = $"Picked up {message}.";
+                _resetTimer = 0;
             }
         }
 
-        private IEnumerator ResetPickupMessage()
+        private void ResetPickupMessage()
         {
-            yield return new WaitForSeconds(3f);
             if (pickupMessage)
             {
                 pickupMessage.text = "";
                 pickupMessage.gameObject.SetActive(false);
+            }
+        }
+
+        private void Update()
+        {
+            _resetTimer += Time.deltaTime;
+            if (_resetTimer >= 3)
+            {
+                ResetPickupMessage();
+                _resetTimer = 0;
             }
         }
     }

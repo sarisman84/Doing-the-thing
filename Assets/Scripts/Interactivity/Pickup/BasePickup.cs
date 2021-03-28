@@ -12,8 +12,8 @@ namespace Interactivity.Pickup
 {
     public interface IPickup : IUnity
     {
-        int OnPickup(GameObject obj);
-        int CanBePickedUp(GameObject obj);
+        void OnPickup(GameObject obj);
+        int CanBePickedUp(GameObject obj, out Weapon foundWeapon);
     }
 
     public static class Pickup
@@ -35,7 +35,7 @@ namespace Interactivity.Pickup
             Random rnd = new Random();
             Ammo ammo = type.InstantiateAmmo() as Ammo;
             ammo.gameObject.SetActive(true);
-            ammo.ammoType = type;
+            ammo.AmmoType = type;
             ammo.transform.position = spawnPos;
             ammo.gameObject.GetComponent<Rigidbody>()
                 .AddForce(new Vector3(rnd.Next(-1, 1) * pushForce, 1 * (pushForce / 2f), rnd.Next(-1, 1) * pushForce));

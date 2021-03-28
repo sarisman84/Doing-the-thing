@@ -95,12 +95,11 @@ namespace Player.Weapons.NewWeaponSystem
 
         public int AddAmmo(int amount)
         {
-            if (Math.Abs(currentAmmo - maxAmmo) < 0.01f) return 201;
-            Debug.Log($"Adding ammo for {name}");
+            float previousAmmoAmm = currentAmmo;
             currentAmmo += amount;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
-            HeadsUpDisplay.UpdateWeaponAmmoUI(Owner, this);
-            return 200;
+
+            return (int) (maxAmmo - previousAmmoAmm);
         }
     }
 
