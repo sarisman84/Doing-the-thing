@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Serialization;
 using Extensions;
 using Interactivity.Events;
 using Interactivity.Pickup;
@@ -10,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Action = Interactivity.Enemies.Finite_Statemachine.Action;
 using CustomEvent = Interactivity.Events.CustomEvent;
+using ObjectManager = Spyro.Optimisation.ObjectManagement.ObjectManager;
 
 namespace Player
 {
@@ -19,12 +22,16 @@ namespace Player
         public Image weaponIcon;
         public TMP_Text currencyCounter;
         public TMP_Text interactionMessage;
-        public TMP_Text pickupMessage;
-        public PlayerController playerController;
+        [Space] public PlayerController playerController;
+        [Space] public TMP_Text pickupMessagePrefab;
+        public CanvasGroup pickupMessageGroup;
+        public int activePickupMessageAmm = 4;
 
         private int _currentAmount;
         private InteractionController _interactionController;
         private float _resetTimer;
+
+        private List<TMP_Text> _flaggedPickupMessagesToReset = new List<TMP_Text>();
 
         private static CustomEvent _ammoUIUpdateEvent;
         private static CustomEvent _currencyUIUpdateEvent;
@@ -98,6 +105,7 @@ namespace Player
         private void Awake()
         {
             _UpdateCurrency(CurrencyHandler.GetCurrency(playerController.gameObject));
+            ObjectManager.PoolGameObject(pickupMessagePrefab, 100, pickupMessageGroup.transform);
         }
 
 
@@ -156,30 +164,40 @@ namespace Player
 
         private void PickupMessageEvent(string message)
         {
-            if (pickupMessage)
-            {
-                pickupMessage.gameObject.SetActive(true);
-                pickupMessage.text = $"Picked up {message}.";
-                _resetTimer = 0;
-            }
+            TMP_Text messageElement = ObjectManager.DynamicComponentInstantiate(pickupMessagePrefab);
+            messageElement.gameObject.SetActive(true);
+            messageElement.text = $"Picked up {message}";
+            _flaggedPickupMessagesToReset.Add(messageElement);
+            _resetTimer = 0;
         }
 
         private void ResetPickupMessage()
         {
-            if (pickupMessage)
+            foreach (var messageElement in _flaggedPickupMessagesToReset)
             {
-                pickupMessage.text = "";
-                pickupMessage.gameObject.SetActive(false);
+                messageElement.text = "";
+                messageElement.gameObject.SetActive(false);
             }
+
+            _flaggedPickupMessagesToReset.Clear();
         }
 
         private void Update()
         {
             _resetTimer += Time.deltaTime;
-            if (_resetTimer >= 3)
+            if (_resetTimer >= 1)
             {
                 ResetPickupMessage();
                 _resetTimer = 0;
+            }
+
+            //If the current message elements exceed the assigned limit, remove the older elements.
+            while (_flaggedPickupMessagesToReset.Count > activePickupMessageAmm)
+            {
+                TMP_Text messageElement = _flaggedPickupMessagesToReset[0];
+                messageElement.text = "";
+                messageElement.gameObject.SetActive(false);
+                _flaggedPickupMessagesToReset.Remove(messageElement);
             }
         }
     }
