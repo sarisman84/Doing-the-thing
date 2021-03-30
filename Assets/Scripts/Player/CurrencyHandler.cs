@@ -1,6 +1,7 @@
 ﻿using System;
 using Interactivity.Events;
 using Player.Weapons;
+using UI.HUD;
 using UnityEngine;
 using Utility;
 using CustomEvent = Interactivity.Events.CustomEvent;
@@ -76,14 +77,14 @@ namespace Player
         {
             Currency -= amount;
             // _manager.CurrencyCounter = Currency;
-            HeadsUpDisplay.UpdateCurrencyUI(gameObject, Currency);
+            HUDManager.UpdateCurrencyUI(gameObject, Currency);
         }
 
         private void Earn(int amount)
         {
             Currency += amount;
             // _manager.CurrencyCounter = Currency;
-            HeadsUpDisplay.UpdateCurrencyUI(gameObject, Currency);
+            HUDManager.UpdateCurrencyUI(gameObject, Currency);
         }
     }
 }

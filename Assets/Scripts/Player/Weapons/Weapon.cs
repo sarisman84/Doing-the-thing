@@ -4,6 +4,7 @@ using System.Linq;
 using Extensions;
 using Interactivity.Pickup;
 using JetBrains.Annotations;
+using UI.HUD;
 using UnityEngine;
 using Utility.Attributes;
 
@@ -79,7 +80,7 @@ namespace Player.Weapons.NewWeaponSystem
                 _tempFireRate = 0;
                 OnFire(InstancedWeaponModel.transform.GetChild(0));
                 currentAmmo--;
-                HeadsUpDisplay.UpdateWeaponAmmoUI(Owner, this);
+                HUDManager.UpdateWeaponAmmoUI(Owner, this);
                 return 200;
             }
 
@@ -112,8 +113,8 @@ namespace Player.Weapons.NewWeaponSystem
             // if (originalWeapon == null) throw new ArgumentNullException(nameof(originalWeapon));
 
 
-            HeadsUpDisplay.UpdateWeaponIconUI(newWeapon.Owner, newWeapon.weaponIcon);
-            HeadsUpDisplay.UpdateWeaponAmmoUI(newWeapon.Owner, newWeapon);
+            HUDManager.UpdateWeaponIconUI(newWeapon.Owner, newWeapon.weaponIcon);
+            HUDManager.UpdateWeaponAmmoUI(newWeapon.Owner, newWeapon);
             WeaponVisualiser.UpdateWeaponModel(newWeapon.Owner, weaponLibrary, newWeapon);
 
             return newWeapon;

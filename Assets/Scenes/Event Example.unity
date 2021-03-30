@@ -14414,6 +14414,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2818206474667584357, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -719.6861
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818206474667584357, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -404.4023
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818206474667584357, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 335.64722
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818206474667584357, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -181.2315
+      objectReference: {fileID: 0}
     - target: {fileID: 3781763889966738821, guid: 265912214e6312c4bbf6053d613f7eba, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -17417,6 +17433,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df002097781965444976441f23dd08b5, type: 3}
+--- !u!1 &1554776730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1554776732}
+  - component: {fileID: 1554776731}
+  m_Layer: 0
+  m_Name: Particle FX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1554776731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554776730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0514b9f4e5904c1d8b00e5423614c746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleFXs:
+  - particleName: AmmoPickup
+    particleFXPrefab: {fileID: 7333751302390749006, guid: a3177133b0e4e02438876f985abbfa71, type: 3}
+--- !u!4 &1554776732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554776730}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 800.89954, y: 483.53082, z: -140.94296}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1566917170
 GameObject:
   m_ObjectHideFlags: 0

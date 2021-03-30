@@ -10,6 +10,7 @@ using Interactivity.Pickup;
 using Player.Weapons;
 using Player.Weapons.NewWeaponSystem;
 using UI;
+using UI.HUD;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -93,11 +94,11 @@ namespace Player
         #region Old Code
 
         // _weaponVisualiser.SetWeaponModel(this, currentWeapon);
-        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateWeaponIcon, currentWeapon.icon);
-        // // EventManager.TriggerEvent(HeadsUpDisplay.UpdateAmmoCounter, currentWeapon);
+        // // EventManager.TriggerEvent(HUDManager.UpdateWeaponIcon, currentWeapon.icon);
+        // // EventManager.TriggerEvent(HUDManager.UpdateAmmoCounter, currentWeapon);
         //
-        // HeadsUpDisplay.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
-        // HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+        // HUDManager.UpdateWeaponIconUI(gameObject, currentWeapon.icon);
+        // HUDManager.UpdateWeaponAmmoUI(gameObject, currentWeapon);
 
         #endregion
 
@@ -135,7 +136,7 @@ namespace Player
         {
             weaponLibrary.Find(w => w.GetInstanceID() == targetWeapon.GetInstanceID())
                 .AddAmmo((int) (targetWeapon.maxAmmo - targetWeapon.currentAmunition));
-            HeadsUpDisplay.UpdateWeaponAmmoUI(gameObject, currentWeapon);
+            HUDManager.UpdateWeaponAmmoUI(gameObject, currentWeapon);
         }
     }
 }

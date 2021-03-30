@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.Serialization;
-using Extensions;
 using Interactivity.Events;
-using Interactivity.Pickup;
+using Player;
 using Player.Weapons.NewWeaponSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Action = Interactivity.Enemies.Finite_Statemachine.Action;
 using CustomEvent = Interactivity.Events.CustomEvent;
-using ObjectManager = Spyro.Optimisation.ObjectManagement.ObjectManager;
 
-namespace Player
+namespace UI.HUD
 {
-    public class HeadsUpDisplay : MonoBehaviour
+    public class HUDManager : MonoBehaviour
     {
         public TMP_Text ammoCounter;
         public Image weaponIcon;
@@ -27,11 +22,8 @@ namespace Player
         public CanvasGroup pickupMessageGroup;
         public int activePickupMessageAmm = 4;
 
-        private int _currentAmount;
         private InteractionController _interactionController;
-        private float _resetTimer;
-
-        private List<TMP_Text> _flaggedPickupMessagesToReset = new List<TMP_Text>();
+        private PickupNotifier _pickupNotifier;
 
         private static CustomEvent _ammoUIUpdateEvent;
         private static CustomEvent _currencyUIUpdateEvent;
@@ -69,18 +61,8 @@ namespace Player
 
         private void OnEnable()
         {
-            _weaponIconUIUpdateEvent =
-                CustomEvent.CreateEvent<Action<Sprite>>(SetWeaponIcon,
-                    playerController.gameObject);
-            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(_UpdateAmmoCounter,
-                playerController.gameObject);
-            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(_UpdateCurrency,
-                playerController.gameObject);
-
-            _displayPickupMessageEvent =
-                CustomEvent.CreateEvent<Action<string>>(PickupMessageEvent, playerController.gameObject);
-
-
+            _pickupNotifier ??= new PickupNotifier(pickupMessagePrefab, pickupMessageGroup, activePickupMessageAmm);
+            RegisterListenersForCustomEvents();
             _interactionController = InteractionController.GetInteractionController(playerController.gameObject);
             if (_interactionController)
             {
@@ -89,13 +71,13 @@ namespace Player
             }
         }
 
-
         private void OnDisable()
         {
             _weaponIconUIUpdateEvent.RemoveEvent<Action<Sprite>>(SetWeaponIcon);
             _ammoUIUpdateEvent.RemoveEvent<Action<Weapon>>(_UpdateAmmoCounter);
             _currencyUIUpdateEvent.RemoveEvent<Action<int>>(_UpdateCurrency);
-            _displayPickupMessageEvent.RemoveEvent<Action<string>>(PickupMessageEvent);
+            if (_pickupNotifier != null)
+                _displayPickupMessageEvent.RemoveEvent<Action<string>>(_pickupNotifier.PickupMessageEvent);
 
             if (_interactionController)
                 _interactionController.ONInteractionExitEvent -= ResetInteractionMessage;
@@ -105,9 +87,10 @@ namespace Player
         private void Awake()
         {
             _UpdateCurrency(CurrencyHandler.GetCurrency(playerController.gameObject));
-            ObjectManager.PoolGameObject(pickupMessagePrefab, 100, pickupMessageGroup.transform);
         }
 
+
+        #region General HUD Implementations
 
         public float CurrencyCounter
         {
@@ -152,7 +135,6 @@ namespace Player
             }
         }
 
-
         private void ResetInteractionMessage(RaycastHit obj)
         {
             if (interactionMessage)
@@ -162,43 +144,25 @@ namespace Player
             }
         }
 
-        private void PickupMessageEvent(string message)
+        #endregion
+        #region Helper/Summarized Methods
+
+        private void RegisterListenersForCustomEvents()
         {
-            TMP_Text messageElement = ObjectManager.DynamicComponentInstantiate(pickupMessagePrefab);
-            messageElement.gameObject.SetActive(true);
-            messageElement.text = $"Picked up {message}";
-            _flaggedPickupMessagesToReset.Add(messageElement);
-            _resetTimer = 0;
+            _weaponIconUIUpdateEvent =
+                CustomEvent.CreateEvent<Action<Sprite>>(SetWeaponIcon,
+                    playerController.gameObject);
+            _ammoUIUpdateEvent = CustomEvent.CreateEvent<Action<Weapon>>(_UpdateAmmoCounter,
+                playerController.gameObject);
+            _currencyUIUpdateEvent = CustomEvent.CreateEvent<Action<int>>(_UpdateCurrency,
+                playerController.gameObject);
+
+            if (_pickupNotifier != null)
+                _displayPickupMessageEvent =
+                    CustomEvent.CreateEvent<Action<string>>(_pickupNotifier.PickupMessageEvent,
+                        playerController.gameObject);
         }
 
-        private void ResetPickupMessage()
-        {
-            foreach (var messageElement in _flaggedPickupMessagesToReset)
-            {
-                messageElement.text = "";
-                messageElement.gameObject.SetActive(false);
-            }
-
-            _flaggedPickupMessagesToReset.Clear();
-        }
-
-        private void Update()
-        {
-            _resetTimer += Time.deltaTime;
-            if (_resetTimer >= 1)
-            {
-                ResetPickupMessage();
-                _resetTimer = 0;
-            }
-
-            //If the current message elements exceed the assigned limit, remove the older elements.
-            while (_flaggedPickupMessagesToReset.Count > activePickupMessageAmm)
-            {
-                TMP_Text messageElement = _flaggedPickupMessagesToReset[0];
-                messageElement.text = "";
-                messageElement.gameObject.SetActive(false);
-                _flaggedPickupMessagesToReset.Remove(messageElement);
-            }
-        }
+        #endregion
     }
 }
