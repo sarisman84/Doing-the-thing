@@ -1,6 +1,8 @@
-﻿using Player;
+﻿using Effects;
+using Player;
 using Player.Weapons;
 using Player.Weapons.NewWeaponSystem;
+using UI.HUD;
 using UnityEngine;
 
 namespace Interactivity.Pickup
@@ -13,8 +15,9 @@ namespace Interactivity.Pickup
             if (result == 0) return;
             int addedAmmo = weapon.AddAmmo(AmmoType.pickupAmmount);
             gameObject.SetActive(false);
-            HeadsUpDisplay.DisplayPickupMessage(obj, $"{addedAmmo}x {AmmoType.name}");
-            HeadsUpDisplay.UpdateWeaponAmmoUI(obj, weapon);
+            HUDManager.DisplayPickupMessage(obj, $"{addedAmmo}x {AmmoType.name}");
+            HUDManager.UpdateWeaponAmmoUI(obj, weapon);
+            ParticleFXManager.Instance.PlayFX("AmmoPickup", transform.position);
         }
 
         public int CanBePickedUp(GameObject obj, out Weapon foundWeapon)

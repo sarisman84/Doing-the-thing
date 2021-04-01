@@ -9,7 +9,7 @@ namespace Extensions
     {
         public static CoroutineManager Instance { get; private set; }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void OnGameStart()
         {
             Instance = new GameObject("Coroutine Manager").AddComponent<CoroutineManager>();

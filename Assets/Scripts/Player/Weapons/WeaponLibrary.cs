@@ -121,7 +121,7 @@
 //                 (_localAmmoCount > 0 || maxAmmoCount == -1))
 //             {
 //                 fireEvent.Invoke(this, weaponRay);
-//                 HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
+//                 HUDManager.UpdateWeaponAmmoUI(owner, this);
 //                 _localCounter = 0;
 //                 if (maxAmmoCount != -1)
 //                     _localAmmoCount--;
@@ -134,7 +134,7 @@
 //             if (_localAmmoCount >= maxAmmoCount) return false;
 //             _localAmmoCount += maxAmmoCount;
 //             _localAmmoCount = Mathf.Clamp(_localAmmoCount, 0, maxAmmoCount);
-//             HeadsUpDisplay.UpdateWeaponAmmoUI(owner, this);
+//             HUDManager.UpdateWeaponAmmoUI(owner, this);
 //             return true;
 //         }
 //     }
