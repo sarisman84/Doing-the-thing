@@ -22809,6 +22809,14 @@ PrefabInstance:
       propertyPath: mainRenderableMesh
       value: 
       objectReference: {fileID: 940413630}
+    - target: {fileID: 8679844918564655049, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679844918564655050, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
+      propertyPath: mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8679844919332049825, guid: b502b3d26faca4b40bc36ae24526258d, type: 3}
       propertyPath: m_Name
       value: Door
