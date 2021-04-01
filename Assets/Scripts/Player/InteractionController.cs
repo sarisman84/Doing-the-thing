@@ -5,6 +5,7 @@ using Extensions;
 using Extensions.InputExtension;
 using Interactivity;
 using Interactivity.Components;
+using Interactivity.Components.General;
 using Interactivity.Events;
 using Interactivity.Pickup;
 using Player.Weapons;
@@ -29,8 +30,8 @@ namespace Player
         public bool showDebug;
 
         public event Action<RaycastHit> ONInteractionEnterEvent, ONInteractionExitEvent;
-        public event Action<Collider> ONDetectionEnterEvent, ONDetectionExitEvent;
-        
+        public event Action<Collider> ONDetectionEnterEvent;
+
         private Camera _cam;
         private Collider[] _cachedFoundColliders;
         private RaycastHit _lastInteractedEntity;
@@ -117,7 +118,7 @@ namespace Player
             DetectableEntity entity = obj.GetComponent<DetectableEntity>();
             if (entity)
             {
-                entity.OnDetect(GetComponent<Collider>(), overlapSphereRange);
+                entity.OnDetection(GetComponent<Collider>());
             }
         }
 
@@ -164,11 +165,6 @@ namespace Player
             Collider[] foundColliders = new Collider[50];
             Physics.OverlapSphereNonAlloc(origin, radius, foundColliders, mask);
 
-
-            if (!_cachedFoundColliders.IsArrayNull() && foundColliders.IsArrayNull())
-            {
-                ONDetectionExitEvent?.Invoke(_cachedFoundColliders[0]);
-            }
 
             if (foundColliders.IsArrayNull()) yield break;
 
