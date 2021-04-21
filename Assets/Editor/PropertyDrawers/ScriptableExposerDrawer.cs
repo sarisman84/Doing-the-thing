@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Extensions;
-using Interactivity.Events;
-using TPUModelerEditor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
