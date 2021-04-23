@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using General_Scripts.Utility.Extensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,8 +37,9 @@ namespace Player.Scripts
             }
         }
 
-        public bool JumpInput => m_JumpButtonReference.ReadValue<float>() > 0;
-        public bool SprintInput => m_SprintButtonReference.ReadValue<float>() > 0;
+        public bool JumpInput => m_JumpButtonReference.ReadValue<float>() > 0 && !CrouchInput;
+        public bool SprintInput => m_SprintButtonReference.ReadValue<float>() > 0 && !CrouchInput;
+        public bool CrouchInput => m_CrouchButtonReference.ReadValue<float>() > 0 && !m_IsInTheAir;
 
         private InputManager m_Manager;
 
@@ -45,6 +47,7 @@ namespace Player.Scripts
 
         [Header("Settings")] public float movementSpeed;
         public float sprintMultiplier;
+        public float crouchMultiplier;
         [Header("Jump Settings")] public float jumpForce;
         public float skinWidth;
         public LayerMask groundCollisionMask;
@@ -53,18 +56,23 @@ namespace Player.Scripts
 
         private Rigidbody m_PhysicsComponent;
         private Camera m_PlayerCam;
+        private CapsuleCollider m_PlayerCollider;
+        private Transform m_CameraAnchor;
 
         #endregion
 
         private float m_JumpModifier;
         private bool m_IsInTheAir;
+        private float m_InitialCollisionHeight;
+        private Vector3 m_InititalCollisionCenter;
+        private Vector3 m_InitialCameraAnchorPos;
 
         private void OnEnable()
         {
             (m_Manager ??= new InputManager(inputMap)
                 .GetAction("Movement", out m_HorizontalInputReference)
                 .GetAction("Jump", out m_JumpButtonReference)
-                .GetAction("Crouch", out m_SprintButtonReference)
+                .GetAction("Crouch", out m_CrouchButtonReference)
                 .GetAction("Sprint", out m_SprintButtonReference)).EnableInput();
         }
 
@@ -78,7 +86,14 @@ namespace Player.Scripts
             m_PhysicsComponent = GetComponent<Rigidbody>();
             m_JumpModifier = jumpForce;
             m_PlayerCam = Camera.main;
+            m_PlayerCollider = GetComponent<CapsuleCollider>();
             SetCursorState(false);
+
+            m_CameraAnchor = transform.GetChildWithTag("Player/CameraAnchor");
+
+            m_InitialCollisionHeight = m_PlayerCollider.height;
+            m_InititalCollisionCenter = m_PlayerCollider.center;
+            m_InitialCameraAnchorPos = m_CameraAnchor.localPosition;
         }
 
 
@@ -87,6 +102,32 @@ namespace Player.Scripts
             //Camera to Player Rotation 
             transform.rotation = new Quaternion(0, m_PlayerCam.transform.rotation.y, 0,
                 m_PlayerCam.transform.rotation.w);
+
+            
+                UpdatePlayerCollision();
+            
+            
+            
+        }
+
+        private void UpdatePlayerCollision()
+        {
+           
+            if (CrouchInput)
+            {
+               
+                m_PlayerCollider.height = m_InitialCollisionHeight / 2f;
+                m_PlayerCollider.center = m_InititalCollisionCenter - Vector3.up * (m_InitialCollisionHeight / 4f);
+                m_CameraAnchor.localPosition = m_InitialCameraAnchorPos - Vector3.up * (m_InitialCollisionHeight / 4f);
+            }
+            else if(m_PlayerCollider.height != m_InitialCollisionHeight && m_PlayerCollider.center != m_InititalCollisionCenter && m_CameraAnchor.position != m_InititalCollisionCenter)
+            {
+                m_PlayerCollider.height = m_InitialCollisionHeight;
+                m_PlayerCollider.center = m_InititalCollisionCenter;
+                m_CameraAnchor.localPosition = m_InitialCameraAnchorPos;
+            }
+            
+            
         }
 
 
@@ -94,7 +135,7 @@ namespace Player.Scripts
         {
             //Physics Calculations and appliances
             m_PhysicsComponent.MovePosition(m_PhysicsComponent.position + HorizontalInput *
-                ((SprintInput ? movementSpeed * sprintMultiplier : movementSpeed) * Time.fixedDeltaTime));
+                ((SprintInput ? movementSpeed * sprintMultiplier : CrouchInput ? crouchMultiplier * movementSpeed : movementSpeed) * Time.fixedDeltaTime));
             ApplyExternalForces();
             CheckAndUpdatePlayerJumpState();
             if (JumpInput && IsGrounded() && !m_IsInTheAir)
@@ -111,7 +152,7 @@ namespace Player.Scripts
             GroundRaycast(out var hit);
             if (hit.collider && hit.rigidbody)
             {
-                m_PhysicsComponent.velocity += hit.rigidbody.velocity;
+                m_PhysicsComponent.velocity = hit.rigidbody.velocity;
             }
         }
 

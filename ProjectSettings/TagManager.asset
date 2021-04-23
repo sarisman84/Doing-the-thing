@@ -4,19 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Player Shop
-  - HUD/Ammo Counter
-  - HUD/Weapon Icon
-  - HUD/Currency Counter
-  - Currency
-  - HUD/Shop/Slots
-  - HUD/Shop/Description
-  - HUD/Shop/Price
-  - HUD/Shop/Name
-  - HUD/Shop/Renderer
-  - UI/Menu/Pause/ToMainMenu
-  - UI/Menu/Pause/Quit
-  - UI/Menu/Pause/Resume
+  - Player/CameraAnchor
   layers:
   - Default
   - TransparentFX
