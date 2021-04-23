@@ -11,9 +11,9 @@ namespace Player.Scripts
     {
         //TODO
         /*
-         * Implement Input
-         * Implement Movement
-         * Implement Camera Rotation
+         * Implement Input [Done]
+         * Implement Movement (Sprinting [Done], Jumping [Done], Crouching [Done], Sliding, Climbing)
+         * Implement Camera Rotation [Done]
          * Implement Animations
          * Implement Sounds
          */
@@ -103,39 +103,33 @@ namespace Player.Scripts
             transform.rotation = new Quaternion(0, m_PlayerCam.transform.rotation.y, 0,
                 m_PlayerCam.transform.rotation.w);
 
-            
-                UpdatePlayerCollision();
-            
-            
-            
+            UpdatePlayerCollision();
         }
 
         private void UpdatePlayerCollision()
         {
-           
             if (CrouchInput)
             {
-               
                 m_PlayerCollider.height = m_InitialCollisionHeight / 2f;
                 m_PlayerCollider.center = m_InititalCollisionCenter - Vector3.up * (m_InitialCollisionHeight / 4f);
                 m_CameraAnchor.localPosition = m_InitialCameraAnchorPos - Vector3.up * (m_InitialCollisionHeight / 4f);
             }
-            else if(m_PlayerCollider.height != m_InitialCollisionHeight && m_PlayerCollider.center != m_InititalCollisionCenter && m_CameraAnchor.position != m_InititalCollisionCenter)
+            else if (m_PlayerCollider.height != m_InitialCollisionHeight &&
+                     m_PlayerCollider.center != m_InititalCollisionCenter &&
+                     m_CameraAnchor.position != m_InititalCollisionCenter)
             {
                 m_PlayerCollider.height = m_InitialCollisionHeight;
                 m_PlayerCollider.center = m_InititalCollisionCenter;
                 m_CameraAnchor.localPosition = m_InitialCameraAnchorPos;
             }
-            
-            
         }
 
 
         private void FixedUpdate()
         {
             //Physics Calculations and appliances
-            m_PhysicsComponent.MovePosition(m_PhysicsComponent.position + HorizontalInput *
-                ((SprintInput ? movementSpeed * sprintMultiplier : CrouchInput ? crouchMultiplier * movementSpeed : movementSpeed) * Time.fixedDeltaTime));
+            float trueSpeed = CalculateSpeed();
+            m_PhysicsComponent.MovePosition(m_PhysicsComponent.position + HorizontalInput * (trueSpeed * Time.fixedDeltaTime));
             ApplyExternalForces();
             CheckAndUpdatePlayerJumpState();
             if (JumpInput && IsGrounded() && !m_IsInTheAir)
@@ -143,6 +137,30 @@ namespace Player.Scripts
                 m_PhysicsComponent.AddForce(Vector3.up * m_JumpModifier, ForceMode.Impulse);
                 m_IsInTheAir = true;
             }
+        }
+
+        private float CalculateSpeed()
+        {
+         
+            float currentVelocity = m_PhysicsComponent.velocity.magnitude;
+            float  speed =  Mathf.Lerp(currentVelocity, movementSpeed, 0.55f);
+            
+          
+            
+            if (SprintInput)
+                speed *= sprintMultiplier;
+            else if (CrouchInput)
+                if (currentVelocity > movementSpeed)
+                {
+                    speed = Mathf.Lerp(currentVelocity, movementSpeed, 0.25f);
+                }
+                else
+                {
+                    speed *= crouchMultiplier;
+                }
+             
+            
+            return speed;
         }
 
         #region Physics Stuff
@@ -186,6 +204,7 @@ namespace Player.Scripts
             Cursor.visible = value;
             Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
         }
+
         #endregion
 
         public Vector3 BottomPosition
