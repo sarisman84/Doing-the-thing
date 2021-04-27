@@ -33,21 +33,29 @@ namespace Player.Scripts
             get
             {
                 Vector2 input = m_HorizontalInputReference.ReadValue<Vector2>();
+                if (CanSlide)
+                    return transform.right * (input.x * sidewayMovementMultiplierOnSlide);
                 return transform.right * input.x + transform.forward * input.y;
             }
         }
 
         public bool JumpInput => m_JumpButtonReference.ReadValue<float>() > 0 && !CrouchInput;
-        public bool SprintInput => m_SprintButtonReference.ReadValue<float>() > 0 && !CrouchInput;
+        public bool SprintInput => m_SprintButtonReference.ReadValue<float>() > 0;
         public bool CrouchInput => m_CrouchButtonReference.ReadValue<float>() > 0 && !m_IsInTheAir;
+
+        public bool CanSlide => m_PhysicsComponent.velocity.magnitude > maxMovementSpeed && !m_IsSliding &&
+                                 CrouchInput;
 
         private InputManager m_Manager;
 
         #endregion
 
-        [Header("Settings")] public float movementSpeed;
+        [Header("Settings")] public float accelerationSpeed;
+        public float maxMovementSpeed;
         public float sprintMultiplier;
         public float crouchMultiplier;
+        public float slideMultiplier;
+        public float sidewayMovementMultiplierOnSlide;
         [Header("Jump Settings")] public float jumpForce;
         public float skinWidth;
         public LayerMask groundCollisionMask;
@@ -63,6 +71,7 @@ namespace Player.Scripts
 
         private float m_JumpModifier;
         private bool m_IsInTheAir;
+        private bool m_IsSliding;
         private float m_InitialCollisionHeight;
         private Vector3 m_InititalCollisionCenter;
         private Vector3 m_InitialCameraAnchorPos;
@@ -128,8 +137,31 @@ namespace Player.Scripts
         private void FixedUpdate()
         {
             //Physics Calculations and appliances
-            float trueSpeed = CalculateSpeed();
-            m_PhysicsComponent.MovePosition(m_PhysicsComponent.position + HorizontalInput * (trueSpeed * Time.fixedDeltaTime));
+            float trueSpeed = CalculateAcceleration();
+
+
+            if (CanSlide)
+            {
+                m_PhysicsComponent.AddForce(transform.forward * (accelerationSpeed * slideMultiplier),
+                    ForceMode.VelocityChange);
+                m_IsSliding = true;
+            }
+            else if (!m_IsSliding)
+            {
+                m_PhysicsComponent.AddForce(HorizontalInput * (trueSpeed * Time.fixedDeltaTime),
+                    ForceMode.VelocityChange);
+                m_PhysicsComponent.velocity =
+                    Vector3.ClampMagnitude(new Vector3(m_PhysicsComponent.velocity.x, 0, m_PhysicsComponent.velocity.z),
+                        CalculateMaxMovementSpeed()) +
+                    Vector3.ClampMagnitude(new Vector3(0, m_PhysicsComponent.velocity.y, 0), 30);
+            }
+
+            Debug.Log(HorizontalInput);
+            if (m_PhysicsComponent.velocity.magnitude <= 0.2f || !CrouchInput)
+            {
+                m_IsSliding = false;
+            }
+
             ApplyExternalForces();
             CheckAndUpdatePlayerJumpState();
             if (JumpInput && IsGrounded() && !m_IsInTheAir)
@@ -139,28 +171,23 @@ namespace Player.Scripts
             }
         }
 
-        private float CalculateSpeed()
+        private float CalculateAcceleration()
         {
-         
-            float currentVelocity = m_PhysicsComponent.velocity.magnitude;
-            float  speed =  Mathf.Lerp(currentVelocity, movementSpeed, 0.55f);
-            
-          
-            
             if (SprintInput)
-                speed *= sprintMultiplier;
-            else if (CrouchInput)
-                if (currentVelocity > movementSpeed)
-                {
-                    speed = Mathf.Lerp(currentVelocity, movementSpeed, 0.25f);
-                }
-                else
-                {
-                    speed *= crouchMultiplier;
-                }
-             
-            
-            return speed;
+                return accelerationSpeed * sprintMultiplier;
+            if (CrouchInput)
+                return accelerationSpeed * crouchMultiplier;
+
+            return accelerationSpeed;
+        }
+
+        public float CalculateMaxMovementSpeed()
+        {
+            if (SprintInput)
+                return maxMovementSpeed * sprintMultiplier;
+            if (CrouchInput)
+                return maxMovementSpeed * crouchMultiplier;
+            return maxMovementSpeed;
         }
 
         #region Physics Stuff

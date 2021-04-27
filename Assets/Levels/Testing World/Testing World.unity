@@ -1161,9 +1161,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputMap: {fileID: -944628639613478452, guid: 7632bc487ce97a446ae902b208e939da, type: 3}
-  movementSpeed: 3
+  accelerationSpeed: 40
+  maxMovementSpeed: 10
   sprintMultiplier: 2
   crouchMultiplier: 0.5
+  slideMultiplier: 0.2
+  sidewayMovementMultiplierOnSlide: 0.25
   jumpForce: 6
   skinWidth: 0.25
   groundCollisionMask:
