@@ -12,11 +12,22 @@ namespace General_Scripts.Utility.Extensions
             {
                 Transform child = transform.GetChild(i);
                 if (child.childCount > 0)
+                {
                     result = GetChildWithTag(child, tag);
+                    if (result)
+                        return result;
+                }
+
                 if (child.CompareTag(tag))
+                {
                     result = child;
-               
+                    if (result)
+                        return result;
+                }
             }
+
+            Debug.Log(
+                $"Searched {transform.name}'s children. Found {transform.childCount} children. Result is {result}");
 
             return result;
         }

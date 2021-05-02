@@ -87,8 +87,11 @@ namespace Player.Scripts
         private Camera m_PlayerCam;
         private CapsuleCollider m_PlayerCollider;
         private Transform m_CameraAnchor;
+        private Animator m_PlayerAnimator;
 
         #endregion
+
+        #region Private Variables
 
         private float m_JumpModifier;
         private bool m_IsInTheAir;
@@ -99,6 +102,8 @@ namespace Player.Scripts
         private Vector3 m_InititalCollisionCenter;
         private Vector3 m_InitialCameraAnchorPos;
         private float m_RegisteredMovementSpeed;
+
+        #endregion
 
         private void OnEnable()
         {
@@ -123,6 +128,7 @@ namespace Player.Scripts
             SetCursorState(false);
 
             m_CameraAnchor = transform.GetChildWithTag("Player/CameraAnchor");
+            m_PlayerAnimator = transform.GetComponentInChildren<Animator>();
 
             m_InitialCollisionHeight = m_PlayerCollider.height;
             m_InititalCollisionCenter = m_PlayerCollider.center;
@@ -137,6 +143,8 @@ namespace Player.Scripts
                 m_PlayerCam.transform.rotation.w);
 
             UpdatePlayerCollision();
+            
+            m_PlayerAnimator.SetFloat("Velocity",m_PhysicsComponent.velocity.magnitude);
         }
 
         private void UpdatePlayerCollision()
@@ -172,7 +180,7 @@ namespace Player.Scripts
             //     m_IsSliding = true;
             // }
             // else
-            
+
             if (!m_IsSliding && !m_IsInTheAir)
             {
                 m_PhysicsComponent.AddForce(HorizontalInput * (m_trueSpeed * Time.fixedDeltaTime),
@@ -189,6 +197,7 @@ namespace Player.Scripts
                         new Vector3(0, m_PhysicsComponent.velocity.y, 0), 0.00000001f);
                 }
             }
+
             m_IsSliding = CalculateAndApplySliding();
 
             // if (m_PhysicsComponent.velocity.magnitude <= slideStopThreshold || !CrouchInput)
@@ -196,7 +205,6 @@ namespace Player.Scripts
             //     m_IsSliding = false;
             // }
 
-        
 
             ApplyExternalForces();
             CheckAndUpdatePlayerJumpState();
