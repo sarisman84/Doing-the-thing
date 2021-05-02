@@ -39,22 +39,43 @@ namespace Player.Scripts
             }
         }
 
-        public bool JumpInput => m_JumpButtonReference.ReadValue<float>() > 0 && !CrouchInput;
+        public bool JumpInput => m_JumpButtonReference.ReadValue<float>() > 0 && !CrouchInput && IsGrounded();
         public bool SprintInput => m_SprintButtonReference.ReadValue<float>() > 0;
-        public bool CrouchInput => m_CrouchButtonReference.ReadValue<float>() > 0 && !m_IsInTheAir;
 
-        public bool CanSlide => m_PhysicsComponent.velocity.magnitude > maxMovementSpeed && !m_IsSliding &&
-                                 CrouchInput;
+        public bool CrouchInput =>
+            (m_CrouchButtonReference.ReadValue<float>() > 0 && !m_IsInTheAir) || IsThereAnObjectAbove();
 
         private InputManager m_Manager;
 
+
+        #region Calculation Shortcuts
+
+        public bool CanSlide => m_PhysicsComponent.velocity.magnitude > (movementSpeed * 100) && !m_IsSliding &&
+                                CrouchInput;
+
+        public float PlayerHeight =>
+            m_PlayerCollider ? m_PlayerCollider.height : GetComponent<Collider>().bounds.size.y;
+
+        public Vector3 BottomPosition
+        {
+            get
+            {
+                var position = transform.position;
+                Vector3 pos = new Vector3(position.x, position.y - PlayerHeight / (CrouchInput ? 1f : 2f) + 0.15f,
+                    position.z);
+                return pos;
+            }
+        }
+
         #endregion
 
-        [Header("Settings")] public float accelerationSpeed;
-        public float maxMovementSpeed;
+        #endregion
+
+        [Header("Settings")] public float movementSpeed;
         public float sprintMultiplier;
         public float crouchMultiplier;
         public float slideMultiplier;
+        public float slideStopThreshold = 0.2f;
         public float sidewayMovementMultiplierOnSlide;
         [Header("Jump Settings")] public float jumpForce;
         public float skinWidth;
@@ -73,8 +94,11 @@ namespace Player.Scripts
         private bool m_IsInTheAir;
         private bool m_IsSliding;
         private float m_InitialCollisionHeight;
+        private float m_trueSpeed;
+        private float m_rigidBodyVelocity;
         private Vector3 m_InititalCollisionCenter;
         private Vector3 m_InitialCameraAnchorPos;
+        private float m_RegisteredMovementSpeed;
 
         private void OnEnable()
         {
@@ -117,15 +141,16 @@ namespace Player.Scripts
 
         private void UpdatePlayerCollision()
         {
+            bool isPlayerHeadClear = !IsThereAnObjectAbove();
             if (CrouchInput)
             {
                 m_PlayerCollider.height = m_InitialCollisionHeight / 2f;
                 m_PlayerCollider.center = m_InititalCollisionCenter - Vector3.up * (m_InitialCollisionHeight / 4f);
                 m_CameraAnchor.localPosition = m_InitialCameraAnchorPos - Vector3.up * (m_InitialCollisionHeight / 4f);
             }
-            else if (m_PlayerCollider.height != m_InitialCollisionHeight &&
+            else if (Math.Abs(m_PlayerCollider.height - m_InitialCollisionHeight) > 0.001f &&
                      m_PlayerCollider.center != m_InititalCollisionCenter &&
-                     m_CameraAnchor.position != m_InititalCollisionCenter)
+                     m_CameraAnchor.position != m_InititalCollisionCenter && isPlayerHeadClear)
             {
                 m_PlayerCollider.height = m_InitialCollisionHeight;
                 m_PlayerCollider.center = m_InititalCollisionCenter;
@@ -137,57 +162,101 @@ namespace Player.Scripts
         private void FixedUpdate()
         {
             //Physics Calculations and appliances
-            float trueSpeed = CalculateAcceleration();
+            m_trueSpeed = CalculateAcceleration();
 
 
-            if (CanSlide)
+            // if (CanSlide)
+            // {
+            //     m_PhysicsComponent.AddForce(transform.forward * (movementSpeed * slideMultiplier),
+            //         ForceMode.VelocityChange);
+            //     m_IsSliding = true;
+            // }
+            // else
+            
+            if (!m_IsSliding && !m_IsInTheAir)
             {
-                m_PhysicsComponent.AddForce(transform.forward * (accelerationSpeed * slideMultiplier),
-                    ForceMode.VelocityChange);
-                m_IsSliding = true;
-            }
-            else if (!m_IsSliding)
-            {
-                m_PhysicsComponent.AddForce(HorizontalInput * (trueSpeed * Time.fixedDeltaTime),
+                m_PhysicsComponent.AddForce(HorizontalInput * (m_trueSpeed * Time.fixedDeltaTime),
                     ForceMode.VelocityChange);
                 m_PhysicsComponent.velocity =
                     Vector3.ClampMagnitude(new Vector3(m_PhysicsComponent.velocity.x, 0, m_PhysicsComponent.velocity.z),
                         CalculateMaxMovementSpeed()) +
                     Vector3.ClampMagnitude(new Vector3(0, m_PhysicsComponent.velocity.y, 0), 30);
-            }
 
-            Debug.Log(HorizontalInput);
-            if (m_PhysicsComponent.velocity.magnitude <= 0.2f || !CrouchInput)
-            {
-                m_IsSliding = false;
+                //If no input is being detected, reset the velocity
+                if (HorizontalInput.magnitude <= 0.01f)
+                {
+                    m_PhysicsComponent.velocity = Vector3.Lerp(m_PhysicsComponent.velocity,
+                        new Vector3(0, m_PhysicsComponent.velocity.y, 0), 0.00000001f);
+                }
             }
+            m_IsSliding = CalculateAndApplySliding();
+
+            // if (m_PhysicsComponent.velocity.magnitude <= slideStopThreshold || !CrouchInput)
+            // {
+            //     m_IsSliding = false;
+            // }
+
+        
 
             ApplyExternalForces();
             CheckAndUpdatePlayerJumpState();
-            if (JumpInput && IsGrounded() && !m_IsInTheAir)
+            if (JumpInput && !m_IsInTheAir)
             {
                 m_PhysicsComponent.AddForce(Vector3.up * m_JumpModifier, ForceMode.Impulse);
                 m_IsInTheAir = true;
             }
         }
 
+        private float counter;
+
+        private bool CalculateAndApplySliding()
+        {
+            m_rigidBodyVelocity = m_PhysicsComponent.velocity.magnitude;
+            if (m_PhysicsComponent.velocity.magnitude > movementSpeed && !m_IsSliding)
+            {
+                m_RegisteredMovementSpeed = movementSpeed;
+                counter = 0;
+            }
+            else
+            {
+                counter += Time.deltaTime;
+                if (counter >= 1f)
+                {
+                    m_RegisteredMovementSpeed = 0;
+                }
+            }
+
+            //If the registedMovementSpeed is higher than the normal movementSpeed for the past 1 second and we are not already sliding, slide.
+            if (m_RegisteredMovementSpeed != 0 && !m_IsSliding && CrouchInput)
+            {
+                m_PhysicsComponent.AddForce(transform.forward * (m_rigidBodyVelocity * 2f),
+                    ForceMode.VelocityChange);
+                return true;
+            }
+
+            if ((m_PhysicsComponent.velocity.magnitude <= slideStopThreshold || !CrouchInput) && m_IsSliding)
+                return false;
+
+            return false;
+        }
+
         private float CalculateAcceleration()
         {
             if (SprintInput)
-                return accelerationSpeed * sprintMultiplier;
+                return movementSpeed * 100 * sprintMultiplier;
             if (CrouchInput)
-                return accelerationSpeed * crouchMultiplier;
+                return movementSpeed * 100 * crouchMultiplier;
 
-            return accelerationSpeed;
+            return movementSpeed * 100;
         }
 
         public float CalculateMaxMovementSpeed()
         {
             if (SprintInput)
-                return maxMovementSpeed * sprintMultiplier;
+                return movementSpeed * sprintMultiplier;
             if (CrouchInput)
-                return maxMovementSpeed * crouchMultiplier;
-            return maxMovementSpeed;
+                return movementSpeed * crouchMultiplier;
+            return movementSpeed;
         }
 
         #region Physics Stuff
@@ -222,6 +291,14 @@ namespace Player.Scripts
             return result;
         }
 
+        private bool IsThereAnObjectAbove()
+        {
+            var position = transform.position;
+            bool result = Physics.Raycast(position, Vector3.up, PlayerHeight * skinWidth, groundCollisionMask);
+            Debug.DrawRay(position, Vector3.up * (PlayerHeight * skinWidth), result ? Color.green : Color.red);
+            return result;
+        }
+
         #endregion
 
         #region Camera Stuff
@@ -233,17 +310,6 @@ namespace Player.Scripts
         }
 
         #endregion
-
-        public Vector3 BottomPosition
-        {
-            get
-            {
-                Vector3 pos = new Vector3(transform.position.x,
-                    transform.position.y - (GetComponent<Collider>().bounds.size.y / 2f) + 0.15f,
-                    transform.position.z);
-                return pos;
-            }
-        }
     }
 
     class InputManager
