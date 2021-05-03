@@ -32,10 +32,18 @@ namespace Player.Scripts
         {
             get
             {
-                Vector2 input = m_HorizontalInputReference.ReadValue<Vector2>();
                 if (CanSlide)
-                    return transform.right * (input.x * sidewayMovementMultiplierOnSlide);
-                return transform.right * input.x + transform.forward * input.y;
+                    return transform.right * (RawHorizontalInput.x * sidewayMovementMultiplierOnSlide);
+                return transform.right * RawHorizontalInput.x + transform.forward * RawHorizontalInput.z;
+            }
+        }
+
+        public Vector3 RawHorizontalInput
+        {
+            get
+            {
+                Vector2 input = m_HorizontalInputReference.ReadValue<Vector2>();
+                return new Vector3(input.x, 0, input.y);
             }
         }
 
@@ -66,6 +74,10 @@ namespace Player.Scripts
                 return pos;
             }
         }
+
+        public Vector3 HorizontalVelocity => new Vector3(m_PhysicsComponent.velocity.x, 0, m_PhysicsComponent.velocity.z);
+
+        public Vector3 VerticalVelocity => new Vector3(0, m_PhysicsComponent.velocity.y, 0);
 
         #endregion
 
@@ -143,8 +155,8 @@ namespace Player.Scripts
                 m_PlayerCam.transform.rotation.w);
 
             UpdatePlayerCollision();
-            
-            m_PlayerAnimator.SetFloat("Velocity",m_PhysicsComponent.velocity.magnitude);
+
+          
         }
 
         private void UpdatePlayerCollision()
@@ -199,7 +211,11 @@ namespace Player.Scripts
             }
 
             m_IsSliding = CalculateAndApplySliding();
-
+            
+            m_PlayerAnimator.SetBool("IsCrouching", CrouchInput);
+            m_PlayerAnimator.SetFloat("Z Axis", Mathf.Lerp(m_PlayerAnimator.GetFloat("Z Axis"),RawHorizontalInput.z * HorizontalVelocity.magnitude, 0.25f));
+            m_PlayerAnimator.SetFloat("X Axis",Mathf.Lerp(m_PlayerAnimator.GetFloat("X Axis"),RawHorizontalInput.x * HorizontalVelocity.magnitude, 0.25f));
+        
             // if (m_PhysicsComponent.velocity.magnitude <= slideStopThreshold || !CrouchInput)
             // {
             //     m_IsSliding = false;
@@ -212,6 +228,7 @@ namespace Player.Scripts
             {
                 m_PhysicsComponent.AddForce(Vector3.up * m_JumpModifier, ForceMode.Impulse);
                 m_IsInTheAir = true;
+                m_PlayerAnimator.SetTrigger("Jump Input");
             }
         }
 
