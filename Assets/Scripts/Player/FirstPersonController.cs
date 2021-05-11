@@ -140,7 +140,7 @@ namespace Player.Scripts
             SetCursorState(false);
 
             m_CameraAnchor = transform.GetChildWithTag("Player/CameraAnchor");
-            m_PlayerAnimator = transform.GetComponentInChildren<Animator>();
+       
 
             m_InitialCollisionHeight = m_PlayerCollider.height;
             m_InititalCollisionCenter = m_PlayerCollider.center;
@@ -212,9 +212,7 @@ namespace Player.Scripts
 
             m_IsSliding = CalculateAndApplySliding();
             
-            m_PlayerAnimator.SetBool("IsCrouching", CrouchInput);
-            m_PlayerAnimator.SetFloat("Z Axis", Mathf.Lerp(m_PlayerAnimator.GetFloat("Z Axis"),RawHorizontalInput.z * HorizontalVelocity.magnitude, 0.25f));
-            m_PlayerAnimator.SetFloat("X Axis",Mathf.Lerp(m_PlayerAnimator.GetFloat("X Axis"),RawHorizontalInput.x * HorizontalVelocity.magnitude, 0.25f));
+        
         
             // if (m_PhysicsComponent.velocity.magnitude <= slideStopThreshold || !CrouchInput)
             // {
@@ -228,7 +226,6 @@ namespace Player.Scripts
             {
                 m_PhysicsComponent.AddForce(Vector3.up * m_JumpModifier, ForceMode.Impulse);
                 m_IsInTheAir = true;
-                m_PlayerAnimator.SetTrigger("Jump Input");
             }
         }
 
