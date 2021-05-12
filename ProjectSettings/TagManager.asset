@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Player/CameraAnchor
+  - Weapon/BarrelPoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - UI (Models)
   - Water
   - UI
   - UI (Hidden)

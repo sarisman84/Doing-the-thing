@@ -7,29 +7,26 @@ namespace Scripts
 {
     public class WeaponHandler : MonoBehaviour
     {
-        public Transform barrel;
-        public Transform objectToVisualiseWeapon;
+        public Transform parentObjectToVisualiseWeaponsWith;
         public InputActionReference fireInputReference;
-        
-        private List<Weapon> localWeaponLibrary = new List<Weapon>();
-        private int currentWeapon = 0;
 
-        private void Awake()
+        private readonly List<Weapon> m_LocalWeaponLibrary = new List<Weapon>();
+        private readonly int currentWeapon = 0;
+
+        private void Start()
         {
-            localWeaponLibrary.Add(WeaponLibrary.globalWeaponLibrary["default_gun"]);
+            m_LocalWeaponLibrary.Add(WeaponLibrary.GlobalWeaponLibrary["default_gun"]);
         }
 
         private void Update()
         {
-            UseCurrentWeapon(currentWeapon, localWeaponLibrary);
+            UseCurrentWeapon(currentWeapon, m_LocalWeaponLibrary);
         }
 
         private void UseCurrentWeapon(int index, List<Weapon> weapons)
         {
-            if (weapons.Count < index && weapons.Count != 0)
-            {
-                weapons[index].UpdateWeaponState(barrel,objectToVisualiseWeapon, fireInputReference.action.ReadValue<float>() > 0);
-            }
+            weapons[index].UpdateWeaponState(parentObjectToVisualiseWeaponsWith,
+                fireInputReference.action.ReadValue<float>() > 0);
         }
     }
 }
