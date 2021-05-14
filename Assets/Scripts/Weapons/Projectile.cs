@@ -9,7 +9,7 @@ namespace Scripts
         public Rigidbody physics;
         public event Action<Collision> ONCollisionEvent;
         public event Action ONFixedUpdateEvent;
-
+        public event Action ONUpdateEvent;
         private void Awake()
         {
             physics = GetComponent<Rigidbody>();
@@ -23,6 +23,11 @@ namespace Scripts
         private void FixedUpdate()
         {
             ONFixedUpdateEvent?.Invoke();
+        }
+
+        private void Update()
+        {
+            ONUpdateEvent?.Invoke();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Scripts
         {
             m_LocalWeaponLibrary.Add(WeaponLibrary.GlobalWeaponLibrary["default_gun"]);
             m_LocalWeaponLibrary.Add(WeaponLibrary.GlobalWeaponLibrary["default_grenade"]);
+            m_LocalWeaponLibrary.Add(WeaponLibrary.GlobalWeaponLibrary["default_rocket_launcher"]);
         }
 
         private void Update()

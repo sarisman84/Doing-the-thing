@@ -72,5 +72,24 @@ namespace General_Scripts.Utility.Extensions
 
             return result;
         }
+
+        public static Transform GetTheClosestEntityOfType<T>(this Vector3 centre, float radius) where T: Component
+        {
+            Collider[] foundTargets = Physics.OverlapSphere(centre, radius);
+
+            float minDist = float.MaxValue;
+            Transform result = null;
+            foreach (var target in foundTargets)
+            {
+                float dist = Vector3.Distance(centre, target.transform.position);
+                if (minDist < dist)
+                {
+                    result = target.transform;
+                    minDist = dist;
+                }
+                
+            }
+            return result;
+        }
     }
 }

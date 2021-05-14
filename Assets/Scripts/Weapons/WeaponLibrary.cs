@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using General_Scripts.Utility.Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -17,10 +18,18 @@ namespace Scripts
         {
             AddWeaponToLibrary("default_gun", "Blaster", 0.25f,
                 o => WeaponFireType.HitScan(o, 15f).collider.DealDamage(10));
+
             AddWeaponToLibrary("default_grenade", "Grenade", 0.75f,
                 o => WeaponFireType.Projectile(o, "default_grenade_projectile",
-                        onContact => onContact.contacts[0].point.Explosion(10f).ForEach(o => o.DealDamage(5)))
-                    .Throw(o, 1000));
+                        onContact => onContact.contacts[0].point.Explosion(10f)
+                            .ForEach(entityInExplosion => entityInExplosion.DealDamage(5)))
+                    .Throw(o, 1000).DestroyOnContact(o));
+
+            AddWeaponToLibrary("default_rocket_launcher", "Rocket Launcher", 0.85f,
+                o => WeaponFireType.Projectile(o, "default_rocket_launcher_projectile",
+                        onContact => onContact.contacts[0].point.Explosion(20f)
+                            .ForEach(entityInExplosion => entityInExplosion.DealDamage(15)))
+                    .Homing(2.5f, 50f).DestroyOnContact(o).DestroyAfterSeconds(5f));
         }
 
 
@@ -36,10 +45,9 @@ namespace Scripts
     public class Weapon
     {
         private string m_WeaponName;
-        private float m_FireRate = 0;
+        private float m_FireRate;
         private float m_CurrentRate;
         public Action<Transform> onWeaponFire;
-
         private Transform m_Model;
 
         public Weapon(string name, float fireRate, Action<Transform> weaponFire, GameObject model)
@@ -47,9 +55,7 @@ namespace Scripts
             m_WeaponName = name;
             m_FireRate = fireRate;
             onWeaponFire = weaponFire;
-
             Debug.Log($"Init: Added Weapon {m_WeaponName} to Global Library.");
-
             try
             {
                 Transform clone = Object.Instantiate(model).transform;
@@ -64,7 +70,6 @@ namespace Scripts
             {
                 Debug.Log("Init: Couldnt create model, skipping");
             }
-
 
             Debug.Log($"Init: Instantiated Weapon Model for {m_WeaponName}.");
         }
@@ -83,7 +88,6 @@ namespace Scripts
         private void UpdateWeaponModel(Transform objectToVisualiseWeapon)
         {
             List<Transform> currentModels = objectToVisualiseWeapon.GetChildren().ToList();
-
             foreach (var current in currentModels)
             {
                 current.gameObject.SetActive(false);
@@ -118,18 +122,13 @@ namespace Scripts
         {
             //Spawn projectile at transform's position and with transform's rotation (forward)
             //Add some events to it.
-            Projectile projectile = Object
-                .Instantiate(Resources.Load<GameObject>($"Weapons/Projectiles/Model Prefabs/{projectileId}"),
+            Projectile projectile = Utility.DynamicInstantiate(
+                    Resources.Load<GameObject>($"Weapons/Projectiles/Model Prefabs/{projectileId}"),
                     transform.position, transform.rotation)
                 .AddComponent<Projectile>();
             projectile.ONCollisionEvent += onContactEvent;
-            projectile.ONCollisionEvent += c => DestroySelf(c, projectile);
-            return projectile;
-        }
 
-        private static void DestroySelf(Collision obj, Projectile projectile)
-        {
-            //Object.Destroy(projectile.gameObject);
+            return projectile;
         }
     }
 
@@ -149,8 +148,45 @@ namespace Scripts
             return projectile;
         }
 
-        public static Projectile Homing(this Projectile projectile)
+        public static Projectile DestroyOnContact(this Projectile projectile, Transform transform)
         {
+            projectile.ONCollisionEvent += c => DestroySelf(c, transform, projectile);
+            return projectile;
+        }
+
+        public static Projectile Homing(this Projectile projectile, float force, float radius)
+        {
+            Transform closestTarget = projectile.transform.position.GetTheClosestEntityOfType<DamageableObject>(radius);
+            projectile.ONFixedUpdateEvent += () =>
+            {
+                projectile.physics.velocity += Vector3.Lerp(Vector3.ClampMagnitude(projectile.physics.velocity, force),
+                    closestTarget ? closestTarget.position : projectile.transform.forward.normalized * force, 0.25f);
+                projectile.physics.useGravity = false;
+            };
+            return projectile;
+        }
+
+        private static void DestroySelf(Collision obj, Transform transform, Projectile projectile)
+        {
+            bool isPlayer = obj.collider.name ==
+                            transform.parent.parent.parent.parent.GetChild(0).name;
+            if (isPlayer) return;
+            projectile.gameObject.SetActive(false, true);
+        }
+
+        public static Projectile DestroyAfterSeconds(this Projectile projectile, float seconds)
+        {
+
+            float countdown = 0;
+            projectile.ONUpdateEvent += () =>
+            {
+                countdown += Time.deltaTime;
+                if (countdown >= seconds)
+                {
+                    projectile.gameObject.SetActive(false, true);
+                    countdown = 0;
+                }
+            };
             return projectile;
         }
     }
@@ -170,7 +206,7 @@ namespace Scripts
         }
     }
 
-    public static class WeaponFireEffectType
+    public static class VisualEffects
     {
         public static RaycastHit Beam(this RaycastHit ray, Color beamColor)
         {
@@ -229,6 +265,12 @@ namespace Scripts
 
         public static T DynamicInstantiate<T>(T gameObject) where T : MonoBehaviour
         {
+            return DynamicInstantiate(gameObject.gameObject).GetComponent<T>();
+        }
+
+
+        public static GameObject DynamicInstantiate(GameObject gameObject)
+        {
             List<GameObject> obj = DictionaryOfPooledGameObjects
                 .FirstOrDefault(g => g.Key == gameObject.GetInstanceID()).Value;
             if (obj == null)
@@ -236,13 +278,37 @@ namespace Scripts
                 PoolGameObjects(gameObject.gameObject, 500);
                 return DynamicInstantiate(gameObject);
             }
+
             GameObject inactiveObj = obj.Find(g => !g.activeSelf);
             if (!inactiveObj)
             {
                 PoolGameObjects(gameObject.gameObject, 500);
                 return DynamicInstantiate(gameObject);
             }
-            return inactiveObj.GetComponent<T>();
+
+            inactiveObj.SetActive(true);
+            return inactiveObj;
+        }
+
+        public static GameObject DynamicInstantiate(GameObject gameObject, Vector3 position, Quaternion rotiation)
+        {
+            GameObject result = DynamicInstantiate(gameObject);
+            result.transform.position = position;
+            result.transform.rotation = rotiation;
+            result.SetActive(true);
+            return result;
+        }
+
+        public static void SetActive(this GameObject gameObject, bool activeState, bool resetPhysics = false)
+        {
+            Rigidbody physics = gameObject.GetComponent<Rigidbody>();
+            if (resetPhysics && physics)
+            {
+                physics.velocity = Vector3.zero;
+                physics.angularVelocity = Vector3.zero;
+            }
+
+            gameObject.SetActive(activeState);
         }
 
         #endregion
