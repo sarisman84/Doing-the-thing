@@ -21,15 +21,15 @@ namespace Scripts
 
             AddWeaponToLibrary("default_grenade", "Grenade", 0.75f,
                 o => WeaponFireType.Projectile(o, "default_grenade_projectile",
-                        onContact => onContact.contacts[0].point.Explosion(10f)
+                        (onContact, self) => onContact.contacts[0].point.Explosion(10f)
                             .ForEach(entityInExplosion => entityInExplosion.DealDamage(5)))
                     .Throw(o, 1000).DestroyOnContact(o));
 
-            AddWeaponToLibrary("default_rocket_launcher", "Rocket Launcher", 0.85f,
+            AddWeaponToLibrary("default_rocket_launcher", "Rocket Launcher", 0.15f,
                 o => WeaponFireType.Projectile(o, "default_rocket_launcher_projectile",
-                        onContact => onContact.contacts[0].point.Explosion(20f)
+                        (onContact, self) => onContact.contacts[0].point.Explosion(2.5f)
                             .ForEach(entityInExplosion => entityInExplosion.DealDamage(15)))
-                    .Homing(2.5f, 50f).DestroyOnContact(o).DestroyAfterSeconds(5f));
+                    .Homing(3.5f, 50f).DestroyOnContact(o).DestroyAfterSeconds(o, 5f));
         }
 
 
@@ -118,7 +118,8 @@ namespace Scripts
             return hitInfo;
         }
 
-        public static Projectile Projectile(Transform transform, string projectileId, Action<Collision> onContactEvent)
+        public static Projectile Projectile(Transform transform, string projectileId,
+            Action<Collision, Projectile> onContactEvent)
         {
             //Spawn projectile at transform's position and with transform's rotation (forward)
             //Add some events to it.
@@ -137,11 +138,11 @@ namespace Scripts
         public static Projectile Throw(this Projectile projectile, Transform barrel, float force)
         {
             bool hasAlreadyUpdated = false;
-            projectile.ONFixedUpdateEvent += () =>
+            projectile.ONFixedUpdateEvent += (self) =>
             {
                 if (!hasAlreadyUpdated)
                 {
-                    projectile.physics.AddForce(barrel.forward.normalized * force);
+                    self.physics.AddForce(barrel.forward.normalized * force);
                     hasAlreadyUpdated = true;
                 }
             };
@@ -150,40 +151,50 @@ namespace Scripts
 
         public static Projectile DestroyOnContact(this Projectile projectile, Transform transform)
         {
-            projectile.ONCollisionEvent += c => DestroySelf(c, transform, projectile);
+            projectile.ONCollisionEvent += (c, self) => DestroySelf(c, transform, self);
             return projectile;
         }
 
         public static Projectile Homing(this Projectile projectile, float force, float radius)
         {
             Transform closestTarget = projectile.transform.position.GetTheClosestEntityOfType<DamageableObject>(radius);
-            projectile.ONFixedUpdateEvent += () =>
+            projectile.ONFixedUpdateEvent += (self) =>
             {
-                projectile.physics.velocity += Vector3.Lerp(Vector3.ClampMagnitude(projectile.physics.velocity, force),
-                    closestTarget ? closestTarget.position : projectile.transform.forward.normalized * force, 0.25f);
-                projectile.physics.useGravity = false;
+                Vector3 direction = closestTarget
+                    ? Vector3.Lerp(self.transform.forward.normalized, (closestTarget.position - self.physics.position).normalized, 0.2f)
+                    : self.transform.forward.normalized;
+                float trueForce = (force * 100 * Time.fixedDeltaTime);
+                self.physics.velocity = direction * trueForce;
+
+                self.physics.useGravity = false;
+                self.transform.rotation =
+                    Quaternion.Lerp(self.transform.rotation,
+                        Quaternion.LookRotation((direction), Vector3.up), 0.2f);
             };
             return projectile;
         }
 
+
         private static void DestroySelf(Collision obj, Transform transform, Projectile projectile)
         {
-            bool isPlayer = obj.collider.name ==
+            bool isPlayer = obj != null && obj.collider && obj.collider.name ==
                             transform.parent.parent.parent.parent.GetChild(0).name;
             if (isPlayer) return;
             projectile.gameObject.SetActive(false, true);
+            projectile.ResetCollisionEvent();
+            projectile.ResetUpdateEvent();
+            projectile.ResetFixedUpdateEvent();
         }
 
-        public static Projectile DestroyAfterSeconds(this Projectile projectile, float seconds)
+        public static Projectile DestroyAfterSeconds(this Projectile projectile, Transform barrel, float seconds)
         {
-
             float countdown = 0;
-            projectile.ONUpdateEvent += () =>
+            projectile.ONUpdateEvent += (self) =>
             {
                 countdown += Time.deltaTime;
                 if (countdown >= seconds)
                 {
-                    projectile.gameObject.SetActive(false, true);
+                    DestroySelf(null, barrel, self);
                     countdown = 0;
                 }
             };
@@ -193,11 +204,11 @@ namespace Scripts
 
     public static class WeaponHitType
     {
-        public static Collider DealDamage(this Collider raycastHit, int damage)
+        public static Collider DealDamage(this Collider entity, int damage)
         {
-            if (raycastHit && raycastHit.GetComponent<DamageableObject>() is { } damageableObject)
+            if (entity && entity.GetComponent<DamageableObject>() is { } damageableObject)
                 damageableObject.TakeDamage(damage);
-            return raycastHit;
+            return entity;
         }
 
         public static Collider[] Explosion(this Vector3 center, float radius)

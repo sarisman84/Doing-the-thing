@@ -7,9 +7,27 @@ namespace Scripts
     public class Projectile : MonoBehaviour
     {
         public Rigidbody physics;
-        public event Action<Collision> ONCollisionEvent;
-        public event Action ONFixedUpdateEvent;
-        public event Action ONUpdateEvent;
+        public event Action<Collision, Projectile> ONCollisionEvent;
+        public event Action<Projectile> ONFixedUpdateEvent;
+        public event Action<Projectile> ONUpdateEvent;
+
+
+
+        public void ResetCollisionEvent()
+        {
+            ONCollisionEvent = null;
+        }
+
+        public void ResetUpdateEvent()
+        {
+            ONUpdateEvent = null;
+        }
+
+        public void ResetFixedUpdateEvent()
+        {
+            ONFixedUpdateEvent = null;
+        }
+
         private void Awake()
         {
             physics = GetComponent<Rigidbody>();
@@ -17,17 +35,17 @@ namespace Scripts
 
         private void OnCollisionEnter(Collision other)
         {
-            ONCollisionEvent?.Invoke(other);
+            ONCollisionEvent?.Invoke(other, this);
         }
 
         private void FixedUpdate()
         {
-            ONFixedUpdateEvent?.Invoke();
+            ONFixedUpdateEvent?.Invoke(this);
         }
 
         private void Update()
         {
-            ONUpdateEvent?.Invoke();
+            ONUpdateEvent?.Invoke(this);
         }
     }
 }

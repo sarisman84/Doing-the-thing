@@ -37,9 +37,10 @@ namespace Scripts
 
         private void SelectWeapon(int input)
         {
-            currentWeapon += input;
+            currentWeapon += input == 0 ? 0 :(int)Mathf.Sign(input);
             currentWeapon = currentWeapon < 0 ? m_LocalWeaponLibrary.Count - 1 :
                 currentWeapon >= m_LocalWeaponLibrary.Count ? 0 : currentWeapon;
+            Debug.Log($"Currently selected weapon {currentWeapon}");
         }
     }
 }
