@@ -10,8 +10,12 @@ namespace Scripts
         public event Action<Collision, Projectile> ONCollisionEvent;
         public event Action<Projectile> ONFixedUpdateEvent;
         public event Action<Projectile> ONUpdateEvent;
+        public event Action<Projectile> ONEnableEvent;
+        public event Action<Projectile> ONSinglePhysicsEvent;
 
+        private bool isSinglePhysicsEventAlreadyTriggered = false;
 
+        #region Reset methods
 
         public void ResetCollisionEvent()
         {
@@ -28,6 +32,34 @@ namespace Scripts
             ONFixedUpdateEvent = null;
         }
 
+        public void ResetEnableEvent()
+        {
+            ONEnableEvent = null;
+        }
+
+        public void ResetSinglePhysicsEvent()
+        {
+            ONSinglePhysicsEvent = null;
+        }
+        
+        public void ResetAllEvents()
+        {
+            ResetCollisionEvent();
+            ResetUpdateEvent();
+            ResetFixedUpdateEvent();
+            ResetEnableEvent();
+            ResetSinglePhysicsEvent();
+        }
+
+        #endregion
+
+        private void OnEnable()
+        {
+            ONEnableEvent?.Invoke(this);
+            isSinglePhysicsEventAlreadyTriggered = false;
+        }
+
+
         private void Awake()
         {
             physics = GetComponent<Rigidbody>();
@@ -40,6 +72,11 @@ namespace Scripts
 
         private void FixedUpdate()
         {
+            if (!isSinglePhysicsEventAlreadyTriggered)
+            {
+                ONSinglePhysicsEvent?.Invoke(this);
+                isSinglePhysicsEventAlreadyTriggered = true;
+            }
             ONFixedUpdateEvent?.Invoke(this);
         }
 
@@ -47,5 +84,8 @@ namespace Scripts
         {
             ONUpdateEvent?.Invoke(this);
         }
+
+
+      
     }
 }
