@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Scripts
 {
@@ -12,8 +14,11 @@ namespace Scripts
         [Space] public InputActionReference fireInputReference;
         public InputActionReference weaponSelectionInputReference;
 
+        [Header("Weapon UI Settings")] public TMP_Text weaponAmmoCounter;
+        public Image weaponIconDisplayer;
+
         private readonly List<Weapon> m_LocalWeaponLibrary = new List<Weapon>();
-        private int currentWeapon = 0;
+        private int m_CurrentWeapon = 0;
 
         private void Start()
         {
@@ -24,8 +29,9 @@ namespace Scripts
 
         private void Update()
         {
-            SelectWeapon((int)weaponSelectionInputReference.action.ReadValue<float>());
-            UseCurrentWeapon(currentWeapon, m_LocalWeaponLibrary);
+            SelectWeapon((int) weaponSelectionInputReference.action.ReadValue<float>());
+            UseCurrentWeapon(m_CurrentWeapon, m_LocalWeaponLibrary);
+            weaponAmmoCounter.text = DisplayAmmoCounter(m_LocalWeaponLibrary[m_CurrentWeapon]);
         }
 
         private void UseCurrentWeapon(int index, List<Weapon> weapons)
@@ -37,10 +43,21 @@ namespace Scripts
 
         private void SelectWeapon(int input)
         {
-            currentWeapon += input == 0 ? 0 :(int)Mathf.Sign(input);
-            currentWeapon = currentWeapon < 0 ? m_LocalWeaponLibrary.Count - 1 :
-                currentWeapon >= m_LocalWeaponLibrary.Count ? 0 : currentWeapon;
-            Debug.Log($"Currently selected weapon {currentWeapon}");
+            m_CurrentWeapon += input == 0 ? 0 : (int) Mathf.Sign(input);
+            m_CurrentWeapon = m_CurrentWeapon < 0 ? m_LocalWeaponLibrary.Count - 1 :
+                m_CurrentWeapon >= m_LocalWeaponLibrary.Count ? 0 : m_CurrentWeapon;
+            DisplayWeaponIcon(m_LocalWeaponLibrary[m_CurrentWeapon]);
+        }
+
+
+        private string DisplayAmmoCounter(Weapon weapon)
+        {
+            return $"{weapon.CurrentAmmo}/{weapon.MaxAmmo}";
+        }
+
+        private void DisplayWeaponIcon(Weapon weapon)
+        {
+            weaponIconDisplayer.sprite = weapon.Icon;
         }
     }
 }
