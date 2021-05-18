@@ -9,10 +9,11 @@ namespace Scripts
 {
     public static class WeaponFireType
     {
-        public static RaycastHit HitScan(Transform transform, float range)
+        public static RaycastHit HitScan(Transform transform, float range, Action<Transform, RaycastHit> beamVFX = null)
         {
             Ray ray = new Ray(transform.position, transform.forward.normalized);
             Physics.Raycast(ray, out var hitInfo, range);
+            beamVFX?.Invoke(transform, hitInfo);
             return hitInfo;
         }
 
@@ -128,9 +129,25 @@ namespace Scripts
 
     public static class VisualEffects
     {
-        public static RaycastHit Beam(this RaycastHit ray, Color beamColor)
+        private static LineRenderer beam;
+
+        public static RaycastHit Beam(Transform barrel, RaycastHit hitInfo)
         {
-            return ray;
+            beam = beam ? beam : new GameObject("Beam").AddComponent<LineRenderer>();
+            if (beam.transform.parent != barrel)
+            {
+                var transform = beam.transform;
+                transform.parent = barrel;
+                transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
+            }
+        
+            
+            
+            beam.SetPosition(1, Vector3.forward * hitInfo.distance);
+       
+            
+            return hitInfo;
         }
     }
 

@@ -59,5 +59,12 @@ namespace Scripts
         {
             weaponIconDisplayer.sprite = weapon.Icon;
         }
+
+        public bool AddAmmoToWeapon(string weaponID)
+        {
+            Weapon weapon = m_LocalWeaponLibrary.Find(w => w.ID == weaponID);
+            if (weapon == null) return false;
+            return  weapon.ReplenishAmmo() != 0;;
+        }
     }
 }

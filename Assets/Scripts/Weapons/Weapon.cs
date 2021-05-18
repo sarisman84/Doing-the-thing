@@ -10,41 +10,46 @@ namespace Scripts
     [Serializable]
     public class Weapon
     {
-        private string m_WeaponName;
-        private Sprite m_WeaponIcon;
-        private int m_WeaponMaxAmmo;
-
-        private int m_WeaponCurrentAmmo;
-
         private float m_FireRate;
         private float m_CurrentRate;
         public Action<Transform> onWeaponFire;
         private Transform m_Model;
 
-        public string Name => m_WeaponName;
-        public Sprite Icon => m_WeaponIcon;
-        public int MaxAmmo => m_WeaponMaxAmmo;
-        public int CurrentAmmo => m_WeaponCurrentAmmo;
+        public int AmmoPickupAmmount { get; private set; }
+        public string Name { get; private set; }
+        public Sprite Icon { get; private set; }
+        public int MaxAmmo { get; private set; }
+        public int CurrentAmmo { get; private set; }
+        public string ID { get; private set; }
+        public GameObject AmmoPickupModel { get; private set; }
 
-        public Weapon(string name, string weaponIconName, int maxAmmo, float fireRate, Action<Transform> weaponFire,
+        public Weapon(string name, string string_id, string weaponIconName, int maxAmmo, int ammoPickupAmm,
+            float fireRate, Action<Transform> weaponFire,
             GameObject model)
         {
-            m_WeaponName = name;
+            Name = name;
             m_FireRate = fireRate;
             onWeaponFire = weaponFire;
+            ID = string_id;
+            AmmoPickupAmmount = ammoPickupAmm;
+            Icon = Resources.Load<Sprite>($"Weapons/Icons/{weaponIconName}");
+            Icon = Icon ? Icon : Resources.Load<Sprite>("Weapons/Icons/default_gun_icon");
+            int id = Icon.GetInstanceID();
+            Debug.Log($"Init: Fetched Weapon Icon for {Name} (ID: {id})");
             try
             {
-                m_WeaponIcon = Resources.Load<Sprite>($"Weapons/Icons/{weaponIconName}");
-                int id = m_WeaponIcon.GetInstanceID();
-                Debug.Log($"Init: Fetehced Weapon Icon for {m_WeaponName} (ID: {id})");
+                AmmoPickupModel = Resources.Load<GameObject>($"Weapons/Ammo/Model Prefabs/{string_id}_ammo");
+                Debug.Log($"Init: Found Ammo Pickup Model for {Name}. Registering reference.");
             }
             catch (Exception e)
             {
-                Debug.Log($"Init: Couldnt find Weapon Icon for {m_WeaponName}. Skipped.");
+                Debug.Log("Init: Couldnt find Ammo Pickup Model. Skipping.");
             }
+        
 
-            m_WeaponMaxAmmo = maxAmmo;
-            m_WeaponCurrentAmmo = maxAmmo;
+
+            MaxAmmo = maxAmmo;
+            CurrentAmmo = maxAmmo;
             try
             {
                 Transform clone = Object.Instantiate(model).transform;
@@ -60,28 +65,21 @@ namespace Scripts
                 Debug.Log("Init: Couldnt create model, skipping");
             }
 
-            Debug.Log($"Init: Instantiated Weapon Model for {m_WeaponName}.");
+            Debug.Log($"Init: Instantiated Weapon Model for {Name}.");
         }
 
         public void UpdateWeaponState(Transform objectToVisualiseWeapon, bool trigger)
         {
             UpdateWeaponModel(objectToVisualiseWeapon);
             m_CurrentRate += Time.deltaTime;
-            if (m_CurrentRate >= m_FireRate && trigger && m_WeaponCurrentAmmo > 0)
+            if (m_CurrentRate >= m_FireRate && trigger && CurrentAmmo > 0)
             {
                 onWeaponFire?.Invoke(m_Model.GetChildWithTag("Weapon/BarrelPoint"));
                 m_CurrentRate = 0;
-                m_WeaponCurrentAmmo--;
+                CurrentAmmo--;
             }
         }
 
-        public int AddAmmo(int amount)
-        {
-            m_WeaponCurrentAmmo += amount;
-            int difference = m_WeaponCurrentAmmo - m_WeaponMaxAmmo;
-            m_WeaponCurrentAmmo = Mathf.Clamp(m_WeaponCurrentAmmo, 0, m_WeaponMaxAmmo);
-            return difference;
-        }
 
         public void UpdateWeaponModel(Transform objectToVisualiseWeapon)
         {
@@ -103,6 +101,14 @@ namespace Scripts
                 m_Model.localPosition = Vector3.zero;
                 m_Model.localRotation = Quaternion.identity;
             }
+        }
+
+        public int ReplenishAmmo()
+        {
+            int difference = CurrentAmmo - MaxAmmo;
+            CurrentAmmo += AmmoPickupAmmount;
+            CurrentAmmo = Mathf.Clamp(CurrentAmmo, 0, MaxAmmo);
+            return difference;
         }
     }
 }
