@@ -4,7 +4,7 @@ using General_Scripts.Utility.Extensions;
 using Scripts;
 using UnityEngine;
 
-namespace Player.Scripts
+namespace Player
 {
     public class PickupInteractor : MonoBehaviour
     {

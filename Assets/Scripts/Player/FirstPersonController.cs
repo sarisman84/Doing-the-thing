@@ -4,7 +4,7 @@ using General_Scripts.Utility.Extensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player.Scripts
+namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
     public class FirstPersonController : MonoBehaviour

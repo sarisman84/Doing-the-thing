@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-677.9159,"y":45.0},"zoom":1.0,"elements":[{"chainable":false,"member":{"name":"AddWeaponToLibrary","parameterTypes":["System.String","System.String","System.String","System.Int32","System.Int32","System.Single","System.Action`1[[UnityEngine.Transform,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"],"targetType":"Scripts.Weapons.WeaponLibrary","targetTypeName":"Scripts.Weapons.WeaponLibrary","$version":"A"},"defaultValues":{"%id":{"$content":"lazer_beam","$type":"System.String"},"%icon_id":{"$content":"lazer_beam_icon","$type":"System.String"},"%name":{"$content":"Lazer
+      Beam","$type":"System.String"},"%maxAmmo":{"$content":5000,"$type":"System.Int32"},"%ammoPickupAmm":{"$content":500,"$type":"System.Int32"},"%fireRate":{"$content":0.05,"$type":"System.Single"}},"position":{"x":-497.0,"y":-202.0},"guid":"55a27a8e-033f-418a-96fd-f0ad26b818c8","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"9"},{"chainable":false,"member":{"name":"HitScan","parameterTypes":["UnityEngine.Transform","System.Single","System.Action`2[[UnityEngine.Transform,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[UnityEngine.RaycastHit,
+      UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"],"targetType":"Scripts.WeaponFireType","targetTypeName":"Scripts.WeaponFireType","$version":"A"},"defaultValues":{"%transform":null,"%range":{"$content":0.0,"$type":"System.Single"}},"position":{"x":-1141.0,"y":-95.0},"guid":"8acf8dd8-1e65-4ad1-9d52-f86b88be257a","$version":"A","$type":"Unity.VisualScripting.InvokeMember"},{"member":{"name":"onWeaponFire","parameterTypes":null,"targetType":"Scripts.Weapon","targetTypeName":"Scripts.Weapon","$version":"A"},"defaultValues":{},"position":{"x":-857.0,"y":-12.0},"guid":"e3661889-c7b0-4f93-8e04-80688dbaf5a4","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"15"},{"sourceUnit":{"$ref":"15"},"sourceKey":"value","destinationUnit":{"$ref":"9"},"destinationKey":"%weaponFireEvent","guid":"4e4eae70-9b87-4401-a36a-c8e5c08aa6df","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

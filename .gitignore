@@ -67,3 +67,8 @@ Assets/Editor/LevelManager.meta
 ProjectSettings/Packages/com.unity.probuilder/Settings.json
 
 .idea/.idea.Doing the thing/.idea/
+
+Assets/Bolt.Generated/VisualScripting.Flow/UnitOptions.db
+Assets/Bolt.Generated/VisualScripting.Flow/UnitOptions.db.meta
+Assets/Bolt.Generated/VisualScripting.Core/Property Providers
+Assets/Bolt.Generated/VisualScripting.Core/Property Providers.meta

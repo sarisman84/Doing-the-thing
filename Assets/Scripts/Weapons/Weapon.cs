@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using General_Scripts.Utility.Extensions;
+using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -23,16 +24,15 @@ namespace Scripts
         public string ID { get; private set; }
         public GameObject AmmoPickupModel { get; private set; }
 
-        public Weapon(string name, string string_id, string weaponIconName, int maxAmmo, int ammoPickupAmm,
-            float fireRate, Action<Transform> weaponFire,
+
+        public Weapon(string name, string string_id, int maxAmmo, int ammoPickupAmmount, float fireRate,
             GameObject model)
         {
             Name = name;
             m_FireRate = fireRate;
-            onWeaponFire = weaponFire;
             ID = string_id;
-            AmmoPickupAmmount = ammoPickupAmm;
-            Icon = Resources.Load<Sprite>($"Weapons/Icons/{weaponIconName}");
+            AmmoPickupAmmount = ammoPickupAmmount;
+            Icon = Resources.Load<Sprite>($"Weapons/Icons/{ID}_icon");
             Icon = Icon ? Icon : Resources.Load<Sprite>("Weapons/Icons/default_gun_icon");
             int id = Icon.GetInstanceID();
             Debug.Log($"Init: Fetched Weapon Icon for {Name} (ID: {id})");
@@ -45,7 +45,51 @@ namespace Scripts
             {
                 Debug.Log("Init: Couldnt find Ammo Pickup Model. Skipping.");
             }
-        
+
+
+            MaxAmmo = maxAmmo;
+            CurrentAmmo = maxAmmo;
+            try
+            {
+                Transform clone = Object.Instantiate(model).transform;
+                var transform = clone.transform;
+                transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
+                clone.name = name;
+                clone.gameObject.SetActive(false);
+                m_Model = clone;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Init: Couldnt create model, skipping");
+            }
+
+            Debug.Log($"Init: Instantiated Weapon Model for {Name}.");
+        }
+
+
+        public Weapon(string name, string string_id, int maxAmmo, int ammoPickupAmm,
+            float fireRate, Action<Transform> weaponFire,
+            GameObject model)
+        {
+            Name = name;
+            m_FireRate = fireRate;
+            onWeaponFire = weaponFire;
+            ID = string_id;
+            AmmoPickupAmmount = ammoPickupAmm;
+            Icon = Resources.Load<Sprite>($"Weapons/Icons/{ID}_icon");
+            Icon = Icon ? Icon : Resources.Load<Sprite>("Weapons/Icons/default_gun_icon");
+            int id = Icon.GetInstanceID();
+            Debug.Log($"Init: Fetched Weapon Icon for {Name} (ID: {id})");
+            try
+            {
+                AmmoPickupModel = Resources.Load<GameObject>($"Weapons/Ammo/Model Prefabs/{string_id}_ammo");
+                Debug.Log($"Init: Found Ammo Pickup Model for {Name}. Registering reference.");
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Init: Couldnt find Ammo Pickup Model. Skipping.");
+            }
 
 
             MaxAmmo = maxAmmo;

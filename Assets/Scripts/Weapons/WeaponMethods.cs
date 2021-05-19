@@ -59,7 +59,7 @@ namespace Scripts
             return projectile;
         }
 
-        public static Projectile Homing(this Projectile projectile, float detectionRadius, float turningSpeed = 2)
+        public static Projectile HomeTowardsEnemies(this Projectile projectile, float detectionRadius, float turningSpeed = 2)
         {
             Transform closestTarget =
                 projectile.transform.position.GetTheClosestEntityOfType<DamageableObject>(detectionRadius);
