@@ -34,7 +34,7 @@ namespace Scripts.Weapons
         }
 
 
-        public static Weapon AddWeaponToLibrary(string id, string name, int maxAmmo, int ammoPickupAmm,
+        public static void AddWeaponToLibrary(string id, string name, int maxAmmo, int ammoPickupAmm,
             float fireRate,
             Action<Transform> weaponFireEvent)
         {
@@ -42,14 +42,6 @@ namespace Scripts.Weapons
                 new Weapon(name, id, maxAmmo,
                     ammoPickupAmm, fireRate,
                     weaponFireEvent, Resources.Load<GameObject>($"Weapons/Model Prefabs/{id}")));
-
-            return GlobalWeaponLibrary[id];
-        }
-
-        public static Weapon AddWeaponToLibrary(Weapon weapon)
-        {
-            GlobalWeaponLibrary.Add(weapon.ID, weapon);
-            return weapon;
         }
     }
 }

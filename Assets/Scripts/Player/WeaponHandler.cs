@@ -38,7 +38,7 @@ namespace Player
 
         private void UseCurrentWeapon(int index, List<Weapon> weapons)
         {
-            weapons[index].UpdateWeaponState(parentObjectToVisualiseWeaponsWith,
+            weapons[index].UpdateWeaponState(this, parentObjectToVisualiseWeaponsWith,
                 fireInputReference.action.ReadValue<float>() > 0);
         }
 
@@ -66,7 +66,8 @@ namespace Player
         {
             Weapon weapon = m_LocalWeaponLibrary.Find(w => w.ID == weaponID);
             if (weapon == null) return false;
-            return  weapon.ReplenishAmmo() != 0;;
+            return weapon.ReplenishAmmo() != 0;
+            ;
         }
     }
 }
